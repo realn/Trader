@@ -1,0 +1,6 @@
+[submodule "3rd/CodeBox"]
+	path = 3rd/CodeBox
+	url = https://github.com/realn/CodeBox
+[submodule "3rd/glm"]
+	path = 3rd/glm
+	url = https://github.com/g-truc/glm
