@@ -50,7 +50,7 @@ namespace core {
     mWindow =
       std::make_unique<cb::sdl::CWindow>(L"Trader Alpha"s,
                                          mConfig.WindowPos, mConfig.WindowSize,
-                                         cb::sdl::WindowFlag::OPENGL);
+                                         cb::sdl::WindowFlag::OPENGL | cb::sdl::WindowFlag::POPUP_MENU);
     mWindow->Show();
 
     {

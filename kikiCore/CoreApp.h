@@ -14,7 +14,7 @@ namespace core {
     float UpdateTimeStep = 0.0025f;
     cb::u32 UpdateMaxStepsPerFrame = 20;
     cb::u32 EventMaxIters = 20;
-    glm::ivec2 WindowPos = {0, 0};
+    glm::ivec2 WindowPos = {20, 20};
     glm::uvec2 WindowSize = {800, 480};
   };
 
@@ -55,7 +55,7 @@ namespace core {
   class CApp
     : public CAppBase {
   public:
-    CApp(CAppConfig const& config) : CAppBase(config) {}
+    CApp(CAppConfig const& config = CAppConfig()) : CAppBase(config) {}
     CApp(CApp&&) = default;
     virtual ~CApp() = default;
 
