@@ -48,5 +48,11 @@
     <ClInclude Include="CoreAppTask.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoreInputEvents.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreEvents.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

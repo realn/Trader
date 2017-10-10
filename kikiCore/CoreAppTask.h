@@ -1,5 +1,9 @@
 #pragma once
 
+#include <CBStr/Defines.h>
+#include <CBSDL/Fwd.h>
+#include <glm/fwd.hpp>
+
 namespace core {
   class CAppConfig;
   class CAppBase;
@@ -12,10 +16,11 @@ namespace core {
     virtual ~IAppTask() = default;
 
     virtual void PrepareConfig(CAppConfig& config) {}
-    virtual bool InitTask(CAppBase& app) = 0;
+    virtual bool Init(CAppBase& app) = 0;
 
-    virtual void Update(float const& timeDelta) = 0;
+    virtual void Update(CAppBase& app, float const& timeDelta) = 0;
     virtual void UpdateRender() = 0;
     virtual void Render() = 0;
+
   };
 }

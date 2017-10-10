@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CoreApp.h"
 #include "CoreAppTask.h"
+#include "CoreInputEvents.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -66,6 +67,12 @@ namespace core {
     }
     mGLContext->MakeCurrent(*mWindow);
 
+    cb::gl::initextensions();
+
+    if(!mTask->Init(*this)) {
+      return false;
+    }
+
     return true;
   }
 
@@ -76,9 +83,25 @@ namespace core {
       if(!CEvent::Poll(event))
         return;
 
-      if(event.GetType() == EventType::WINDOWEVENT &&
-         event.Window().GetType() == WindowEventType::CLOSE) {
-        mRun = false;
+      switch(event.GetType()) {
+      case EventType::WINDOWEVENT:  
+        ProcessWindowEvent(event);
+        break;
+
+      case EventType::MOUSEMOTION:
+      case EventType::MOUSEWHEEL:
+      case EventType::MOUSEBUTTONUP:
+      case EventType::MOUSEBUTTONDOWN:
+        ProcessMouseEvent(event);
+        break;
+
+      case EventType::KEYUP:
+      case EventType::KEYDOWN:
+        ProcessKeyEvent(event);
+        break;
+
+      default:
+        break;
       }
     }
   }
@@ -94,7 +117,7 @@ namespace core {
   }
 
   void CAppBase::UpdateFrame(float const timeDelta) {
-    mTask->Update(timeDelta);
+    mTask->Update(*this, timeDelta);
   }
 
   void CAppBase::UpdateRender() {
@@ -103,5 +126,46 @@ namespace core {
 
   void CAppBase::Render() {
     mTask->Render();
+  }
+
+  void CAppBase::ProcessWindowEvent(cb::sdl::CEvent const & event) {
+    using namespace cb::sdl;
+    auto const winEvent = event.Window();
+
+    if(winEvent.GetType() == WindowEventType::CLOSE) {
+      mRun = false;
+      return;
+    }
+  }
+
+  void CAppBase::ProcessMouseEvent(cb::sdl::CEvent const & event) {
+    auto observer = IEventSource<IInputMouseEvents>::Get();
+    if(!observer)
+      return;
+
+    using namespace cb::sdl;
+    if(event.GetType() == EventType::MOUSEMOTION) {
+      auto const mouseEvent = event.Motion();
+
+      auto pos =
+        glm::vec2(mouseEvent.GetPosition()) / glm::vec2(mConfig.WindowSize);
+      auto delta =
+        glm::vec2(mouseEvent.GetRelative()) / glm::vec2(mConfig.WindowSize);
+
+      observer->OnMouseMotion(pos, delta);
+    }
+    if(event.GetType() == EventType::MOUSEBUTTONUP ||
+       event.GetType() == EventType::MOUSEBUTTONDOWN) {
+      auto const mouseEvent = event.Button();
+
+      observer->OnMouseButton(mouseEvent.GetButton(), mouseEvent.GetType());
+    }
+  }
+
+  void CAppBase::ProcessKeyEvent(cb::sdl::CEvent const & event) {
+    auto observer = IEventSource<IInputKeyEvents>::Get();
+    if(!observer)
+      return;
+    observer->OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
   }
 }

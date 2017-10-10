@@ -145,11 +145,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TraderTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\kikiCore\kikiCore.vcxproj">
       <Project>{a60bd768-632d-4ebf-bcf4-75eb57c42ba3}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TraderTask.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

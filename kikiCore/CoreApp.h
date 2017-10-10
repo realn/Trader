@@ -8,6 +8,8 @@
 #include <CBSDL/System.h>
 #include <CBSDL/Fwd.h>
 
+#include "CoreEvents.h"
+
 namespace core {
   class CAppConfig {
   public:
@@ -19,7 +21,13 @@ namespace core {
   };
 
   class IAppTask;
-  class CAppBase {
+  class IInputMouseEvents;
+  class IInputKeyEvents;
+
+  class CAppBase
+    : public IEventSource<IInputMouseEvents>
+    , public IEventSource<IInputKeyEvents>
+  {
   private:
     CAppConfig mConfig;
     cb::sdl::CSystem mSystem;
@@ -36,6 +44,8 @@ namespace core {
 
     int Execute();
 
+    void Quit() { mRun = false; }
+
   private:
     void MainLoop();
 
@@ -46,6 +56,10 @@ namespace core {
     void UpdateFrame(float const timeDelta);
     void UpdateRender();
     void Render();
+
+    void ProcessWindowEvent(cb::sdl::CEvent const& event);
+    void ProcessMouseEvent(cb::sdl::CEvent const& event);
+    void ProcessKeyEvent(cb::sdl::CEvent const& event);
 
   protected:
     virtual std::unique_ptr<IAppTask> CreateTask() = 0;

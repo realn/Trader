@@ -86,7 +86,7 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <Lib>
-      <AdditionalDependencies>CBStr.lib;CBSDL.lib</AdditionalDependencies>
+      <AdditionalDependencies>CBStr.lib;CBSDL.lib;CBGL.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -134,10 +134,12 @@
     <ClInclude Include="CoreApp.h" />
     <ClInclude Include="CoreAppTask.h" />
     <ClInclude Include="CoreBRect.h" />
+    <ClInclude Include="CoreEvents.h" />
     <ClInclude Include="CoreFont.h" />
     <ClInclude Include="CoreFontRepository.h" />
     <ClInclude Include="CoreFwd.h" />
     <ClInclude Include="CoreAssetRepository.h" />
+    <ClInclude Include="CoreInputEvents.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
