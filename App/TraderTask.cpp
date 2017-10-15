@@ -1,12 +1,14 @@
 #include "TraderTask.h"
 
 #include <glm/vec4.hpp>
-#include <CoreApp.h>
 
 #include <CBSDL/Consts.h>
 #include <CBSDL/Window.h>
 #include <CBGL/Rendering.h>
 #include <CBGL/State.h>
+
+#include <CoreApp.h>
+#include <GFXMesh.h>
 
 namespace trader {
   CTraderTask::CTraderTask(core::CAppBase& app)
@@ -42,6 +44,8 @@ namespace trader {
 
   void CTraderTask::Render() {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
+
+    auto verts = 
   }
 
   void CTraderTask::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {

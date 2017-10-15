@@ -90,6 +90,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>CBStr.lib;CBGL.lib</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,6 +140,7 @@
     <ClInclude Include="GFXCanvasView.h" />
     <ClInclude Include="GFXConsts.h" />
     <ClInclude Include="GFXFwd.h" />
+    <ClInclude Include="GFXMesh.h" />
     <ClInclude Include="GFXShaderRepository.h" />
     <ClInclude Include="GFXTextureAtlas.h" />
     <ClInclude Include="GFXTextureRepository.h" />
@@ -146,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="GFXCanvas.cpp" />
     <ClCompile Include="GFXCanvasView.cpp" />
+    <ClCompile Include="GFXMesh.cpp" />
     <ClCompile Include="GFXShaderRepository.cpp" />
     <ClCompile Include="GFXTextureAtlas.cpp" />
     <ClCompile Include="GFXTextureRepository.cpp" />

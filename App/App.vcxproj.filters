@@ -13,8 +13,16 @@
     <ClCompile Include="TraderTask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Repositories.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TraderTask.h" />
+    <ClInclude Include="TraderTask.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Repositories.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

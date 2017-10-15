@@ -31,8 +31,8 @@ namespace gfx {
     auto program = cb::gl::CProgram();
     program.Attach(shaders);
     program.SetInLocation({
-      {gfx::IDX_VERTEX4, gfx::VIN_VERTEX4},
-      {gfx::IDX_COLOR4, gfx::VIN_COLOR4}
+      {gfx::IDX_VERTEX2_POS, gfx::VIN_VERTEX2_POS},
+      {gfx::IDX_VERTEX2_COLOR, gfx::VIN_VERTEX2_COLOR}
     });
     program.Link();
     if(!program.IsLinked()) {
