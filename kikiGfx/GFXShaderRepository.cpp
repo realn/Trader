@@ -30,10 +30,10 @@ namespace gfx {
   std::shared_ptr<cb::gl::CProgram> CShaderRepository::CreateProgram(std::vector<cb::gl::CShader>& shaders) const {
     auto program = cb::gl::CProgram();
     program.Attach(shaders);
-    program.SetInLocation({
-      {gfx::IDX_VERTEX2_POS, gfx::VIN_VERTEX2_POS},
-      {gfx::IDX_VERTEX2_COLOR, gfx::VIN_VERTEX2_COLOR}
-    });
+    //program.SetInLocation({
+    //  {gfx::IDX_VERTEX2_POS, gfx::VIN_VERTEX2_POS},
+    //  {gfx::IDX_VERTEX2_COLOR, gfx::VIN_VERTEX2_COLOR}
+    //});
     program.Link();
     if(!program.IsLinked()) {
       cb::warn(L"Failed to link gl program.");

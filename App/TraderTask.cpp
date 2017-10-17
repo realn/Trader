@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "TraderTask.h"
+#include "Repositories.h"
 
 #include <glm/vec4.hpp>
 
@@ -6,11 +8,15 @@
 #include <CBSDL/Window.h>
 #include <CBGL/Rendering.h>
 #include <CBGL/State.h>
+#include <CBGL/Program.h>
 
 #include <CoreApp.h>
 #include <GFXMesh.h>
+#include <GFXConsts.h>
 
 namespace trader {
+  static const auto ASSETS_DIR = L"assets"s;
+
   CTraderTask::CTraderTask(core::CAppBase& app)
     : core::IAppTask(app) {}
 
@@ -25,11 +31,23 @@ namespace trader {
     core::bind<core::IInputMouseEvents>(app, *this);
     core::bind<core::IInputKeyEvents>(app, *this);
 
+    mRepositories = std::make_unique<CRepositories>(ASSETS_DIR);
+
     cb::gl::clearColor({0.1f, 0.1f, 0.1f, 1.0f});
     cb::gl::clearDepth(1.0f);
     
     cb::gl::setState({cb::gl::DepthFunc::LEQUAL});
     cb::gl::setStateEnabled(cb::gl::State::DEPTH_TEST, true);
+
+    mMeshProgram = mRepositories->Shaders.Get(L"mesh"s);
+    mMeshProgram->SetInLocation({
+      {gfx::IDX_VERTEX3_POS, gfx::VIN_VERTEX3_POS},
+      {gfx::IDX_VERTEX3_NORMAL, gfx::VIN_VERTEX3_NORMAL},
+      {gfx::IDX_VERTEX3_COLOR, gfx::VIN_VERTEX3_COLOR},
+    });
+    if(!mMeshProgram->Link()) {
+      return false;
+    }
 
     return true;
   }
@@ -45,7 +63,6 @@ namespace trader {
   void CTraderTask::Render() {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
-    auto verts = 
   }
 
   void CTraderTask::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {

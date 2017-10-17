@@ -19,12 +19,18 @@ namespace gfx {
       {IDX_VERTEX3_COLOR, cb::gl::DataType::FLOAT, 4, sizeof(CVertex), sizeof(glm::vec3) * 2},
   };
 
+  std::map<cb::u32, cb::string> CMesh::CVertex::Inputs = {
+    {IDX_VERTEX3_POS, VIN_VERTEX3_POS},
+    {IDX_VERTEX3_NORMAL, VIN_VERTEX3_NORMAL},
+    {IDX_VERTEX3_COLOR, VIN_VERTEX3_COLOR}
+  };
+
   CMesh::FaceVecT::iterator CMesh::AddFace(CMesh::CVertex const & v1,
                                            CMesh::CVertex const & v2,
                                            CMesh::CVertex const & v3) {
-    auto iv1 = AddVertex(v1) - mVertices.begin();
-    auto iv2 = AddVertex(v2) - mVertices.begin();
-    auto iv3 = AddVertex(v3) - mVertices.begin();
+    auto iv1 = static_cast<cb::u16>(AddVertex(v1) - mVertices.begin());
+    auto iv2 = static_cast<cb::u16>(AddVertex(v2) - mVertices.begin());
+    auto iv3 = static_cast<cb::u16>(AddVertex(v3) - mVertices.begin());
     auto face = CFace{iv1, iv2, iv3};
 
     auto it = std::find(mFaces.begin(), mFaces.end(), face);

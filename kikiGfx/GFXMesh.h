@@ -32,6 +32,7 @@ namespace gfx {
       CVertex operator*=(glm::mat4 const& value) { *this = *this * value; return *this; }
 
       static cb::gl::CVertexDefinition Def;
+      static std::map<cb::u32, cb::string> Inputs;
     };
 
     class CFace {
@@ -40,6 +41,9 @@ namespace gfx {
 
       CFace() = default;
       CFace(cb::u16 const v1, cb::u16 const v2, cb::u16 const v3) : Indices({v1, v2, v3}) {}
+
+      bool operator==(CFace const& other) { return std::equal(Indices.begin(), Indices.end(), other.Indices.begin(), other.Indices.end()); }
+      bool operator!=(CFace const& other) { return !(*this == other); }
     };
 
     using VertexVecT = std::vector<CVertex>;

@@ -5,6 +5,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{6cf41568-ce2d-4672-8e7a-bbbacf13a74f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\shaders">
+      <UniqueIdentifier>{1842b9a6-c7b9-4f7e-8cff-cad6bd7e4d49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -16,6 +22,9 @@
     <ClCompile Include="Repositories.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TraderTask.h">
@@ -24,5 +33,16 @@
     <ClInclude Include="Repositories.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\mesh_fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\mesh_vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

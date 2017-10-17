@@ -4,6 +4,7 @@
 #include <CoreInputEvents.h>
 
 namespace trader {
+  class CRepositories;
   class CTraderTask
     : public core::IAppTask
     , public core::IEventTarget<core::IInputMouseEvents> 
@@ -11,6 +12,8 @@ namespace trader {
   {
   private:
     bool mExit = false;
+    std::unique_ptr<CRepositories> mRepositories;
+    std::shared_ptr<cb::gl::CProgram> mMeshProgram;
 
   public:
     CTraderTask(core::CAppBase& app);
