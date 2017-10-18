@@ -2,6 +2,7 @@
 
 #include <CoreAppTask.h>
 #include <CoreInputEvents.h>
+#include <GFXFwd.h>
 
 namespace trader {
   class CRepositories;
@@ -14,6 +15,7 @@ namespace trader {
     bool mExit = false;
     std::unique_ptr<CRepositories> mRepositories;
     std::shared_ptr<cb::gl::CProgram> mMeshProgram;
+    std::unique_ptr<gfx::CMesh> mMesh;
 
   public:
     CTraderTask(core::CAppBase& app);

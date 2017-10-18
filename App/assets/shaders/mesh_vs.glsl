@@ -1,4 +1,4 @@
-#vesion 330
+#version 330
 
 in vec3 vInVertex;
 in vec3 vInNormal;

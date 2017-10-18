@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GFXCanvas.h"
-#include "GFXVertex.h"
+#include "GFXCanvasVertex.h"
 #include <CoreFont.h>
 #include <CoreBRect.h>
 
@@ -94,7 +94,7 @@ namespace gfx {
   }
 
   void CCanvas::AddVertex(glm::vec2 const & pos, glm::vec2 const & tex, glm::vec4 const & color) {
-    auto vert = CVertex(pos, tex, color);
+    auto vert = CCanvasVertex(pos, tex, color);
     auto it = std::find(mVertices.begin(), mVertices.end(), vert);
     if(it != mVertices.end()) {
       mIndices.push_back(static_cast<cb::u16>(it - mVertices.begin()));

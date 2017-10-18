@@ -145,17 +145,19 @@
     <ClInclude Include="GFXFwd.h" />
     <ClInclude Include="GFXHelper.h" />
     <ClInclude Include="GFXMesh.h" />
+    <ClInclude Include="GFXMeshVertex.h" />
     <ClInclude Include="GFXShaderRepository.h" />
     <ClInclude Include="GFXTextureAtlas.h" />
     <ClInclude Include="GFXTextureRepository.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="GFXVertex.h" />
+    <ClInclude Include="GFXCanvasVertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFXCanvas.cpp" />
     <ClCompile Include="GFXCanvasView.cpp" />
     <ClCompile Include="GFXHelper.cpp" />
     <ClCompile Include="GFXMesh.cpp" />
+    <ClCompile Include="GFXMeshVertex.cpp" />
     <ClCompile Include="GFXShaderRepository.cpp" />
     <ClCompile Include="GFXTextureAtlas.cpp" />
     <ClCompile Include="GFXTextureRepository.cpp" />
@@ -165,7 +167,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="GFXVertex.cpp" />
+    <ClCompile Include="GFXCanvasVertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\kikiCore\kikiCore.vcxproj">

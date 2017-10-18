@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GFXCanvasView.h"
 #include "GFXCanvas.h"
-#include "GFXVertex.h"
+#include "GFXCanvasVertex.h"
 #include "GFXConsts.h"
 
 #include <CBGL/State.h>
@@ -49,7 +49,7 @@ namespace gfx {
     auto gtex0 = cb::gl::bind(*mBaseTexture, 0);
     auto gtex1 = cb::gl::bind(*mFontTexture, 1);
     auto gvbuf = cb::gl::bind(*mVertexBuffer);
-    auto gdef = cb::gl::bind(gfx::CVertex::Def);
+    auto gdef = cb::gl::bind(gfx::CCanvasVertex::Def);
 
     mProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
     mProgram->SetUniform(gfx::UNI_BASE_TEXTURE, 0);

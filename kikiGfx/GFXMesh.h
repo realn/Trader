@@ -2,39 +2,11 @@
 
 #include <array>
 
-#include <glm/fwd.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-
-#include <CBGL/VertexDefinition.h>
+#include "GFXMeshVertex.h"
 
 namespace gfx {
   class CMesh {
   public:
-    class CVertex {
-    public:
-      glm::vec3 Pos;
-      glm::vec3 Normal = {1.0f, 0.0f, 0.0f};
-      glm::vec4 Color = {1.0f, 1.0f, 1.0f, 1.0f};
-
-      CVertex() = default;
-      CVertex(glm::vec3 const& pos, glm::vec3 const& normal, glm::vec4 const& color)
-        : Pos(pos), Normal(normal), Color(color) {}
-      CVertex(float const x, float const y, float const z,
-              float const nx, float const ny, float const nz,
-              float const r, float const g, float const b, float const a)
-        : Pos(x, y, z), Normal(nx, ny, nz), Color(r, g, b, a) {}
-
-      bool operator==(CVertex const& other) { return Pos == other.Pos && Normal == other.Normal && Color == other.Color; }
-      bool operator!=(CVertex const& other) { return !(*this == other); }
-
-      CVertex operator*(glm::mat4 const& value) const;
-      CVertex operator*=(glm::mat4 const& value) { *this = *this * value; return *this; }
-
-      static cb::gl::CVertexDefinition Def;
-      static std::map<cb::u32, cb::string> Inputs;
-    };
-
     class CFace {
     public:
       std::array<cb::u16, 3> Indices;
@@ -46,7 +18,7 @@ namespace gfx {
       bool operator!=(CFace const& other) { return !(*this == other); }
     };
 
-    using VertexVecT = std::vector<CVertex>;
+    using VertexVecT = std::vector<CMeshVertex>;
     using FaceVecT = std::vector<CFace>;
 
   private:
@@ -58,9 +30,9 @@ namespace gfx {
     CMesh(CMesh&&) = default;
     CMesh(CMesh const&) = default;
 
-    FaceVecT::iterator AddFace(CVertex const& v1, CVertex const& v2, CVertex const& v3);
-    FaceVecT::iterator AddFace(std::array<CVertex, 3> const& verts);
-    VertexVecT::iterator AddVertex(CVertex const& vertex);
+    FaceVecT::iterator AddFace(CMeshVertex const& v1, CMeshVertex const& v2, CMeshVertex const& v3);
+    FaceVecT::iterator AddFace(std::array<CMeshVertex, 3> const& verts);
+    VertexVecT::iterator AddVertex(CMeshVertex const& vertex);
 
     FaceVecT const& GetFaces() const { return mFaces; }
     VertexVecT const& GetVertices() const { return mVertices; }
@@ -71,10 +43,9 @@ namespace gfx {
                                                        glm::vec2 const& offset = glm::vec2());
 
     static CMesh CreatePlane(glm::vec2 const& size,
-                             glm::uvec2 const& slices = glm::uvec2(1),
+                             glm::uvec2 const& slices = {1,1},
                              glm::vec4 const& color = glm::vec4(1.0f));
-    static CMesh CreateCube(glm::vec3 const& size,
-                            std::array<glm::vec4, 6> const& sideColors);
+    static CMesh CreateCube(glm::vec3 const& size, std::array<glm::vec4, 6> const& sideColors);
   };
 
 }

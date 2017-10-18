@@ -12,7 +12,6 @@
 
 #include <CoreApp.h>
 #include <GFXMesh.h>
-#include <GFXConsts.h>
 
 namespace trader {
   static const auto ASSETS_DIR = L"assets"s;
@@ -39,15 +38,13 @@ namespace trader {
     cb::gl::setState({cb::gl::DepthFunc::LEQUAL});
     cb::gl::setStateEnabled(cb::gl::State::DEPTH_TEST, true);
 
-    mMeshProgram = mRepositories->Shaders.Get(L"mesh"s);
-    mMeshProgram->SetInLocation({
-      {gfx::IDX_VERTEX3_POS, gfx::VIN_VERTEX3_POS},
-      {gfx::IDX_VERTEX3_NORMAL, gfx::VIN_VERTEX3_NORMAL},
-      {gfx::IDX_VERTEX3_COLOR, gfx::VIN_VERTEX3_COLOR},
-    });
+    mMeshProgram = mRepositories->Shaders.Get(L"mesh_vs,mesh_fs"s);
+    mMeshProgram->SetInLocation(gfx::CMeshVertex::Inputs);
     if(!mMeshProgram->Link()) {
       return false;
     }
+
+    mMesh = std::make_unique<gfx::CMesh>(gfx::CMesh::CreatePlane({1.0f, 1.0f}));
 
     return true;
   }

@@ -5,13 +5,13 @@
 #include <CoreFwd.h>
 
 #include "GFXConsts.h"
+#include "GFXCanvasVertex.h"
 #include "GFXTextureAtlas.h"
-#include "GFXVertex.h"
 
 namespace gfx {
   class CCanvas {
   private:
-    std::vector<CVertex> mVertices;
+    std::vector<CCanvasVertex> mVertices;
     std::vector<cb::u16> mIndices;
     CTextureAtlas mTextureAtlas;
 
@@ -21,7 +21,7 @@ namespace gfx {
 
     void SetTextureAtlas(CTextureAtlas const& atlas) { mTextureAtlas = atlas; }
 
-    std::vector<CVertex> const& GetVertices() const { return mVertices; }
+    std::vector<CCanvasVertex> const& GetVertices() const { return mVertices; }
     std::vector<cb::u16> const& GetIndices() const { return mIndices; }
     CTextureAtlas const& GetTextureAtlas() const { return mTextureAtlas; }
 

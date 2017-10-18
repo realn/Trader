@@ -5,29 +5,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace gfx {
-  CMesh::CVertex CMesh::CVertex::operator*(glm::mat4 const & value) const {
-    return CVertex{
-      glm::vec3(glm::vec4(Pos, 1.0f) * value),
-      Normal * glm::mat3(value),
-      Color
-    };
-  }
-
-  cb::gl::CVertexDefinition CMesh::CVertex::Def = {
-      {IDX_VERTEX3_POS, cb::gl::DataType::FLOAT, 3, sizeof(CVertex), 0},
-      {IDX_VERTEX3_NORMAL, cb::gl::DataType::FLOAT, 3, sizeof(CVertex), sizeof(glm::vec3)},
-      {IDX_VERTEX3_COLOR, cb::gl::DataType::FLOAT, 4, sizeof(CVertex), sizeof(glm::vec3) * 2},
-  };
-
-  std::map<cb::u32, cb::string> CMesh::CVertex::Inputs = {
-    {IDX_VERTEX3_POS, VIN_VERTEX3_POS},
-    {IDX_VERTEX3_NORMAL, VIN_VERTEX3_NORMAL},
-    {IDX_VERTEX3_COLOR, VIN_VERTEX3_COLOR}
-  };
-
-  CMesh::FaceVecT::iterator CMesh::AddFace(CMesh::CVertex const & v1,
-                                           CMesh::CVertex const & v2,
-                                           CMesh::CVertex const & v3) {
+  CMesh::FaceVecT::iterator CMesh::AddFace(CMeshVertex const & v1, 
+                                           CMeshVertex const & v2,
+                                           CMeshVertex const & v3) {
     auto iv1 = static_cast<cb::u16>(AddVertex(v1) - mVertices.begin());
     auto iv2 = static_cast<cb::u16>(AddVertex(v2) - mVertices.begin());
     auto iv3 = static_cast<cb::u16>(AddVertex(v3) - mVertices.begin());
@@ -40,11 +20,11 @@ namespace gfx {
     return mFaces.emplace(mFaces.end(), face);
   }
 
-  CMesh::FaceVecT::iterator CMesh::AddFace(std::array<CVertex, 3> const & verts) {
+  CMesh::FaceVecT::iterator CMesh::AddFace(std::array<CMeshVertex, 3> const & verts) {
     return AddFace(verts[0], verts[1], verts[2]);
   }
 
-  CMesh::VertexVecT::iterator CMesh::AddVertex(CMesh::CVertex const & vertex) {
+  CMesh::VertexVecT::iterator CMesh::AddVertex(CMeshVertex const & vertex) {
     auto it = std::find(mVertices.begin(), mVertices.end(), vertex);
     if(it != mVertices.end()) {
       return it;
