@@ -12,6 +12,8 @@
 
 #include <CoreApp.h>
 #include <GFXMesh.h>
+#include <GFXMeshView.h>
+#include <GFXConsts.h>
 
 namespace trader {
   static const auto ASSETS_DIR = L"assets"s;
@@ -34,7 +36,7 @@ namespace trader {
 
     cb::gl::clearColor({0.1f, 0.1f, 0.1f, 1.0f});
     cb::gl::clearDepth(1.0f);
-    
+
     cb::gl::setState({cb::gl::DepthFunc::LEQUAL});
     cb::gl::setStateEnabled(cb::gl::State::DEPTH_TEST, true);
 
@@ -44,7 +46,19 @@ namespace trader {
       return false;
     }
 
-    mMesh = std::make_unique<gfx::CMesh>(gfx::CMesh::CreatePlane({1.0f, 1.0f}));
+    auto colors = std::array<glm::vec4, 6>{
+      glm::vec4{1.0f, 0.0f, 0.0f, 1.0f},
+        glm::vec4{0.0f, 1.0f, 0.0f, 1.0f},
+        glm::vec4{0.0f, 0.0f, 1.0f, 1.0f},
+        glm::vec4{1.0f, 1.0f, 0.0f, 1.0f},
+        glm::vec4{0.0f, 1.0f, 1.0f, 1.0f},
+        glm::vec4{1.0f, 0.0f, 1.0f, 1.0f}
+    };
+    //auto mesh = gfx::CMesh::CreateCube({1.0f, 1.0f, 1.0f}, colors, {3, 3, 3}, true);
+    //auto mesh = gfx::CMesh::CreateCircle({1.0f, 1.0f}, 18, {1.0f, 1.0f, 0.0f, 1.0f}, 1.0f);
+    auto mesh = 
+      gfx::CMesh::CreateTube({1.0f, 1.0f}, {1.0f, 1.0f}, 1.0f, glm::two_pi<float>(), {18, 4}, true, {1.0f, 1.0f,1.0f,1.0f});
+    mMeshView = std::make_unique<gfx::CMeshView>(mesh);
 
     return true;
   }
@@ -60,14 +74,31 @@ namespace trader {
   void CTraderTask::Render() {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
+    auto transform =
+      glm::perspective(glm::radians(60.0f), 16.0f / 9.0f, 1.0f, 100.0f) *
+      glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -2.5f}) *
+      glm::rotate(glm::mat4(1.0f), mRotation.x, {0.0f, 1.0f, 0.0f}) *
+      glm::rotate(glm::mat4(1.0f), mRotation.y, {1.0f, 0.0f, 0.0f});
+
+    auto gprog = cb::gl::bind(*mMeshProgram);
+    auto gmesh = cb::gl::bind(*mMeshView);
+
+    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
+    mMeshView->Render();
   }
 
   void CTraderTask::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {
-    if(button == cb::sdl::Button::LEFT && state == cb::sdl::KeyState::PRESSED) {
+    if(button == cb::sdl::Button::LEFT) {
+      mDrag = state == cb::sdl::KeyState::PRESSED;
     }
   }
 
-  void CTraderTask::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {}
+  void CTraderTask::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {
+    if(mDrag) {
+      mRotation += glm::vec3(delta, 0.0f) * 10.0f;
+      mRotation = glm::mod(mRotation, glm::radians(360.0f));
+    }
+  }
 
   void CTraderTask::OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {
     if(code == cb::sdl::ScanCode::ESCAPE && state == cb::sdl::KeyState::PRESSED) {

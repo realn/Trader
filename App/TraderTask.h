@@ -12,10 +12,12 @@ namespace trader {
     , public core::IEventTarget<core::IInputKeyEvents>
   {
   private:
-    bool mExit = false;
     std::unique_ptr<CRepositories> mRepositories;
     std::shared_ptr<cb::gl::CProgram> mMeshProgram;
-    std::unique_ptr<gfx::CMesh> mMesh;
+    std::unique_ptr<gfx::CMeshView> mMeshView;
+    glm::vec3 mRotation;
+    bool mExit = false;
+    bool mDrag = false;
 
   public:
     CTraderTask(core::CAppBase& app);

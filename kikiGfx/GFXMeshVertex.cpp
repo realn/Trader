@@ -3,10 +3,6 @@
 #include "GFXConsts.h"
 
 namespace gfx {
-  CMeshVertex CMeshVertex::operator*(glm::mat4 const & value) const {
-    return CMeshVertex{glm::vec3(glm::vec4(Pos, 1.0f) * value), Normal * glm::mat3(value), Color};
-  }
-
   cb::gl::CVertexDefinition CMeshVertex::Def = {
     {IDX_VERTEX3_POS, cb::gl::DataType::FLOAT, 3, sizeof(CMeshVertex), 0},
     {IDX_VERTEX3_NORMAL, cb::gl::DataType::FLOAT, 3, sizeof(CMeshVertex), sizeof(glm::vec3)},
@@ -17,5 +13,13 @@ namespace gfx {
     {IDX_VERTEX3_POS, VIN_VERTEX3_POS},
     {IDX_VERTEX3_NORMAL, VIN_VERTEX3_NORMAL},
     {IDX_VERTEX3_COLOR, VIN_VERTEX3_COLOR}
+  };
+}
+
+gfx::CMeshVertex operator*(glm::mat4 const & value, gfx::CMeshVertex const & vertex) {
+  return gfx::CMeshVertex{
+    glm::vec3(value * glm::vec4(vertex.Pos, 1.0f)),
+    glm::mat3(value) * vertex.Normal,
+    vertex.Color
   };
 }

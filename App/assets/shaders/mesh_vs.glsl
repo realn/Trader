@@ -10,7 +10,7 @@ out vec3 vFragNormal;
 out vec4 vFragColor;
 
 void main() {
-	gl_Position = vec4(vInVertex, 1.0f) * mTransform;
+	gl_Position = mTransform * vec4(vInVertex, 1.0f);
 	vFragNormal = vInNormal;
 	vFragColor = vInColor;
 }

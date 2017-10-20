@@ -26,10 +26,9 @@ namespace gfx {
     bool operator==(CMeshVertex const& other) { return Pos == other.Pos && Normal == other.Normal && Color == other.Color; }
     bool operator!=(CMeshVertex const& other) { return !(*this == other); }
 
-    CMeshVertex operator*(glm::mat4 const& value) const;
-    CMeshVertex operator*=(glm::mat4 const& value) { *this = *this * value; return *this; }
-
     static cb::gl::CVertexDefinition Def;
     static std::map<cb::u32, cb::string> Inputs;
   };
 }
+
+extern gfx::CMeshVertex operator*(glm::mat4 const& value, gfx::CMeshVertex const& vertex);

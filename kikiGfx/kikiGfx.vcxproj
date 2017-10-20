@@ -146,6 +146,7 @@
     <ClInclude Include="GFXHelper.h" />
     <ClInclude Include="GFXMesh.h" />
     <ClInclude Include="GFXMeshVertex.h" />
+    <ClInclude Include="GFXMeshView.h" />
     <ClInclude Include="GFXShaderRepository.h" />
     <ClInclude Include="GFXTextureAtlas.h" />
     <ClInclude Include="GFXTextureRepository.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="GFXHelper.cpp" />
     <ClCompile Include="GFXMesh.cpp" />
     <ClCompile Include="GFXMeshVertex.cpp" />
+    <ClCompile Include="GFXMeshView.cpp" />
     <ClCompile Include="GFXShaderRepository.cpp" />
     <ClCompile Include="GFXTextureAtlas.cpp" />
     <ClCompile Include="GFXTextureRepository.cpp" />

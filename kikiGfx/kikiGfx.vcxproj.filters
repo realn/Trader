@@ -43,6 +43,9 @@
     <ClInclude Include="GFXCanvasVertex.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GFXMeshView.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -73,6 +76,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GFXCanvasVertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXMeshView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
