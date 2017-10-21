@@ -12,6 +12,14 @@ namespace gfx {
     }
   }
 
+  bool CMesh::CFace::operator==(CMesh::CFace const& other) const {
+    for(auto& idx : other.Indices) {
+      if(std::find(Indices.begin(), Indices.end(), idx) == Indices.end())
+        return false;
+    }
+    return true;
+  }
+
   CMesh::FaceVecT::iterator CMesh::AddFace(CMeshVertex const & v1,
                                            CMeshVertex const & v2,
                                            CMeshVertex const & v3) {
@@ -78,40 +86,45 @@ namespace gfx {
     auto result = std::vector<vec3>();
     auto step = radAngle / slices;
     auto radius = size / 2.0f;
-    for(auto i = 0u; i < slices; i++) {
-      result.push_back(vec3(vec2{cos(step * i), sin(step * i)} * radius, 0.0f) + offset);
+    for(auto i = 0u; i < slices + 1; i++) {
+      result.push_back(vec3(vec2{cos(step * i), sin(step * i)} *radius, 0.0f) + offset);
     }
+    return result;
+  }
+
+  CMesh CMesh::CreateLine(glm::vec3 const & beg, glm::vec3 const & end, glm::vec4 const & color) {
+    auto result = CMesh(cb::gl::PrimitiveType::LINES);
+    auto n = glm::vec3(0.0f, 0.0f, -1.0f);
+    result.AddFace({beg, n, color}, {end, n, color});
     return result;
   }
 
   CMesh CMesh::CreatePlane(glm::vec2 const & size, glm::vec4 const & color, glm::uvec2 const & slices,
                            bool const wireFrame) {
     using namespace glm;
-    auto mesh = CMesh();
-    if(wireFrame) {
-      mesh.SetPrimitiveType(cb::gl::PrimitiveType::LINES);
-    }
+    auto result = CMesh(wireFrame ? cb::gl::PrimitiveType::LINES : cb::gl::PrimitiveType::TRIANGLES);
     auto half = size / 2.0f;
     auto step = size / vec2(slices);
     auto start = vec3(-half, 0.0f);
     auto n = vec3(0.0f, 0.0f, -1.0f);
+    auto c = color;
 
     for(auto y = 0u; y < slices.y; y++) {
       for(auto x = 0u; x < slices.x; x++) {
         auto v = CreateRectVertices(step, glm::vec2(x, y) * step);
         if(wireFrame) {
           for(auto i = 0u; i < 4; i++) {
-            mesh.AddFace({start + v[i], n, color}, {start + v[(i+1)%4], n, color});
+            result.AddFace({start + v[i], n, c}, {start + v[(i + 1) % 4], n, c});
           }
         }
         else {
-          mesh.AddFace({start + v[0], n, color}, {start + v[1], n, color}, {start + v[2], n, color});
-          mesh.AddFace({start + v[0], n, color}, {start + v[2], n, color}, {start + v[3], n, color});
+          result.AddFace({start + v[0], n, c}, {start + v[1], n, c}, {start + v[2], n, c});
+          result.AddFace({start + v[0], n, c}, {start + v[2], n, c}, {start + v[3], n, c});
         }
       }
     }
 
-    return mesh;
+    return result;
   }
 
   CMesh CMesh::CreateCube(glm::vec3 const & size, std::array<glm::vec4, 6> const & sideColors,
@@ -141,51 +154,29 @@ namespace gfx {
 
   CMesh CMesh::CreateCircle(glm::vec2 const & size, cb::u32 const slices, glm::vec4 const & color,
                             float const centerHeight, bool const wireFrame) {
-    using namespace glm;
-    auto result = CMesh();
-    if(wireFrame) {
-      result.SetPrimitiveType(cb::gl::PrimitiveType::LINES);
-    }
-    auto v = CreateCircleVertices(size, slices);
-    auto n = vec3(0.0f, 0.0f, -1.0f);
-    auto c = color;
-    auto center = CMeshVertex({0.0f, 0.0f, centerHeight}, n, color);
-
-    for(auto i = 0u; i < slices; i++) {
-      if(wireFrame) {
-        result.AddFace(center, {v[i], n, c});
-        result.AddFace({v[i], n, c}, {v[(i + 1) % slices], n, c});
-        result.AddFace({v[(i + 1) % slices], n, c}, center);
-      }
-      else {
-        result.AddFace(center, {v[i], n, c}, {v[(i + 1) % slices], n, c});
-      }
-    }
-    return result;
+    return CreateTube({0.0f, 0.0f}, size, centerHeight, glm::two_pi<float>(), {slices, 1}, wireFrame, color);
   }
 
-  CMesh CMesh::CreateTube(glm::vec2 const & sizeBase, glm::vec2 const & sizeEnd, float const height, 
+  CMesh CMesh::CreateTube(glm::vec2 const & sizeBase, glm::vec2 const & sizeEnd, float const height,
                           float const radSurfaceAngle, glm::uvec2 const & surfaceSlices,
                           bool const wireFrame, glm::vec4 const& color) {
     using namespace glm;
-    auto result = CMesh();
-    if(wireFrame)
-      result.SetPrimitiveType(cb::gl::PrimitiveType::LINES);
-    
+    auto result = CMesh(wireFrame ? cb::gl::PrimitiveType::LINES : cb::gl::PrimitiveType::TRIANGLES);
+
     auto step = (sizeEnd - sizeBase) / static_cast<float>(surfaceSlices.y);
     auto hstep = height / surfaceSlices.y;
     auto n = vec3(0.0f, 0.0f, -1.0f);
     auto c = color;
-    
+
     for(auto y = 0u; y < surfaceSlices.y; y++) {
       auto base = sizeBase + step * static_cast<float>(y);
       auto end = sizeBase + step * static_cast<float>(y + 1);
 
-      auto vb = CreateCircleVertices(base, surfaceSlices.x, {0.0f, 0.0f, 0.0f}, radSurfaceAngle);
-      auto ve = CreateCircleVertices(end, surfaceSlices.x, {0.0f, 0.0f, height}, radSurfaceAngle);
+      auto vb = CreateCircleVertices(base, surfaceSlices.x, {0.0f, 0.0f, hstep * y}, radSurfaceAngle);
+      auto ve = CreateCircleVertices(end, surfaceSlices.x, {0.0f, 0.0f, hstep * (y + 1)}, radSurfaceAngle);
 
       for(auto x = 0u; x < surfaceSlices.x; x++) {
-        auto nx = (x + 1) % surfaceSlices.x;
+        auto nx = (x + 1);// % surfaceSlices.x;
         if(wireFrame) {
           result.AddFace({vb[x], n, c}, {vb[nx], n, c});
           result.AddFace({vb[nx], n, c}, {ve[nx], n, c});

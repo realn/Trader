@@ -18,8 +18,8 @@ namespace gfx {
       CFace(cb::u16 const v1, cb::u16 const v2) : Indices({v1, v2}) {}
       CFace(cb::u16 const v1, cb::u16 const v2, cb::u16 const v3) : Indices({v1, v2, v3}) {}
 
-      bool operator==(CFace const& other) { return std::equal(Indices.begin(), Indices.end(), other.Indices.begin(), other.Indices.end()); }
-      bool operator!=(CFace const& other) { return !(*this == other); }
+      bool operator==(CFace const& other) const;
+      bool operator!=(CFace const& other) const { return !(*this == other); }
     };
 
     using VertexVecT = std::vector<CMeshVertex>;
@@ -28,10 +28,10 @@ namespace gfx {
   private:
     VertexVecT mVertices;
     FaceVecT mFaces;
-    cb::gl::PrimitiveType mPrimitiveType = cb::gl::PrimitiveType::TRIANGLES;
+    cb::gl::PrimitiveType mPrimitiveType;
 
   public:
-    CMesh() = default;
+    CMesh(cb::gl::PrimitiveType type = cb::gl::PrimitiveType::TRIANGLES) : mPrimitiveType(type) {};
     CMesh(CMesh&&) = default;
     CMesh(CMesh const&) = default;
 
@@ -50,12 +50,16 @@ namespace gfx {
 
     CMesh operator+(CMesh const& mesh) const;
 
+    void operator=(CMesh const& mesh) { mVertices = mesh.mVertices; mFaces = mesh.mFaces; mPrimitiveType = mesh.mPrimitiveType; }
+    void operator+=(CMesh const& mesh) { *this = *this + mesh; }
+
     static std::array<glm::vec3, 4> CreateRectVertices(glm::vec2 const& size,
                                                        glm::vec2 const& offset = glm::vec3());
     static std::vector<glm::vec3> CreateCircleVertices(glm::vec2 const& size, cb::u32 const slices,
                                                        glm::vec3 const& offset = glm::vec3(),
                                                        float const radAngle = glm::two_pi<float>());
 
+    static CMesh CreateLine(glm::vec3 const& beg, glm::vec3 const& end, glm::vec4 const& color);
     static CMesh CreatePlane(glm::vec2 const& size, glm::vec4 const& color = glm::vec4(1.0f),
                              glm::uvec2 const& slices = {1,1}, bool const wireFrame = false);
     static CMesh CreateCube(glm::vec3 const& size, std::array<glm::vec4, 6> const& sideColors,

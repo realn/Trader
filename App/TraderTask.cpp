@@ -34,7 +34,7 @@ namespace trader {
 
     mRepositories = std::make_unique<CRepositories>(ASSETS_DIR);
 
-    cb::gl::clearColor({0.1f, 0.1f, 0.1f, 1.0f});
+    cb::gl::clearColor({0.0f, 0.0f, 0.01f, 1.0f});
     cb::gl::clearDepth(1.0f);
 
     cb::gl::setState({cb::gl::DepthFunc::LEQUAL});
@@ -46,19 +46,61 @@ namespace trader {
       return false;
     }
 
-    auto colors = std::array<glm::vec4, 6>{
-      glm::vec4{1.0f, 0.0f, 0.0f, 1.0f},
-        glm::vec4{0.0f, 1.0f, 0.0f, 1.0f},
-        glm::vec4{0.0f, 0.0f, 1.0f, 1.0f},
-        glm::vec4{1.0f, 1.0f, 0.0f, 1.0f},
-        glm::vec4{0.0f, 1.0f, 1.0f, 1.0f},
-        glm::vec4{1.0f, 0.0f, 1.0f, 1.0f}
+    mPlanetPositions = std::vector<glm::vec3>{
+      {2.0f, 0.0f, -4.0f},
+      {6.4f, 0.0f, -2.0f},
+      {4.3f, 0.0f, 2.0f},
+      {-5.4f, 0.0f, 0.5f},
+      {0.0f, 0.0f, 4.0f},
+      {-3.8, 0.0f, -5.0f}
     };
-    //auto mesh = gfx::CMesh::CreateCube({1.0f, 1.0f, 1.0f}, colors, {3, 3, 3}, true);
-    //auto mesh = gfx::CMesh::CreateCircle({1.0f, 1.0f}, 18, {1.0f, 1.0f, 0.0f, 1.0f}, 1.0f);
-    auto mesh = 
-      gfx::CMesh::CreateTube({1.0f, 1.0f}, {1.0f, 1.0f}, 1.0f, glm::two_pi<float>(), {18, 4}, true, {1.0f, 1.0f,1.0f,1.0f});
-    mMeshView = std::make_unique<gfx::CMeshView>(mesh);
+
+    {
+      using namespace glm;
+      auto mesh = 
+        rotate(mat4(1.0f), radians(90.0f), {1.0f, 0.0f, 0.0f}) *
+        gfx::CMesh::CreatePlane(vec2(20.0f), {0.1f,0.1f,0.1f,1.0f}, uvec2(10), true);
+      mGridMesh = std::make_unique<gfx::CMeshView>(mesh);
+    }
+
+    {
+      using namespace glm;
+      auto mesh = gfx::CMesh::CreateTube({0.0f, 0.0f}, {0.2f, 0.2f}, 0.3f, two_pi<float>(), {8, 1}, false, {1.0f, 0.0f, 0.0f, 1.0f});
+      mShipMesh = std::make_unique<gfx::CMeshView>(mesh);
+    }
+
+    {
+      using namespace glm;
+      auto c = vec4(1.0f, 1.0f, 0.0f, 1.0f);
+      auto mesh = gfx::CMesh(cb::gl::PrimitiveType::LINES);
+      for(auto& a : mPlanetPositions) {
+        for(auto& b : mPlanetPositions) {
+          if(a == b)
+            continue;
+
+          mesh += gfx::CMesh::CreateLine(a, b, {1.0f, 1.0f, 0.0f, 1.0f});
+
+          auto road = static_cast<float>(rand()) / rand.max();
+
+          auto v1 = vec3(0.0f, 0.0f, -1.0f);
+          auto v2 = normalize(b - a);
+
+          auto rot = normalize(angleAxis(dot(v1, v2), cross(v1, v2)));
+
+          mEntities.push_back(CEntity(mix(a, b, road), rot));
+        }
+      }
+      mLaneMesh = std::make_unique<gfx::CMeshView>(mesh);
+    }
+
+    {
+      using namespace glm;
+      auto mesh =
+        translate(mat4(1.0f), {0.0f, -0.2f, 0.0f}) *
+        rotate(mat4(1.0f), radians(-90.0f), {1.0f, 0.0f, 0.0f}) *
+        gfx::CMesh::CreateTube({0.2f, 0.2f}, {0.2f,0.2f}, 0.4f, two_pi<float>(), {12, 1}, false, {0.0f, 1.0f, 0.0f, 1.0f});
+      mPlanetMesh = std::make_unique<gfx::CMeshView>(mesh);
+    }
 
     return true;
   }
@@ -75,16 +117,38 @@ namespace trader {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
     auto transform =
-      glm::perspective(glm::radians(60.0f), 16.0f / 9.0f, 1.0f, 100.0f) *
-      glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -2.5f}) *
-      glm::rotate(glm::mat4(1.0f), mRotation.x, {0.0f, 1.0f, 0.0f}) *
-      glm::rotate(glm::mat4(1.0f), mRotation.y, {1.0f, 0.0f, 0.0f});
+      glm::perspective(glm::radians(60.0f), 16.0f / 9.0f, 1.0f, 1000.0f) *
+      glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -8.5f}) *
+      glm::rotate(glm::mat4(1.0f), mRotation.y, {1.0f, 0.0f, 0.0f}) *
+    glm::rotate(glm::mat4(1.0f), mRotation.x, {0.0f, 1.0f, 0.0f});
 
     auto gprog = cb::gl::bind(*mMeshProgram);
-    auto gmesh = cb::gl::bind(*mMeshView);
-
     mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
-    mMeshView->Render();
+
+    {
+      auto gmesh = cb::gl::bind(*mGridMesh);
+      mGridMesh->Render();
+    }
+    {
+      auto gmesh = cb::gl::bind(*mLaneMesh);
+      mLaneMesh->Render();
+    }
+    {
+      auto gmesh = cb::gl::bind(*mPlanetMesh);
+
+      for(auto& pos : mPlanetPositions) {
+        mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), pos));
+        mPlanetMesh->Render();
+      }
+    }
+    {
+      auto gmesh = cb::gl::bind(*mShipMesh);
+
+      for(auto& ent : mEntities) {
+        mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * ent.GetTransform());
+        mShipMesh->Render();
+      }
+    }
   }
 
   void CTraderTask::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {
