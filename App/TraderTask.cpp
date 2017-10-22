@@ -96,9 +96,9 @@ namespace trader {
     {
       using namespace glm;
       auto mesh =
-        translate(mat4(1.0f), {0.0f, -0.2f, 0.0f}) *
         rotate(mat4(1.0f), radians(-90.0f), {1.0f, 0.0f, 0.0f}) *
-        gfx::CMesh::CreateTube({0.2f, 0.2f}, {0.2f,0.2f}, 0.4f, two_pi<float>(), {12, 1}, false, {0.0f, 1.0f, 0.0f, 1.0f});
+        //gfx::CMesh::CreateTube({0.2f, 0.2f}, {0.2f,0.2f}, 0.4f, two_pi<float>(), {12, 1}, false, {0.0f, 1.0f, 0.0f, 1.0f});
+        gfx::CMesh::CreateSphere(vec3(1.0f), {16, 8}, {0.0f, 1.0f, 0.0f, 1.0f}, true);
       mPlanetMesh = std::make_unique<gfx::CMeshView>(mesh);
     }
 
@@ -118,7 +118,7 @@ namespace trader {
 
     auto transform =
       glm::perspective(glm::radians(60.0f), 16.0f / 9.0f, 1.0f, 1000.0f) *
-      glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -8.5f}) *
+      glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -2.5f}) *
       glm::rotate(glm::mat4(1.0f), mRotation.y, {1.0f, 0.0f, 0.0f}) *
     glm::rotate(glm::mat4(1.0f), mRotation.x, {0.0f, 1.0f, 0.0f});
 
@@ -126,29 +126,33 @@ namespace trader {
     mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
 
     {
-      auto gmesh = cb::gl::bind(*mGridMesh);
-      mGridMesh->Render();
-    }
-    {
-      auto gmesh = cb::gl::bind(*mLaneMesh);
-      mLaneMesh->Render();
-    }
-    {
       auto gmesh = cb::gl::bind(*mPlanetMesh);
-
-      for(auto& pos : mPlanetPositions) {
-        mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), pos));
-        mPlanetMesh->Render();
-      }
+      mPlanetMesh->Render();
     }
-    {
-      auto gmesh = cb::gl::bind(*mShipMesh);
+    //{
+    //  auto gmesh = cb::gl::bind(*mGridMesh);
+    //  mGridMesh->Render();
+    //}
+    //{
+    //  auto gmesh = cb::gl::bind(*mLaneMesh);
+    //  mLaneMesh->Render();
+    //}
+    //{
+    //  auto gmesh = cb::gl::bind(*mPlanetMesh);
 
-      for(auto& ent : mEntities) {
-        mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * ent.GetTransform());
-        mShipMesh->Render();
-      }
-    }
+    //  for(auto& pos : mPlanetPositions) {
+    //    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), pos));
+    //    mPlanetMesh->Render();
+    //  }
+    //}
+    //{
+    //  auto gmesh = cb::gl::bind(*mShipMesh);
+
+    //  for(auto& ent : mEntities) {
+    //    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * ent.GetTransform());
+    //    mShipMesh->Render();
+    //  }
+    //}
   }
 
   void CTraderTask::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {

@@ -23,10 +23,14 @@ namespace gfx {
   CMesh::FaceVecT::iterator CMesh::AddFace(CMeshVertex const & v1,
                                            CMeshVertex const & v2,
                                            CMeshVertex const & v3) {
+    if(v1.Pos == v2.Pos || v2.Pos == v3.Pos || v3.Pos == v1.Pos)
+      return mFaces.end();
     return AddFace({v1, v2, v3});
   }
 
   CMesh::FaceVecT::iterator CMesh::AddFace(CMeshVertex const & v1, CMeshVertex const & v2) {
+    if(v1.Pos == v2.Pos) 
+      return mFaces.end();
     return AddFace({v1, v2});
   }
 
@@ -190,6 +194,48 @@ namespace gfx {
       }
     }
 
+    return result;
+  }
+
+  CMesh CMesh::CreateSphere(glm::vec3 const & size, glm::uvec2 const& slices, glm::vec4 const& color,
+                            bool const wireFrame, float const radYAngle, float const radXAngle) {
+    using namespace glm;
+    auto result = CMesh(wireFrame ? cb::gl::PrimitiveType::LINES : cb::gl::PrimitiveType::TRIANGLES);
+    auto radius = size / 2.0f;
+    auto step = vec2(radXAngle, radYAngle) / vec2(slices);
+    auto n = vec3(0.0f, 0.0f, -1.0f);
+    auto c = color;
+
+    for(auto y = 0u; y < slices.y; y++) {
+      auto beta = step.y * y;
+      auto nbeta = step.y * (y + 1);
+
+      auto sb = vec2(size) * sin(beta);
+      auto se = vec2(size) * sin(nbeta);
+
+      auto h = radius.z * cos(beta);
+      auto nh = radius.z * cos(nbeta);
+
+      auto vb = CreateCircleVertices(sb, slices.x, {0.0f, 0.0f, h});
+      auto ve = CreateCircleVertices(se, slices.x, {0.0f, 0.0f, nh});
+
+      for(auto x = 0u; x < slices.x; x++) {
+        auto nx = x + 1;
+        auto alpha = step.x * x;
+        auto nalpha = step.x * (x + 1);
+
+        if(wireFrame) {
+          result.AddFace({vb[x], n, c}, {vb[nx], n, c});
+          result.AddFace({vb[nx], n, c}, {ve[nx], n, c});
+          result.AddFace({ve[nx], n, c}, {ve[x], n, c});
+          result.AddFace({ve[x], n, c}, {vb[x], n, c});
+        }
+        else {
+          result.AddFace({vb[x], n, c}, {vb[nx], n, c}, {ve[nx], n, c});
+          result.AddFace({vb[x], n, c}, {ve[nx], n, c}, {ve[x], n, c});
+        }
+      }
+    }
     return result;
   }
 }

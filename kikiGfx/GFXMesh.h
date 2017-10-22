@@ -71,6 +71,9 @@ namespace gfx {
     static CMesh CreateTube(glm::vec2 const& sizeBase, glm::vec2 const& sizeEnd, float const height, 
                             float const radSurfaceAngle, glm::uvec2 const& surfaceSlices, 
                             bool const wireFrame, glm::vec4 const& color);
+    static CMesh CreateSphere(glm::vec3 const& size, glm::uvec2 const& slices, glm::vec4 const& color,
+                              bool const wireFrame = false, float const radYAngle = glm::pi<float>(),
+                              float const radXAngle = glm::two_pi<float>());
   };
 }
 
