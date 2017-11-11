@@ -5,6 +5,7 @@
 #include <CoreInputEvents.h>
 #include <GFXFwd.h>
 
+#include "Camera.h"
 #include "Entity.h"
 
 namespace trader {
@@ -29,7 +30,7 @@ namespace trader {
 
     std::vector<CEntity> mEntities;
 
-    glm::vec3 mRotation;
+    CCamera mCamera;
     bool mExit = false;
     bool mDrag = false;
 

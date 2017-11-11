@@ -26,6 +26,8 @@ namespace trader {
   void CTraderTask::PrepareConfig(core::CAppConfig & config) {
     config.WindowPos = cb::sdl::CWindow::PosCentered;
     config.WindowSize = {1024, 600};
+
+    mCamera.SetAspectRatio(config.WindowSize);
   }
 
   bool CTraderTask::Init(core::CAppBase & app) {
@@ -57,7 +59,7 @@ namespace trader {
 
     {
       using namespace glm;
-      auto mesh = 
+      auto mesh =
         rotate(mat4(1.0f), radians(90.0f), {1.0f, 0.0f, 0.0f}) *
         gfx::CMesh::CreatePlane(vec2(20.0f), {0.1f,0.1f,0.1f,1.0f}, uvec2(10), true);
       mGridMesh = std::make_unique<gfx::CMeshView>(mesh);
@@ -117,10 +119,7 @@ namespace trader {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
     auto transform =
-      glm::perspective(glm::radians(60.0f), 16.0f / 9.0f, 1.0f, 1000.0f) *
-      glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -2.5f}) *
-      glm::rotate(glm::mat4(1.0f), mRotation.y, {1.0f, 0.0f, 0.0f}) *
-    glm::rotate(glm::mat4(1.0f), mRotation.x, {0.0f, 1.0f, 0.0f});
+      mCamera.GetProjection() * mCamera.GetTransform();
 
     auto gprog = cb::gl::bind(*mMeshProgram);
     mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
@@ -162,9 +161,15 @@ namespace trader {
   }
 
   void CTraderTask::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {
+    using namespace glm;
     if(mDrag) {
-      mRotation += glm::vec3(delta, 0.0f) * 10.0f;
-      mRotation = glm::mod(mRotation, glm::radians(360.0f));
+      auto rot =
+        angleAxis(radians(delta.x * 100.0f), vec3(0.0f, 1.0f, 0.0f)) *
+        angleAxis(radians(delta.y * 100.0f), vec3(1.0f, 0.0f, 0.0f));
+
+      mCamera.ModRotation(rot);
+      //mRotation += glm::vec3(delta, 0.0f) * 10.0f;
+      //mRotation = glm::mod(mRotation, glm::radians(360.0f));
     }
   }
 
