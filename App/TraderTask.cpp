@@ -62,13 +62,13 @@ namespace trader {
       auto mesh =
         rotate(mat4(1.0f), radians(90.0f), {1.0f, 0.0f, 0.0f}) *
         gfx::CMesh::CreatePlane(vec2(20.0f), {0.1f,0.1f,0.1f,1.0f}, uvec2(10), true);
-      mGridMesh = std::make_unique<gfx::CMeshView>(mesh);
+      mGridMesh = std::make_shared<gfx::CMeshView>(mesh);
     }
 
     {
       using namespace glm;
       auto mesh = gfx::CMesh::CreateTube({0.0f, 0.0f}, {0.2f, 0.2f}, 0.3f, two_pi<float>(), {8, 1}, false, {1.0f, 0.0f, 0.0f, 1.0f});
-      mShipMesh = std::make_unique<gfx::CMeshView>(mesh);
+      mShipMesh = std::make_shared<gfx::CMeshView>(mesh);
     }
 
     {
@@ -100,7 +100,7 @@ namespace trader {
       auto mesh =
         rotate(mat4(1.0f), radians(-90.0f), {1.0f, 0.0f, 0.0f}) *
         //gfx::CMesh::CreateTube({0.2f, 0.2f}, {0.2f,0.2f}, 0.4f, two_pi<float>(), {12, 1}, false, {0.0f, 1.0f, 0.0f, 1.0f});
-        gfx::CMesh::CreateSphere(vec3(1.0f), {16, 8}, {0.0f, 1.0f, 0.0f, 1.0f}, true);
+        gfx::CMesh::CreateSphere(vec3(1.0f), {16, 8}, {0.0f, 1.0f, 0.0f, 1.0f}, false);
       mPlanetMesh = std::make_unique<gfx::CMeshView>(mesh);
     }
 

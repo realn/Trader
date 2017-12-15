@@ -10,6 +10,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ECOXml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -19,6 +22,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ECOUniverse.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOTradeRoute.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOXml.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

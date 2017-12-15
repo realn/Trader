@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)kikiCore\;$(SolutionDir)kikiGfx\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)kikiCore\;$(SolutionDir)kikiGfx\;$(SolutionDir)kikiEco\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityView.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Repositories.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -158,6 +159,9 @@
     <ProjectReference Include="..\kikiCore\kikiCore.vcxproj">
       <Project>{a60bd768-632d-4ebf-bcf4-75eb57c42ba3}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\kikiEco\kikiEco.vcxproj">
+      <Project>{a688fa20-a217-4d01-8be8-1c3751f424bd}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\kikiGfx\kikiGfx.vcxproj">
       <Project>{9998d53b-cb0b-4e21-a0b6-fec9a27aff01}</Project>
     </ProjectReference>
@@ -165,9 +169,11 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityView.h" />
     <ClInclude Include="Repositories.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TraderTask.h" />
+    <ClInclude Include="UniverseView.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\mesh_fs.glsl" />

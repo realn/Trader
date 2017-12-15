@@ -5,16 +5,22 @@
 
 namespace eco {
   class CEntity;
+  class CTradeJunction;
   class CUniverse {
   public:
-    using EntityVecT = std::vector<std::shared_ptr<CEntity>>;
+    using EntitiesT = std::vector<std::shared_ptr<CEntity>>;
+    using JunctionsT = std::vector<std::shared_ptr<CTradeJunction>>;
 
   private:
-    EntityVecT mEntities;
+    EntitiesT mEntities;
+    JunctionsT mJunctions;
 
   public:
     CUniverse() = default;
 
-    EntityVecT const& GetEntities() const { return mEntities; }
+    EntitiesT const& GetEntities() const { return mEntities; }
+    EntitiesT& GetEntities() { return mEntities; }
+    JunctionsT const& GetJunctions() const { return mJunctions; }
+    JunctionsT& GetJunctions() { return mJunctions; }
   };
 }

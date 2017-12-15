@@ -21,10 +21,10 @@ namespace trader {
     std::unique_ptr<CRepositories> mRepositories;
     std::shared_ptr<cb::gl::CProgram> mMeshProgram;
 
-    std::unique_ptr<gfx::CMeshView> mGridMesh;
-    std::unique_ptr<gfx::CMeshView> mShipMesh;
-    std::unique_ptr<gfx::CMeshView> mPlanetMesh;
-    std::unique_ptr<gfx::CMeshView> mLaneMesh;
+    std::shared_ptr<gfx::CMeshView> mGridMesh;
+    std::shared_ptr<gfx::CMeshView> mShipMesh;
+    std::shared_ptr<gfx::CMeshView> mPlanetMesh;
+    std::shared_ptr<gfx::CMeshView> mLaneMesh;
 
     std::vector<glm::vec3> mPlanetPositions;
 
