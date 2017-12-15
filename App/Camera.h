@@ -5,32 +5,48 @@
 #include <glm/gtc/quaternion.hpp>
 
 namespace trader {
-  class CCamera {
+  // Projection * View * Model
+
+  class CViewportConfig {
   private:
     float mFov = glm::radians(90.0f);
     float mAspectRatio = 4.0f / 3.0f;
     float mNearZ = 1.0f;
     float mFarZ = 100.0f;
+
+  public:
+    CViewportConfig() = default;
+    CViewportConfig(float fov, float aspRatio, float nearZ, float farZ) :
+      mFov(fov), mAspectRatio(aspRatio), mNearZ(nearZ), mFarZ(farZ) {}
+
+    void SetAspectRatio(glm::uvec2 const& size) { 
+      mAspectRatio = (size.y != 0 ? static_cast<float>(size.x) / static_cast<float>(size.y) : mAspectRatio);
+    }
+
+    glm::mat4 GetProjection() const {
+      return glm::perspective(mFov, mAspectRatio, mNearZ, mFarZ);
+    }
+  };
+
+  class CCamera {
+  private:
     glm::vec3 mPosition;
     glm::vec3 mRotation = {glm::radians(45.0f), 0.0f, 0.0f};
-    float mZoom = 3.0f;
+    glm::vec3 mOffset = { 0.0f, 0.0f, -3.0f };
 
   public:
     CCamera();
 
-    void SetFov(float value) { mFov = value; }
-    void SetAspectRatio(float value) { mAspectRatio = value; }
-    void SetAspectRatio(float width, float height) { mAspectRatio = width / height; }
-    void SetAspectRatio(glm::vec2 const& value) { SetAspectRatio(value.x, value.y); }
-    void SetAspectRatio(glm::uvec2 const& value) { SetAspectRatio(glm::vec2(value)); }
-    void SetDepthRange(float near, float far) { mNearZ = near; mFarZ = far; }
-    void SetRotation(float x, float y, float z) { mRotation = {x, y, z}; }
+    void SetPosition(glm::vec3 const& value) { mPosition = value; }
     void SetRotation(glm::vec3 const& value) { mRotation = value; }
+    void SetOffset(glm::vec3 const& value) { mOffset = value; }
 
-    void ModRotation(glm::vec3 const& value);
     void ModRotation(glm::quat const& value);
 
-    glm::mat4 GetProjection() const;
+    glm::vec3 GetPosition() const { return mPosition; }
+    glm::vec3 GetRotation() const { return mRotation; }
+    glm::vec3 GetOffset() const { return mOffset; }
+
     glm::mat4 GetTransform() const;
   };
 }

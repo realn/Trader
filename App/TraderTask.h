@@ -30,6 +30,7 @@ namespace trader {
 
     std::vector<CEntity> mEntities;
 
+    CViewportConfig mViewport;
     CCamera mCamera;
     bool mExit = false;
     bool mDrag = false;

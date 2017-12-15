@@ -27,7 +27,7 @@ namespace trader {
     config.WindowPos = cb::sdl::CWindow::PosCentered;
     config.WindowSize = {1024, 600};
 
-    mCamera.SetAspectRatio(config.WindowSize);
+    mViewport.SetAspectRatio(config.WindowSize);
   }
 
   bool CTraderTask::Init(core::CAppBase & app) {
@@ -119,7 +119,7 @@ namespace trader {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
     auto transform =
-      mCamera.GetProjection() * mCamera.GetTransform();
+      mViewport.GetProjection() * mCamera.GetTransform();
 
     auto gprog = cb::gl::bind(*mMeshProgram);
     mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
