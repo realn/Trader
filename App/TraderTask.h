@@ -22,6 +22,7 @@ namespace trader {
     std::shared_ptr<cb::gl::CProgram> mMeshProgram;
 
     std::shared_ptr<gfx::CMeshView> mGridMesh;
+    
     std::shared_ptr<gfx::CMeshView> mShipMesh;
     std::shared_ptr<gfx::CMeshView> mPlanetMesh;
     std::shared_ptr<gfx::CMeshView> mLaneMesh;

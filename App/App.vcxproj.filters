@@ -34,6 +34,9 @@
     <ClCompile Include="EntityView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MeshRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TraderTask.h">
@@ -53,6 +56,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="EntityView.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRepository.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

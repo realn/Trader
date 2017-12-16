@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include "TraderTask.h"
-#include "Repositories.h"
+
 
 #include <glm/vec4.hpp>
 
@@ -14,6 +13,9 @@
 #include <GFXMesh.h>
 #include <GFXMeshView.h>
 #include <GFXConsts.h>
+
+#include "Repositories.h"
+#include "TraderTask.h"
 
 namespace trader {
   static const auto ASSETS_DIR = L"assets"s;
@@ -65,11 +67,8 @@ namespace trader {
       mGridMesh = std::make_shared<gfx::CMeshView>(mesh);
     }
 
-    {
-      using namespace glm;
-      auto mesh = gfx::CMesh::CreateTube({0.0f, 0.0f}, {0.2f, 0.2f}, 0.3f, two_pi<float>(), {8, 1}, false, {1.0f, 0.0f, 0.0f, 1.0f});
-      mShipMesh = std::make_shared<gfx::CMeshView>(mesh);
-    }
+    mShipMesh = mRepositories->Meshes.Get(MeshType::Ship);
+    mPlanetMesh = mRepositories->Meshes.Get(MeshType::Planet);
 
     {
       using namespace glm;
@@ -93,15 +92,6 @@ namespace trader {
         }
       }
       mLaneMesh = std::make_unique<gfx::CMeshView>(mesh);
-    }
-
-    {
-      using namespace glm;
-      auto mesh =
-        rotate(mat4(1.0f), radians(-90.0f), {1.0f, 0.0f, 0.0f}) *
-        //gfx::CMesh::CreateTube({0.2f, 0.2f}, {0.2f,0.2f}, 0.4f, two_pi<float>(), {12, 1}, false, {0.0f, 1.0f, 0.0f, 1.0f});
-        gfx::CMesh::CreateSphere(vec3(1.0f), {16, 8}, {0.0f, 1.0f, 0.0f, 1.0f}, false);
-      mPlanetMesh = std::make_unique<gfx::CMeshView>(mesh);
     }
 
     return true;
