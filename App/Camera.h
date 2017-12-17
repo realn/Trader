@@ -9,8 +9,8 @@ namespace trader {
 
   class CViewportConfig {
   private:
-    float mFov = glm::radians(90.0f);
-    float mAspectRatio = 4.0f / 3.0f;
+    float mFov = glm::radians(45.0f);
+    float mAspectRatio = 16.0f / 9.0f;
     float mNearZ = 1.0f;
     float mFarZ = 100.0f;
 
@@ -41,7 +41,9 @@ namespace trader {
     void SetRotation(glm::vec3 const& value) { mRotation = value; }
     void SetOffset(glm::vec3 const& value) { mOffset = value; }
 
+    void ModPosition(glm::vec3 const& value) { mPosition += value; }
     void ModRotation(glm::quat const& value);
+    void ModOffset(glm::vec3 const& value) { mOffset += value; }
 
     glm::vec3 GetPosition() const { return mPosition; }
     glm::vec3 GetRotation() const { return mRotation; }

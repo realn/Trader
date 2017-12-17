@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-
 #include <glm/vec4.hpp>
 
 #include <CBSDL/Consts.h>
@@ -13,7 +12,10 @@
 #include <GFXMesh.h>
 #include <GFXMeshView.h>
 #include <GFXConsts.h>
+#include <ECOUniverse.h>
+#include <ECOEntity.h>
 
+#include "UniverseView.h"
 #include "Repositories.h"
 #include "TraderTask.h"
 
@@ -38,10 +40,10 @@ namespace trader {
 
     mRepositories = std::make_unique<CRepositories>(ASSETS_DIR);
 
-    cb::gl::clearColor({0.0f, 0.0f, 0.01f, 1.0f});
+    cb::gl::clearColor({ 0.0f, 0.0f, 0.01f, 1.0f });
     cb::gl::clearDepth(1.0f);
 
-    cb::gl::setState({cb::gl::DepthFunc::LEQUAL});
+    cb::gl::setState({ cb::gl::DepthFunc::LEQUAL });
     cb::gl::setStateEnabled(cb::gl::State::DEPTH_TEST, true);
 
     mMeshProgram = mRepositories->Shaders.Get(L"mesh_vs,mesh_fs"s);
@@ -50,14 +52,27 @@ namespace trader {
       return false;
     }
 
-    mPlanetPositions = std::vector<glm::vec3>{
-      {2.0f, 0.0f, -4.0f},
-      {6.4f, 0.0f, -2.0f},
-      {4.3f, 0.0f, 2.0f},
-      {-5.4f, 0.0f, 0.5f},
-      {0.0f, 0.0f, 4.0f},
-      {-3.8, 0.0f, -5.0f}
-    };
+    mEcoUniverse = std::make_shared<eco::CUniverse>();
+
+    {
+      auto positions = std::vector<glm::vec2>{
+        {2.0f, -4.0f},
+        {6.4f, -2.0f},
+        {4.3f, 2.0f},
+        {-5.4f, 0.5f},
+        {0.0f, 4.0f},
+        {-3.8, -5.0f}
+      };
+
+      auto planetId = L"Planet"s;
+      for(auto& pos : positions) {
+        auto entity = eco::CEntity(planetId);
+        entity.SetPosition(pos);
+        mEcoUniverse->AddEntity(std::move(entity));
+      }
+    }
+
+    mEcoUniverseView = std::make_unique<CUniverseView>(mEcoUniverse);
 
     {
       using namespace glm;
@@ -66,9 +81,6 @@ namespace trader {
         gfx::CMesh::CreatePlane(vec2(20.0f), {0.1f,0.1f,0.1f,1.0f}, uvec2(10), true);
       mGridMesh = std::make_shared<gfx::CMeshView>(mesh);
     }
-
-    mShipMesh = mRepositories->Meshes.Get(MeshType::Ship);
-    mPlanetMesh = mRepositories->Meshes.Get(MeshType::Planet);
 
     {
       using namespace glm;
@@ -111,13 +123,14 @@ namespace trader {
     auto transform =
       mViewport.GetProjection() * mCamera.GetTransform();
 
-    auto gprog = cb::gl::bind(*mMeshProgram);
-    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
+    mEcoUniverseView->Render(transform, *mMeshProgram, mRepositories->Meshes);
+    //auto gprog = cb::gl::bind(*mMeshProgram);
+    //mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
 
-    {
-      auto gmesh = cb::gl::bind(*mPlanetMesh);
-      mPlanetMesh->Render();
-    }
+    //{
+    //  auto gmesh = cb::gl::bind(*mPlanetMesh);
+    //  mPlanetMesh->Render();
+    //}
     //{
     //  auto gmesh = cb::gl::bind(*mGridMesh);
     //  mGridMesh->Render();

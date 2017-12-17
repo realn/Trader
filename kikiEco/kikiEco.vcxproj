@@ -137,6 +137,8 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ECOEntity.cpp" />
+    <ClCompile Include="ECOUniverse.cpp" />
     <ClCompile Include="ECOXml.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -8,8 +8,13 @@
 #include "Camera.h"
 #include "Entity.h"
 
+namespace eco {
+  class CUniverse;
+}
+
 namespace trader {
   class CRepositories;
+  class CUniverseView;
   class CTraderTask
     : public core::IAppTask
     , public core::IEventTarget<core::IInputMouseEvents> 
@@ -22,12 +27,12 @@ namespace trader {
     std::shared_ptr<cb::gl::CProgram> mMeshProgram;
 
     std::shared_ptr<gfx::CMeshView> mGridMesh;
-    
-    std::shared_ptr<gfx::CMeshView> mShipMesh;
-    std::shared_ptr<gfx::CMeshView> mPlanetMesh;
     std::shared_ptr<gfx::CMeshView> mLaneMesh;
 
     std::vector<glm::vec3> mPlanetPositions;
+
+    std::shared_ptr<eco::CUniverse> mEcoUniverse;
+    std::unique_ptr<CUniverseView> mEcoUniverseView;
 
     std::vector<CEntity> mEntities;
 

@@ -34,8 +34,8 @@ namespace trader {
 
   std::shared_ptr<gfx::CMeshView> CMeshRepository::Get(MeshType const type) {
     auto it = mMeshes.find(type);
-    if(it != mMeshes.end() && !it->second.expired()) {
-      return it->second.lock();
+    if(it != mMeshes.end()) {
+      return it->second;
     }
 
     auto mesh = CreateMesh(type);

@@ -155,6 +155,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TraderTask.cpp" />
+    <ClCompile Include="UniverseView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\kikiCore\kikiCore.vcxproj">
