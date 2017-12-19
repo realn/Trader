@@ -3,9 +3,11 @@
 #include <CBGL\Program.h>
 
 #include <GFXConsts.h>
+#include <GFXMesh.h>
 #include <GFXMeshView.h>
 
 #include <ECOEntity.h>
+#include <ECOTradeRoute.h>
 #include <ECOUniverse.h>
 
 #include "UniverseView.h"
@@ -46,6 +48,21 @@ namespace trader {
         meshProgram.SetUniform(gfx::UNI_TRANSFORM, transform * trans);
         mesh->Render();
       }
+    }
+
+    auto mesh = gfx::CMesh(cb::gl::PrimitiveType::LINES);
+    auto color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    for(auto& junction : mUniverse->GetJunctions()) {
+      auto pA = to3DSpace(junction->GetTargetA()->GetPosition());
+      auto pB = to3DSpace(junction->GetTargetB()->GetPosition());
+
+      mesh += gfx::CMesh::CreateLine(pA, pB, color);
+    }
+    auto junctionView = gfx::CMeshView(mesh);
+    {
+      auto gmesh = cb::gl::bind(junctionView);
+      meshProgram.SetUniform(gfx::UNI_TRANSFORM, transform);
+      junctionView.Render();
     }
   }
 }

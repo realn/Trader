@@ -14,18 +14,14 @@ namespace eco {
     using TargetsT = std::array<std::shared_ptr<CEntity>, 2>;
 
   private:
-    std::weak_ptr<CUniverse> mUniverse;
     TargetsT mTargets;
-  };
-
-  class CTradeRoute {
-  public:
-    using JunctionsT = std::vector<std::shared_ptr<CTradeJunction>>;
-
-  private:
-    JunctionsT mJunctions;
 
   public:
-  };
+    CTradeJunction(std::shared_ptr<CEntity> targetA, std::shared_ptr<CEntity> targetB);
 
+    std::shared_ptr<CEntity> GetTargetA() const { return mTargets[0]; }
+    std::shared_ptr<CEntity> GetTargetB() const { return mTargets[1]; }
+
+    TargetsT const& GetTargets() const { return mTargets; }
+  };
 }

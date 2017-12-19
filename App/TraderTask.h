@@ -27,14 +27,11 @@ namespace trader {
     std::shared_ptr<cb::gl::CProgram> mMeshProgram;
 
     std::shared_ptr<gfx::CMeshView> mGridMesh;
-    std::shared_ptr<gfx::CMeshView> mLaneMesh;
 
     std::vector<glm::vec3> mPlanetPositions;
 
     std::shared_ptr<eco::CUniverse> mEcoUniverse;
     std::unique_ptr<CUniverseView> mEcoUniverseView;
-
-    std::vector<CEntity> mEntities;
 
     CViewportConfig mViewport;
     CCamera mCamera;
@@ -63,6 +60,8 @@ namespace trader {
 
     virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) override;
 
+  private:
+    void RenderGrid(glm::mat4 const& transform) const;
   };
 
 }

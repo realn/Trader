@@ -9,3 +9,5 @@
 #include <glm/gtc/constants.hpp>
 
 #include <CBStr/StringEx.h>
+
+using namespace std::literals;

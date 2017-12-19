@@ -17,11 +17,13 @@ namespace eco {
 
   public:
     CUniverse() = default;
+    CUniverse(CUniverse&&) = default;
     ~CUniverse();
 
     void AddEntity(CEntity&& entity);
 
     EntitiesT const& GetEntities() const { return mEntities; }
+    EntitiesT GetEntities(cb::strvector const& requiredComponents) const;
     JunctionsT const& GetJunctions() const { return mJunctions; }
   };
 }

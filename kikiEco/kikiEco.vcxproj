@@ -131,13 +131,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ECOEntity.h" />
+    <ClInclude Include="ECOMarket.h" />
+    <ClInclude Include="ECOProduct.h" />
     <ClInclude Include="ECOTradeRoute.h" />
     <ClInclude Include="ECOUniverse.h" />
     <ClInclude Include="ECOXml.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ECOComponent.cpp" />
     <ClCompile Include="ECOEntity.cpp" />
+    <ClCompile Include="ECOMarket.cpp" />
+    <ClCompile Include="ECOTradeRoute.cpp" />
     <ClCompile Include="ECOUniverse.cpp" />
     <ClCompile Include="ECOXml.cpp" />
     <ClCompile Include="stdafx.cpp">

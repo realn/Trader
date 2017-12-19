@@ -14,6 +14,7 @@
 #include <GFXConsts.h>
 #include <ECOUniverse.h>
 #include <ECOEntity.h>
+#include <ECOMarket.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -29,9 +30,10 @@ namespace trader {
 
   void CTraderTask::PrepareConfig(core::CAppConfig & config) {
     config.WindowPos = cb::sdl::CWindow::PosCentered;
-    config.WindowSize = {1024, 600};
+    config.WindowSize = { 1024, 600 };
 
     mViewport.SetAspectRatio(config.WindowSize);
+    mCamera.SetOffset(glm::vec3(0.0f, 0.0f, -10.0f));
   }
 
   bool CTraderTask::Init(core::CAppBase & app) {
@@ -68,6 +70,7 @@ namespace trader {
       for(auto& pos : positions) {
         auto entity = eco::CEntity(planetId);
         entity.SetPosition(pos);
+        entity.SetComponent(std::make_unique<eco::CMarket>());
         mEcoUniverse->AddEntity(std::move(entity));
       }
     }
@@ -77,33 +80,9 @@ namespace trader {
     {
       using namespace glm;
       auto mesh =
-        rotate(mat4(1.0f), radians(90.0f), {1.0f, 0.0f, 0.0f}) *
-        gfx::CMesh::CreatePlane(vec2(20.0f), {0.1f,0.1f,0.1f,1.0f}, uvec2(10), true);
+        rotate(mat4(1.0f), radians(90.0f), { 1.0f, 0.0f, 0.0f }) *
+        gfx::CMesh::CreatePlane(vec2(20.0f), { 0.1f,0.1f,0.1f,1.0f }, uvec2(10), true);
       mGridMesh = std::make_shared<gfx::CMeshView>(mesh);
-    }
-
-    {
-      using namespace glm;
-      auto c = vec4(1.0f, 1.0f, 0.0f, 1.0f);
-      auto mesh = gfx::CMesh(cb::gl::PrimitiveType::LINES);
-      for(auto& a : mPlanetPositions) {
-        for(auto& b : mPlanetPositions) {
-          if(a == b)
-            continue;
-
-          mesh += gfx::CMesh::CreateLine(a, b, {1.0f, 1.0f, 0.0f, 1.0f});
-
-          auto road = static_cast<float>(rand()) / rand.max();
-
-          auto v1 = vec3(0.0f, 0.0f, -1.0f);
-          auto v2 = normalize(b - a);
-
-          auto rot = normalize(angleAxis(dot(v1, v2), cross(v1, v2)));
-
-          mEntities.push_back(CEntity(mix(a, b, road), rot));
-        }
-      }
-      mLaneMesh = std::make_unique<gfx::CMeshView>(mesh);
     }
 
     return true;
@@ -123,33 +102,12 @@ namespace trader {
     auto transform =
       mViewport.GetProjection() * mCamera.GetTransform();
 
+    auto gprog = cb::gl::bind(*mMeshProgram);
+    RenderGrid(transform);
     mEcoUniverseView->Render(transform, *mMeshProgram, mRepositories->Meshes);
-    //auto gprog = cb::gl::bind(*mMeshProgram);
-    //mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
 
-    //{
-    //  auto gmesh = cb::gl::bind(*mPlanetMesh);
-    //  mPlanetMesh->Render();
-    //}
-    //{
-    //  auto gmesh = cb::gl::bind(*mGridMesh);
-    //  mGridMesh->Render();
-    //}
-    //{
-    //  auto gmesh = cb::gl::bind(*mLaneMesh);
-    //  mLaneMesh->Render();
-    //}
-    //{
-    //  auto gmesh = cb::gl::bind(*mPlanetMesh);
-
-    //  for(auto& pos : mPlanetPositions) {
-    //    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), pos));
-    //    mPlanetMesh->Render();
-    //  }
-    //}
     //{
     //  auto gmesh = cb::gl::bind(*mShipMesh);
-
     //  for(auto& ent : mEntities) {
     //    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * ent.GetTransform());
     //    mShipMesh->Render();
@@ -171,8 +129,6 @@ namespace trader {
         angleAxis(radians(delta.y * 100.0f), vec3(1.0f, 0.0f, 0.0f));
 
       mCamera.ModRotation(rot);
-      //mRotation += glm::vec3(delta, 0.0f) * 10.0f;
-      //mRotation = glm::mod(mRotation, glm::radians(360.0f));
     }
   }
 
@@ -180,5 +136,11 @@ namespace trader {
     if(code == cb::sdl::ScanCode::ESCAPE && state == cb::sdl::KeyState::PRESSED) {
       mExit = true;
     }
+  }
+
+  void CTraderTask::RenderGrid(glm::mat4 const & transform) const {
+    auto gmesh = cb::gl::bind(*mGridMesh);
+    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
+    mGridMesh->Render();
   }
 }

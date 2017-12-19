@@ -2,15 +2,23 @@
 
 #include <glm/vec2.hpp>
 
+#include "ECOComponent.h"
+
 namespace eco {
   class CEntity {
+  public:
+    using ComponentsT = std::map<cb::string, std::unique_ptr<CComponent>>;
+
   private:
     cb::string mTypeId;
     cb::string mId;
     glm::vec2 mPosition;
+    ComponentsT mComponents;
 
   public:
     CEntity(cb::string const& typeId, cb::string const& id = cb::string());
+    CEntity(CEntity&&) = default;
+    ~CEntity();
 
     void SetId(cb::string const& id) { mId = id; }
     void SetPosition(glm::vec2 const& value) { mPosition = value; }
@@ -18,5 +26,21 @@ namespace eco {
     cb::string GetTypeId() const { return mTypeId; }
     cb::string GetId() const { return mId; }
     glm::vec2 GetPosition() const { return mPosition; }
+
+    void SetComponent(std::unique_ptr<CComponent> component);
+    bool HasComponent(cb::string const& id) const;
+    bool HasComponents(cb::strvector const& ids) const;
+    CComponent& GetComponent(cb::string const& id) const;
+
+    template<class _Type>
+    bool HasComponent() {
+      return HasComponent(GetComponentId<_Type>());
+    }
+    template<class _Type>
+    _Type& GetComponent() const {
+      return dynamic_cast<_Type&>(GetComponent(GetComponentId<_Type>()));
+    }
+
+  private:
   };
 }

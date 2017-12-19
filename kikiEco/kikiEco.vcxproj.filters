@@ -19,6 +19,15 @@
     <ClCompile Include="ECOEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ECOComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECOTradeRoute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECOMarket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -34,6 +43,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ECOXml.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOMarket.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOProduct.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
