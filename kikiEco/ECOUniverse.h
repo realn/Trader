@@ -20,7 +20,7 @@ namespace eco {
     CUniverse(CUniverse&&) = default;
     ~CUniverse();
 
-    void AddEntity(CEntity&& entity);
+    void AddEntity(std::shared_ptr<CEntity> entity);
 
     EntitiesT const& GetEntities() const { return mEntities; }
     EntitiesT GetEntities(cb::strvector const& requiredComponents) const;

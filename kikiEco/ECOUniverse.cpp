@@ -8,15 +8,15 @@
 namespace eco {
   CUniverse::~CUniverse() {}
 
-  void CUniverse::AddEntity(CEntity && entity) {
-    auto newEntity = std::make_shared<CEntity>(std::move(entity));
-    if(newEntity->HasComponent(GetComponentId<CMarket>())) {
-      auto entities = GetEntities({ GetComponentId<CMarket>() });
+  void CUniverse::AddEntity(std::shared_ptr<CEntity> entity) {
+    auto marketId = GetComponentId<CMarket>();
+    if(entity->HasComponent(marketId)) {
+      auto entities = GetEntities({ marketId });
       for(auto& market : entities) {
-        mJunctions.push_back(std::make_shared<CTradeJunction>(newEntity, market));
+        mJunctions.push_back(std::make_shared<CTradeJunction>(entity, market));
       }
     }
-    mEntities.push_back(newEntity);
+    mEntities.push_back(entity);
   }
 
   CUniverse::EntitiesT CUniverse::GetEntities(cb::strvector const & requiredComponents) const {

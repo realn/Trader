@@ -4,8 +4,8 @@
 namespace eco {
   static auto COMP_MARKET_ID = L"market"s;
 
-  CMarket::CMarket() 
-    : CComponent(COMP_MARKET_ID)
+  CMarket::CMarket(std::shared_ptr<CEntity> parent) 
+    : CComponent(parent, COMP_MARKET_ID)
   {
   }
 

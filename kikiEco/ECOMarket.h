@@ -9,7 +9,7 @@ namespace eco {
     public CComponent
   {
   public:
-    CMarket();
+    CMarket(std::shared_ptr<CEntity> parent);
   };
 
   template<>

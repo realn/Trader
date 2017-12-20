@@ -51,5 +51,8 @@
     <ClInclude Include="ECOProduct.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECOComponent.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

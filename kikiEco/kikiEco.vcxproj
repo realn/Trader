@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ECOComponent.h" />
     <ClInclude Include="ECOEntity.h" />
     <ClInclude Include="ECOMarket.h" />
     <ClInclude Include="ECOProduct.h" />

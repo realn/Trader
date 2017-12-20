@@ -68,10 +68,10 @@ namespace trader {
 
       auto planetId = L"Planet"s;
       for(auto& pos : positions) {
-        auto entity = eco::CEntity(planetId);
-        entity.SetPosition(pos);
-        entity.SetComponent(std::make_unique<eco::CMarket>());
-        mEcoUniverse->AddEntity(std::move(entity));
+        auto entity = std::make_shared<eco::CEntity>(planetId);
+        entity->SetPosition(pos);
+        entity->SetComponent(std::make_unique<eco::CMarket>(entity));
+        mEcoUniverse->AddEntity(entity);
       }
     }
 
