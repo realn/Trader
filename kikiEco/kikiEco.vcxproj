@@ -132,7 +132,7 @@
   <ItemGroup>
     <ClInclude Include="ECOComponent.h" />
     <ClInclude Include="ECOEntity.h" />
-    <ClInclude Include="ECOMarket.h" />
+    <ClInclude Include="ECOCompMarket.h" />
     <ClInclude Include="ECOProduct.h" />
     <ClInclude Include="ECOTradeRoute.h" />
     <ClInclude Include="ECOUniverse.h" />
@@ -142,7 +142,7 @@
   <ItemGroup>
     <ClCompile Include="ECOComponent.cpp" />
     <ClCompile Include="ECOEntity.cpp" />
-    <ClCompile Include="ECOMarket.cpp" />
+    <ClCompile Include="ECOCompMarket.cpp" />
     <ClCompile Include="ECOTradeRoute.cpp" />
     <ClCompile Include="ECOUniverse.cpp" />
     <ClCompile Include="ECOXml.cpp" />

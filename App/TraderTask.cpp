@@ -14,7 +14,7 @@
 #include <GFXConsts.h>
 #include <ECOUniverse.h>
 #include <ECOEntity.h>
-#include <ECOMarket.h>
+#include <ECOCompMarket.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -70,7 +70,7 @@ namespace trader {
       for(auto& pos : positions) {
         auto entity = std::make_shared<eco::CEntity>(planetId);
         entity->SetPosition(pos);
-        entity->SetComponent(std::make_unique<eco::CMarket>(entity));
+        entity->SetComponent(std::make_unique<eco::comp::CMarket>(entity));
         mEcoUniverse->AddEntity(entity);
       }
     }

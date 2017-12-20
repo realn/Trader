@@ -2,14 +2,14 @@
 
 #include "ECOEntity.h"
 #include "ECOUniverse.h"
-#include "ECOMarket.h"
+#include "ECOCompMarket.h"
 #include "ECOTradeRoute.h"
 
 namespace eco {
   CUniverse::~CUniverse() {}
 
   void CUniverse::AddEntity(std::shared_ptr<CEntity> entity) {
-    auto marketId = GetComponentId<CMarket>();
+    auto marketId = GetComponentId<comp::CMarket>();
     if(entity->HasComponent(marketId)) {
       auto entities = GetEntities({ marketId });
       for(auto& market : entities) {
