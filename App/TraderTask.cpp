@@ -15,6 +15,7 @@
 #include <ECOUniverse.h>
 #include <ECOEntity.h>
 #include <ECOCompMarket.h>
+#include <ECOCompDock.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -71,6 +72,7 @@ namespace trader {
         auto entity = std::make_shared<eco::CEntity>(planetId);
         entity->SetPosition(pos);
         entity->SetComponent(std::make_unique<eco::comp::CMarket>(entity));
+        entity->SetComponent(std::make_unique<eco::comp::CDock>(entity));
         mEcoUniverse->AddEntity(entity);
       }
     }

@@ -6,7 +6,6 @@
 #include <GFXFwd.h>
 
 #include "Camera.h"
-#include "Entity.h"
 
 namespace eco {
   class CUniverse;

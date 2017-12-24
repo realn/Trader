@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ECOCompDock.h" />
     <ClInclude Include="ECOComponent.h" />
     <ClInclude Include="ECOEntity.h" />
     <ClInclude Include="ECOCompMarket.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ECOCompDock.cpp" />
     <ClCompile Include="ECOComponent.cpp" />
     <ClCompile Include="ECOEntity.cpp" />
     <ClCompile Include="ECOCompMarket.cpp" />

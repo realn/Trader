@@ -3,17 +3,18 @@
 #include "ECOEntity.h"
 #include "ECOUniverse.h"
 #include "ECOCompMarket.h"
+#include "ECOCompDock.h"
 #include "ECOTradeRoute.h"
 
 namespace eco {
   CUniverse::~CUniverse() {}
 
   void CUniverse::AddEntity(std::shared_ptr<CEntity> entity) {
-    auto marketId = GetComponentId<comp::CMarket>();
-    if(entity->HasComponent(marketId)) {
-      auto entities = GetEntities({ marketId });
-      for(auto& market : entities) {
-        mJunctions.push_back(std::make_shared<CTradeJunction>(entity, market));
+    auto dockId = GetComponentId<comp::CDock>();
+    if(entity->HasComponent(dockId)) {
+      auto entities = GetEntities({ dockId });
+      for(auto& dock : entities) {
+        mJunctions.push_back(std::make_shared<CTradeJunction>(entity, dock));
       }
     }
     mEntities.push_back(entity);

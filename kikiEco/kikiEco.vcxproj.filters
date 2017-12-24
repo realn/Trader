@@ -28,6 +28,9 @@
     <ClCompile Include="ECOCompMarket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ECOCompDock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -52,6 +55,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ECOCompMarket.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOCompDock.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -145,7 +145,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityView.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshRepository.cpp" />
@@ -170,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityView.h" />
     <ClInclude Include="MeshRepository.h" />
     <ClInclude Include="Repositories.h" />

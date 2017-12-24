@@ -53,10 +53,12 @@ namespace trader {
     auto mesh = gfx::CMesh(cb::gl::PrimitiveType::LINES);
     auto color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
     for(auto& junction : mUniverse->GetJunctions()) {
-      auto pA = to3DSpace(junction->GetTargetA()->GetPosition());
-      auto pB = to3DSpace(junction->GetTargetB()->GetPosition());
+      auto poslist = std::vector<glm::vec3>();
+      for(auto& target : junction->GetTargets()) {
+        poslist.push_back(to3DSpace(target->GetPosition()));
+      }
 
-      mesh += gfx::CMesh::CreateLine(pA, pB, color);
+      mesh += gfx::CMesh::CreateLine(poslist[0], poslist[1], color);
     }
     auto junctionView = gfx::CMeshView(mesh);
     {
