@@ -14,6 +14,7 @@ namespace eco {
   private:
     EntitiesT mEntities;
     JunctionsT mJunctions;
+    float mMaxJunctionDist = 7.0f;
 
   public:
     CUniverse() = default;

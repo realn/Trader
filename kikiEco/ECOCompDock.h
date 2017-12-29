@@ -6,11 +6,23 @@
 
 namespace eco {
   namespace comp {
+    struct weak_ptr_ent_less {
+      bool operator()(const std::weak_ptr<CEntity>& A, const std::weak_ptr<CEntity>& B) const {
+        if(A.expired())
+          return true;
+        if(B.expired())
+          return false;
+        auto ptrA = A.lock();
+        auto ptrB = B.lock();
+        return ptrA.get() < ptrB.get();
+      }
+    };
+
     class CDock 
       : public CComponent
     {
     public:
-      using EntitiesT = std::set<std::weak_ptr<CEntity>>;
+      using EntitiesT = std::set<std::weak_ptr<CEntity>, weak_ptr_ent_less>;
 
     private:
       EntitiesT mDockedShips;

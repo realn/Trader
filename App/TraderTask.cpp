@@ -71,8 +71,8 @@ namespace trader {
       for(auto& pos : positions) {
         auto entity = std::make_shared<eco::CEntity>(planetId);
         entity->SetPosition(pos);
-        entity->SetComponent(std::make_unique<eco::comp::CMarket>(entity));
-        entity->SetComponent(std::make_unique<eco::comp::CDock>(entity));
+        entity->SetComponent<eco::comp::CMarket>();
+        entity->SetComponent<eco::comp::CDock>();
         mEcoUniverse->AddEntity(entity);
       }
     }

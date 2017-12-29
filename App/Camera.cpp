@@ -6,6 +6,7 @@ namespace trader {
 
   void CCamera::ModRotation(glm::quat const & value) {
     mRotation += glm::eulerAngles(value);
+    mRotation = glm::mod(mRotation, glm::two_pi<float>());
   }
 
 

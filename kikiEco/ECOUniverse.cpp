@@ -14,7 +14,9 @@ namespace eco {
     if(entity->HasComponent(dockId)) {
       auto entities = GetEntities({ dockId });
       for(auto& dock : entities) {
-        mJunctions.push_back(std::make_shared<CTradeJunction>(entity, dock));
+        if(glm::distance(entity->GetPosition(), dock->GetPosition()) < mMaxJunctionDist) {
+          mJunctions.push_back(std::make_shared<CTradeJunction>(entity, dock));
+        }
       }
     }
     mEntities.push_back(entity);

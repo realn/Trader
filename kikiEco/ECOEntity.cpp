@@ -1,4 +1,7 @@
 #include "stdafx.h"
+
+#include <set>
+
 #include "ECOEntity.h"
 
 namespace eco {
@@ -8,6 +11,7 @@ namespace eco {
   CEntity::~CEntity() {}
 
   void CEntity::SetComponent(std::unique_ptr<CComponent> component) {
+    mComponentIds.insert(component->GetId());
     mComponents[component->GetId()] = std::move(component);
   }
 
@@ -16,10 +20,11 @@ namespace eco {
   }
 
   bool CEntity::HasComponents(cb::strvector const & ids) const {
-    auto check = [ids](const ComponentsT::value_type& item) {
-      return std::find(ids.begin(), ids.end(), item.first) != ids.end();
+    auto compIds = mComponentIds;
+    auto check = [compIds](const cb::strvector::value_type& item) {
+      return compIds.find(item) != compIds.end();
     };
-    return std::all_of(mComponents.begin(), mComponents.end(), check);
+    return std::all_of(ids.begin(), ids.end(), check);
   }
 
   CComponent & CEntity::GetComponent(cb::string const & id) const {

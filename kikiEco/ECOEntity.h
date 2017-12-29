@@ -1,19 +1,25 @@
 #pragma once
 
+#include <memory>
+#include <set>
 #include <glm/vec2.hpp>
 
 #include "ECOComponent.h"
 
 namespace eco {
-  class CEntity {
+  class CEntity
+    : public std::enable_shared_from_this<CEntity>
+  {
   public:
     using ComponentsT = std::map<cb::string, std::unique_ptr<CComponent>>;
+    using ComponentIdsT = std::set<cb::string>;
 
   private:
     cb::string mTypeId;
     cb::string mId;
     glm::vec2 mPosition;
     ComponentsT mComponents;
+    ComponentIdsT mComponentIds;
 
   public:
     CEntity(cb::string const& typeId, cb::string const& id = cb::string());
@@ -31,6 +37,11 @@ namespace eco {
     bool HasComponent(cb::string const& id) const;
     bool HasComponents(cb::strvector const& ids) const;
     CComponent& GetComponent(cb::string const& id) const;
+
+    template<class _Type>
+    void SetComponent() {
+      SetComponent(std::make_unique<_Type>(shared_from_this()));
+    }
 
     template<class _Type>
     bool HasComponent() {
