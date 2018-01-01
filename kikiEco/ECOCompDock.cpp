@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "ECOEntity.h"
 #include "ECOCompDock.h"
 
 namespace eco {
@@ -13,6 +14,7 @@ namespace eco {
 
     void CDock::DockShip(std::shared_ptr<CEntity> entity) {
       mDockedShips.insert(entity);
+      entity->SetPosition(GetParent()->GetPosition());
     }
     void CDock::UnDockShip(std::shared_ptr<CEntity> entity) {
       mDockedShips.erase(entity);

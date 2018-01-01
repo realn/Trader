@@ -16,6 +16,8 @@
 #include <ECOEntity.h>
 #include <ECOCompMarket.h>
 #include <ECOCompDock.h>
+#include <ECOCompWarpDrive.h>
+#include <ECOTradeRoute.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -77,6 +79,20 @@ namespace trader {
       }
     }
 
+    {
+      auto entity = std::make_shared<eco::CEntity>(L"Ship");
+      entity->SetComponent<eco::comp::CWarpDrive>();
+
+      mEcoUniverse->AddEntity(entity);
+      auto junction = mEcoUniverse->GetJunctions().front();
+      auto source = *junction->GetTargets().begin();
+      auto target = *(++junction->GetTargets().begin());
+
+      source->GetComponent<eco::comp::CDock>().DockShip(entity);
+      junction->TravelTo(entity, source, target);
+      entity->GetComponent<eco::comp::CWarpDrive>().SetJunction(junction);
+    }
+
     mEcoUniverseView = std::make_unique<CUniverseView>(mEcoUniverse);
 
     {
@@ -93,7 +109,10 @@ namespace trader {
   void CTraderTask::Update(core::CAppBase & app, float const & timeDelta) {
     if(mExit) {
       app.Quit();
+      return;
     }
+
+    mEcoUniverse->UpdateEntities(timeDelta);
   }
 
   void CTraderTask::UpdateRender() {}

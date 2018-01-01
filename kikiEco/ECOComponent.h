@@ -18,6 +18,8 @@ namespace eco {
 
     std::shared_ptr<CEntity> GetParent() const;
     cb::string const& GetId() const { return mId; }
+
+    virtual void Update(const float timeDelta) {}
   };
 
   template<class _Type>

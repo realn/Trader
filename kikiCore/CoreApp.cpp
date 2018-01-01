@@ -27,10 +27,9 @@ namespace core {
   }
 
   void CAppBase::MainLoop() {
-    auto frameTime = 0.0f;
+    auto frameTime = 0.01f;
+    mTimer.Update();
     while(mRun) {
-      frameTime += mTimer.GetTimeDelta();
-
       Render();
       
       ProcessEvents();
@@ -41,6 +40,7 @@ namespace core {
       UpdateRender();
 
       mTimer.Update();
+      frameTime += mTimer.GetTimeDelta();
     }
   }
 

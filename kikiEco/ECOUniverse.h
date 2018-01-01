@@ -21,6 +21,8 @@ namespace eco {
     CUniverse(CUniverse&&) = default;
     ~CUniverse();
 
+    void UpdateEntities(float const timeDelta);
+
     void AddEntity(std::shared_ptr<CEntity> entity);
 
     EntitiesT const& GetEntities() const { return mEntities; }

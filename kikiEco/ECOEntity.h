@@ -26,6 +26,8 @@ namespace eco {
     CEntity(CEntity&&) = default;
     ~CEntity();
 
+    void UpdateComponents(float const timeDelta);
+
     void SetId(cb::string const& id) { mId = id; }
     void SetPosition(glm::vec2 const& value) { mPosition = value; }
 

@@ -9,6 +9,12 @@
 namespace eco {
   CUniverse::~CUniverse() {}
 
+  void CUniverse::UpdateEntities(float const timeDelta) {
+    for(auto& item : mEntities) {
+      item->UpdateComponents(timeDelta);
+    }
+  }
+
   void CUniverse::AddEntity(std::shared_ptr<CEntity> entity) {
     auto dockId = GetComponentId<comp::CDock>();
     if(entity->HasComponent(dockId)) {

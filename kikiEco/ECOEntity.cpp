@@ -10,6 +10,12 @@ namespace eco {
 
   CEntity::~CEntity() {}
 
+  void CEntity::UpdateComponents(float const timeDelta) {
+    for(auto& item : mComponents) {
+      item.second->Update(timeDelta);
+    }
+  }
+
   void CEntity::SetComponent(std::unique_ptr<CComponent> component) {
     mComponentIds.insert(component->GetId());
     mComponents[component->GetId()] = std::move(component);
