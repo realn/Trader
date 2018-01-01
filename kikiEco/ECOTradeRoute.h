@@ -51,6 +51,9 @@ namespace eco {
     CTradeJunction(std::shared_ptr<CEntity> targetA, std::shared_ptr<CEntity> targetB);
 
     void AddTarget(std::shared_ptr<CEntity> dockable);
+    std::shared_ptr<CEntity> OtherTarget(std::shared_ptr<CEntity> dockable);
+    bool Contains(std::shared_ptr<CEntity> dockable) const;
+
     void TravelTo(std::shared_ptr<CEntity> ship, std::shared_ptr<CEntity> source, std::shared_ptr<CEntity> target);
     CTravelInfo TravelUpdate(std::shared_ptr<CEntity> ship, float const power);
 

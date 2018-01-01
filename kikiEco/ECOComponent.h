@@ -26,4 +26,14 @@ namespace eco {
   cb::string const& GetComponentId() {
     static_assert(false && "Not implemented.");
   }
+
+  template<class _Type>
+  struct weak_ptr_less {
+    bool operator()(const std::weak_ptr<_Type> left, const std::weak_ptr<_Type> right) const {
+      auto lptr = left.lock(), rptr = right.lock();
+      if(!rptr) return false;
+      if(!lptr) return true;
+      return lptr.get() < rptr.get();
+    }
+  };
 }

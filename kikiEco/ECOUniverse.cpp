@@ -21,7 +21,12 @@ namespace eco {
       auto entities = GetEntities({ dockId });
       for(auto& dock : entities) {
         if(glm::distance(entity->GetPosition(), dock->GetPosition()) < mMaxJunctionDist) {
-          mJunctions.push_back(std::make_shared<CTradeJunction>(entity, dock));
+          auto junction = std::make_shared<CTradeJunction>(entity, dock);
+
+          entity->GetComponent<comp::CDock>().AddJunction(junction);
+          dock->GetComponent<comp::CDock>().AddJunction(junction);
+
+          mJunctions.push_back(junction);
         }
       }
     }
@@ -37,4 +42,15 @@ namespace eco {
     }
     return result;
   }
+
+  CUniverse::EntitiesT CUniverse::GetEntities(cb::string const& requiredComponent) const {
+    auto result = EntitiesT();
+    for(auto& entity : mEntities) {
+      if(entity->HasComponent(requiredComponent)) {
+        result.push_back(entity);
+      }
+    }
+    return result;
+  }
+
 }

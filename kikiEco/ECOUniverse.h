@@ -27,6 +27,7 @@ namespace eco {
 
     EntitiesT const& GetEntities() const { return mEntities; }
     EntitiesT GetEntities(cb::strvector const& requiredComponents) const;
+    EntitiesT GetEntities(cb::string const& requiredComponent) const;
     JunctionsT const& GetJunctions() const { return mJunctions; }
   };
 }

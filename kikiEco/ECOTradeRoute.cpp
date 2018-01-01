@@ -41,6 +41,19 @@ namespace eco {
     mTargets.insert(dockable);
   }
 
+  std::shared_ptr<CEntity> CTradeJunction::OtherTarget(std::shared_ptr<CEntity> dockable) {
+    for(auto& item : mTargets) {
+      if(item == dockable)
+        continue;
+      return item;
+    }
+    throw std::exception("Junction has no targets.");
+  }
+
+  bool CTradeJunction::Contains(std::shared_ptr<CEntity> dockable) const {
+    return mTargets.find(dockable) != mTargets.end();
+  }
+
   void CTradeJunction::TravelTo(std::shared_ptr<CEntity> ship, std::shared_ptr<CEntity> source, std::shared_ptr<CEntity> target) {
     if(mTravels.find(ship) != mTravels.end()) {
       throw std::exception("Ship is already traveling this junction.");
