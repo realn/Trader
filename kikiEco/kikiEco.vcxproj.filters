@@ -37,6 +37,18 @@
     <ClCompile Include="ECOCompNavigation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ECOCompIndustry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECOWallet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECOStorage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECOPriceList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -70,6 +82,18 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ECOCompNavigation.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOCompIndustry.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOWallet.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOStorage.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOPriceList.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

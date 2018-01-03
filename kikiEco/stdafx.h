@@ -11,3 +11,13 @@
 #include <CBStr/StringEx.h>
 
 using namespace std::literals;
+
+namespace std {
+  template<class _Cont, class _Pred>
+  void erase_if(_Cont cont, _Pred pred) {
+    auto it = std::begin(cont);
+    while(it != std::end(cont)) {
+      it = pred(*it) ? cont.erase(it) : it++;
+    }
+  }
+}

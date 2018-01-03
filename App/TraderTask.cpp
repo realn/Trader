@@ -14,11 +14,13 @@
 #include <GFXConsts.h>
 #include <ECOUniverse.h>
 #include <ECOEntity.h>
+#include <ECOTradeRoute.h>
+
 #include <ECOCompMarket.h>
 #include <ECOCompDock.h>
 #include <ECOCompWarpDrive.h>
 #include <ECOCompNavigation.h>
-#include <ECOTradeRoute.h>
+#include <ECOCompIndustry.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -70,16 +72,25 @@ namespace trader {
         {-3.8, -5.0f}
       };
 
+      eco::CFactoryTemplate solarTemplate;
+      solarTemplate.SetOutput(L"energy", 10.0f);
+
       auto planetId = L"Planet"s;
       for(auto& pos : positions) {
         auto entity = std::make_shared<eco::CEntity>(planetId);
         entity->SetPosition(pos);
         entity->SetComponent<eco::comp::CMarket>();
         entity->SetComponent<eco::comp::CDock>();
+        entity->SetComponent<eco::comp::CIndustry>();
+        {
+          auto& industry = entity->GetComponent<eco::comp::CIndustry>();
+          industry.SetFactory(L"solarArray", solarTemplate);
+        }
         mEcoUniverse->AddEntity(entity);
       }
     }
 
+    for(auto i = 0u; i < 8u; i++)
     {
       auto entity = std::make_shared<eco::CEntity>(L"Ship");
       entity->SetComponent<eco::comp::CWarpDrive>();

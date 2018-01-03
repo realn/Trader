@@ -130,27 +130,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ECOCompIndustry.h" />
     <ClInclude Include="ECOCompNavigation.h" />
     <ClInclude Include="ECOCompWarpDrive.h" />
     <ClInclude Include="ECOCompDock.h" />
     <ClInclude Include="ECOComponent.h" />
     <ClInclude Include="ECOEntity.h" />
     <ClInclude Include="ECOCompMarket.h" />
+    <ClInclude Include="ECOPriceList.h" />
     <ClInclude Include="ECOProduct.h" />
+    <ClInclude Include="ECOStorage.h" />
     <ClInclude Include="ECOTradeRoute.h" />
     <ClInclude Include="ECOUniverse.h" />
+    <ClInclude Include="ECOWallet.h" />
     <ClInclude Include="ECOXml.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ECOCompDock.cpp" />
+    <ClCompile Include="ECOCompIndustry.cpp" />
     <ClCompile Include="ECOCompNavigation.cpp" />
     <ClCompile Include="ECOComponent.cpp" />
     <ClCompile Include="ECOCompWarpDrive.cpp" />
     <ClCompile Include="ECOEntity.cpp" />
     <ClCompile Include="ECOCompMarket.cpp" />
+    <ClCompile Include="ECOPriceList.cpp" />
+    <ClCompile Include="ECOStorage.cpp" />
     <ClCompile Include="ECOTradeRoute.cpp" />
     <ClCompile Include="ECOUniverse.cpp" />
+    <ClCompile Include="ECOWallet.cpp" />
     <ClCompile Include="ECOXml.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
