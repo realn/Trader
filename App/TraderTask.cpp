@@ -102,7 +102,7 @@ namespace trader {
       docks.front()->GetComponent<eco::comp::CDock>().DockShip(entity);
     }
 
-    mEcoUniverseView = std::make_unique<CUniverseView>(mEcoUniverse);
+    mEcoUniverseView = std::make_unique<CUniverseView>();
 
     {
       using namespace glm;
@@ -124,7 +124,9 @@ namespace trader {
     mEcoUniverse->UpdateEntities(timeDelta);
   }
 
-  void CTraderTask::UpdateRender() {}
+  void CTraderTask::UpdateRender() {
+    mEcoUniverseView->UpdateRender(mEcoUniverse, mRepositories->Meshes);
+  }
 
   void CTraderTask::Render() {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
@@ -134,15 +136,7 @@ namespace trader {
 
     auto gprog = cb::gl::bind(*mMeshProgram);
     RenderGrid(transform);
-    mEcoUniverseView->Render(transform, *mMeshProgram, mRepositories->Meshes);
-
-    //{
-    //  auto gmesh = cb::gl::bind(*mShipMesh);
-    //  for(auto& ent : mEntities) {
-    //    mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform * ent.GetTransform());
-    //    mShipMesh->Render();
-    //  }
-    //}
+    mEcoUniverseView->Render(transform, *mMeshProgram);
   }
 
   void CTraderTask::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {

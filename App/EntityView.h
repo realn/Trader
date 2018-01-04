@@ -2,24 +2,30 @@
 
 #include <memory>
 
-#include <ECOEntity.h>
 #include <GFXMeshView.h>
 
 namespace trader {
   class CEntityView {
   private:
-    std::shared_ptr<eco::CEntity> mEntity;
     std::shared_ptr<gfx::CMeshView> mMesh;
+    glm::vec3 mPosition;
+    glm::quat mRotation;
+    size_t mFrame = 0;
 
   public:
-    CEntityView(std::shared_ptr<eco::CEntity> entity,
-                std::shared_ptr<gfx::CMeshView> mesh)
-      : mEntity(entity), mMesh(mesh) {}
+    CEntityView() {}
+    CEntityView(std::shared_ptr<gfx::CMeshView> mesh)
+      : mMesh(mesh) {}
 
-    gfx::CMeshView& GetMesh() const { return *mMesh; }
+    void SetPosition(glm::vec3 const value) { mPosition = value; }
+    void SetRotation(glm::quat const value) { mRotation = value; }
+    void SetFrame(size_t const value) { mFrame = value; }
 
-    glm::vec3 GetPosition() const;
-    glm::quat GetRotation() const;
+    std::shared_ptr<gfx::CMeshView> GetMesh() const { return mMesh; }
+    glm::vec3 GetPosition() const { return mPosition; }
+    glm::quat GetRotation() const { return mRotation; }
+    size_t GetFrame() const { return mFrame; }
+
     glm::mat4 GetTransform() const;
   };
 }
