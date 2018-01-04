@@ -11,6 +11,12 @@
     <Filter Include="assets\shaders">
       <UniqueIdentifier>{1842b9a6-c7b9-4f7e-8cff-cad6bd7e4d49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets\textures">
+      <UniqueIdentifier>{c877d866-9760-4b7a-8ec8-738d3817657d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\fonts">
+      <UniqueIdentifier>{def86181-531e-4403-8af1-4730e98ef8bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -68,5 +74,15 @@
     <None Include="assets\shaders\mesh_vs.glsl">
       <Filter>assets\shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\font.png">
+      <Filter>assets\textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\fonts\font.xml">
+      <Filter>assets\fonts</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

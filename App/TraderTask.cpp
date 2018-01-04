@@ -60,56 +60,12 @@ namespace trader {
       return false;
     }
 
-    mEcoUniverse = std::make_shared<eco::CUniverse>();
-
-    {
-      auto positions = std::vector<glm::vec2>{
-        {2.0f, -4.0f},
-        {6.4f, -2.0f},
-        {4.3f, 2.0f},
-        {-5.4f, 0.5f},
-        {0.0f, 4.0f},
-        {-3.8, -5.0f}
-      };
-
-      eco::CFactoryTemplate solarTemplate;
-      solarTemplate.SetOutput(L"energy", 10.0f);
-
-      auto planetId = L"Planet"s;
-      for(auto& pos : positions) {
-        auto entity = std::make_shared<eco::CEntity>(planetId);
-        entity->SetPosition(pos);
-        entity->SetComponent<eco::comp::CMarket>();
-        entity->SetComponent<eco::comp::CDock>();
-        entity->SetComponent<eco::comp::CIndustry>();
-        {
-          auto& industry = entity->GetComponent<eco::comp::CIndustry>();
-          industry.SetFactory(L"solarArray", solarTemplate);
-        }
-        mEcoUniverse->AddEntity(entity);
-      }
+    if(!InitGrid()) {
+      return false;
     }
 
-    for(auto i = 0u; i < 8u; i++)
-    {
-      auto entity = std::make_shared<eco::CEntity>(L"Ship");
-      entity->SetComponent<eco::comp::CWarpDrive>();
-      entity->SetComponent<eco::comp::CNavigation>();
-
-      mEcoUniverse->AddEntity(entity);
-
-      auto docks = mEcoUniverse->GetEntities(eco::GetComponentId<eco::comp::CDock>());
-      docks.front()->GetComponent<eco::comp::CDock>().DockShip(entity);
-    }
-
-    mEcoUniverseView = std::make_unique<CUniverseView>();
-
-    {
-      using namespace glm;
-      auto mesh =
-        rotate(mat4(1.0f), radians(90.0f), { 1.0f, 0.0f, 0.0f }) *
-        gfx::CMesh::CreatePlane(vec2(20.0f), { 0.1f,0.1f,0.1f,1.0f }, uvec2(10), true);
-      mGridMesh = std::make_shared<gfx::CMeshView>(mesh);
+    if(!InitUniverse()) {
+      return false;
     }
 
     return true;
@@ -160,6 +116,62 @@ namespace trader {
     if(code == cb::sdl::ScanCode::ESCAPE && state == cb::sdl::KeyState::PRESSED) {
       mExit = true;
     }
+  }
+
+  bool CTraderTask::InitUniverse() {
+    mEcoUniverse = std::make_shared<eco::CUniverse>();
+
+    {
+      auto positions = std::vector<glm::vec2>{
+        { 2.0f, -4.0f },
+      { 6.4f, -2.0f },
+      { 4.3f, 2.0f },
+      { -5.4f, 0.5f },
+      { 0.0f, 4.0f },
+      { -3.8, -5.0f }
+      };
+
+      eco::CFactoryTemplate solarTemplate;
+      solarTemplate.SetOutput(L"energy", 10.0f);
+
+      auto planetId = L"Planet"s;
+      for(auto& pos : positions) {
+        auto entity = std::make_shared<eco::CEntity>(planetId);
+        entity->SetPosition(pos);
+        entity->SetComponent<eco::comp::CMarket>();
+        entity->SetComponent<eco::comp::CDock>();
+        entity->SetComponent<eco::comp::CIndustry>();
+        {
+          auto& industry = entity->GetComponent<eco::comp::CIndustry>();
+          industry.SetFactory(L"solarArray", solarTemplate);
+        }
+        mEcoUniverse->AddEntity(entity);
+      }
+    }
+
+    for(auto i = 0u; i < 8u; i++) {
+      auto entity = std::make_shared<eco::CEntity>(L"Ship");
+      entity->SetComponent<eco::comp::CWarpDrive>();
+      entity->SetComponent<eco::comp::CNavigation>();
+
+      mEcoUniverse->AddEntity(entity);
+
+      auto docks = mEcoUniverse->GetEntities(eco::GetComponentId<eco::comp::CDock>());
+      docks.front()->GetComponent<eco::comp::CDock>().DockShip(entity);
+    }
+
+    mEcoUniverseView = std::make_unique<CUniverseView>();
+
+    return true;
+  }
+
+  bool CTraderTask::InitGrid() {
+    using namespace glm;
+    auto mesh =
+      rotate(mat4(1.0f), radians(90.0f), { 1.0f, 0.0f, 0.0f }) *
+      gfx::CMesh::CreatePlane(vec2(20.0f), { 0.1f,0.1f,0.1f,1.0f }, uvec2(10), true);
+    mGridMesh = std::make_shared<gfx::CMeshView>(mesh);
+    return true;
   }
 
   void CTraderTask::RenderGrid(glm::mat4 const & transform) const {

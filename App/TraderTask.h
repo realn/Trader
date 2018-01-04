@@ -60,6 +60,9 @@ namespace trader {
     virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) override;
 
   private:
+    bool InitUniverse();
+    bool InitGrid();
+
     void RenderGrid(glm::mat4 const& transform) const;
   };
 

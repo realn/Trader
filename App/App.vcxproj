@@ -108,7 +108,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>CBIO.lib;CBLog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CBIO.lib;CBLog.lib;CBXml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -179,6 +179,12 @@
   <ItemGroup>
     <None Include="assets\shaders\mesh_fs.glsl" />
     <None Include="assets\shaders\mesh_vs.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\font.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\fonts\font.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
