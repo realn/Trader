@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm\vec2.hpp>
+
 #include <CoreFwd.h>
 #include <GFXFwd.h>
 

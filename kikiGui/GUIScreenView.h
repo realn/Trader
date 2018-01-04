@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <glm/mat4x4.hpp>
 #include <CBGL/Fwd.h>
 
