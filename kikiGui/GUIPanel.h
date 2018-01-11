@@ -24,7 +24,7 @@ namespace gui {
 
     virtual void Update(float const timeDelta);
     virtual void UpdateWidget(CUpdateContext const& ctx, glm::vec2 const& spaceSize);
-    virtual void UpdateRender(CRenderContext& ctx, glm::vec2 const& pos) const;
+    virtual void Render(CRenderContext& ctx, glm::vec2 const& pos) const;
 
     virtual CWidget* FindWidgetById(cb::string const& id) override;
     virtual const CWidget* FindWidgetById(cb::string const& id) const override;

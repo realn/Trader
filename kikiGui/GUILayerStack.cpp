@@ -12,6 +12,8 @@ namespace gui {
     mCanvas = std::make_unique<gfx::CCanvas>(mTexAtlas);
   }
 
+  CLayerStack::~CLayerStack() {}
+
 
   void CLayerStack::Update(float const timeDelta) {
     for(auto& layer : mLayers) {
@@ -27,11 +29,11 @@ namespace gui {
   }
 
   void CLayerStack::Insert(std::unique_ptr<CLayer> layer, size_t pos) {
-    mLayers.insert(mLayers.begin() + pos, layer);
+    mLayers.insert(mLayers.begin() + pos, std::move(layer));
   }
 
   void CLayerStack::Push(std::unique_ptr<CLayer> layer) {
-    mLayers.push_back(layer);
+    mLayers.push_back(std::move(layer));
   }
 
   std::unique_ptr<CLayer> CLayerStack::Pop() {

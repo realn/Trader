@@ -31,7 +31,7 @@ namespace gui {
     Align GetTextAlign() const { return mTextAlign; }
     glm::vec2 GetTextScale() const { return mTextScale; }
 
-    virtual void UpdateWidget(CUpdateContext const& ctx, glm::vec2 const& spaceSize) override;
-    virtual void UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const override;
+    virtual void UpdateRender(CUpdateContext const& ctx, glm::vec2 const& spaceSize) override;
+    virtual void Render(CRenderContext & ctx, glm::vec2 const & pos) const override;
   };
 }

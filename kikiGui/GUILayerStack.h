@@ -20,6 +20,7 @@ namespace gui {
 
   public:
     CLayerStack(gfx::CTextureAtlas const& atlas);
+    ~CLayerStack();
 
     gfx::CCanvas const& GetCanvas() const { return *mCanvas; }
 

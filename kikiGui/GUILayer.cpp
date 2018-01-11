@@ -24,11 +24,11 @@ namespace gui {
     if(mContent) {
       {
         auto ctx = CUpdateContext{font, mTextScale};
-        mContent->UpdateWidget(ctx, mSize);
+        mContent->UpdateRender(ctx, mSize);
       }
       {
         auto ctx = CRenderContext{font, canvas, mTextScale};
-        mContent->UpdateRender(ctx, {0.0f, 0.0f});
+        mContent->Render(ctx, {0.0f, 0.0f});
       }
     }
   }

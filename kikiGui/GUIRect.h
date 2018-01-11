@@ -21,6 +21,6 @@ namespace gui {
     void SetBackColor(glm::vec4 const& backColor) { mBackColor = backColor; }
     glm::vec4 const& GetBackColor() const { return mBackColor; }
 
-    virtual void UpdateRender(CRenderContext& ctx, glm::vec2 const& pos) const override;
+    virtual void Render(CRenderContext& ctx, glm::vec2 const& pos) const override;
   };
 }

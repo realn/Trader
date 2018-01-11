@@ -31,8 +31,8 @@ namespace gui {
     glm::vec2 const& GetFixedSize() const { return mFixedSize; }
 
     virtual void Update(float const timeDelta) {}
-    virtual void UpdateWidget(CUpdateContext const& ctx, glm::vec2 const& spaceSize);
-    virtual void UpdateRender(CRenderContext& ctx, glm::vec2 const& pos) const = 0;
+    virtual void UpdateRender(CUpdateContext const& ctx, glm::vec2 const& spaceSize);
+    virtual void Render(CRenderContext& ctx, glm::vec2 const& pos) const = 0;
 
     virtual CWidget* FindWidgetById(cb::string const& id) { return (id == mId) ? this : nullptr; }
     virtual const CWidget* FindWidgetById(cb::string const& id) const { return (id == mId) ? this : nullptr; }

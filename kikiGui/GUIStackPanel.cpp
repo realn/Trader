@@ -13,8 +13,8 @@ namespace gui {
     }
   }
 
-  void CStackPanel::UpdateWidget(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
-    CWidget::UpdateWidget(ctx, spaceSize);
+  void CStackPanel::UpdateRender(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
+    CWidget::UpdateRender(ctx, spaceSize);
     auto fullSpace = GetMarginSize(spaceSize, mContentMargin);
     auto spaceLeft = fullSpace;
     auto ori = (mOrientation == Orientation::Horizontal) ? glm::vec2(1.0f, 0.0f) : glm::vec2(0.0f, 1.0f);
@@ -22,7 +22,7 @@ namespace gui {
 
     auto pos = glm::vec2();
     for(auto& item : mItems) {
-      item.Widget->UpdateWidget(ctx, spaceLeft);
+      item.Widget->UpdateRender(ctx, spaceLeft);
 
       auto itemSpaceSize = item.Widget->GetSize();
 
@@ -37,9 +37,9 @@ namespace gui {
       GetAlignedPos(fullSpace - spaceLeft * ori, fullSpace, mContentAlign);
   }
 
-  void CStackPanel::UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const {
+  void CStackPanel::Render(CRenderContext & ctx, glm::vec2 const & pos) const {
     for(auto& item : mItems) {
-      item.Widget->UpdateRender(ctx, pos + mAlignedPos + item.Pos);
+      item.Widget->Render(ctx, pos + mAlignedPos + item.Pos);
     }
   }
 

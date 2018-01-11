@@ -9,21 +9,21 @@ namespace gui {
   }
 
   void CPanel::UpdateWidget(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
-    CRect::UpdateWidget(ctx, spaceSize);
+    CRect::UpdateRender(ctx, spaceSize);
 
     if(mContent) {
       auto marginSize = GetMarginSize(spaceSize, mContentMargin);
-      mContent->UpdateWidget(ctx, marginSize);
+      mContent->UpdateRender(ctx, marginSize);
       mContentPos = GetMarginPos(mContentMargin) + 
         GetAlignedPos(mContent->GetSize(), marginSize, mContentAlign);
     }
   }
 
-  void CPanel::UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const {
-    CRect::UpdateRender(ctx, pos);
+  void CPanel::Render(CRenderContext & ctx, glm::vec2 const & pos) const {
+    CRect::Render(ctx, pos);
 
     if(mContent) {
-      mContent->UpdateRender(ctx, pos + mContentPos);
+      mContent->Render(ctx, pos + mContentPos);
     }
   }
 
