@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GUIScreen.h"
+#include "GUILayer.h"
 #include "GUIWidget.h"
 #include "GUIContext.h"
 #include "GFXCanvas.h"
@@ -9,18 +9,18 @@
 #include <CBIO/File.h>
 
 namespace gui {
-  CScreen::CScreen(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign) 
+  CLayer::CLayer(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign) 
     : CWidgetContainer(contentMargin, contentAlign), mSize(size), mTextScale(1.0f) {}
 
-  CScreen::~CScreen() {}
+  CLayer::~CLayer() {}
 
-  void CScreen::Update(float timeDelta) {
+  void CLayer::Update(float timeDelta) {
     if(mContent) {
       mContent->Update(timeDelta);
     }
   }
 
-  void CScreen::UpdateRender(gfx::CCanvas& canvas, core::CFont const& font) {
+  void CLayer::UpdateRender(gfx::CCanvas& canvas, core::CFont const& font) {
     if(mContent) {
       {
         auto ctx = CUpdateContext{font, mTextScale};
@@ -33,7 +33,7 @@ namespace gui {
     }
   }
 
-  CScreen CScreen::Load(cb::string const & filepath) {
+  CLayer CLayer::Load(cb::string const & filepath) {
     auto xmlDoc = cb::CXmlDocument(cb::readtextfileutf8(filepath));
     if(!xmlDoc.IsValid()) {
       throw std::exception("Invalid xml doc file for screen loading.");
@@ -41,7 +41,7 @@ namespace gui {
     if(xmlDoc.RootNode.GetName() != L"Screen"s) {
       throw std::exception("Invalid root node for screen reading.");
     }
-    auto screen = CScreen();
+    auto screen = CLayer();
     if(!cb::ReadXmlObject(xmlDoc.RootNode, screen)) {
       throw std::exception("Failed reading xml gui screen.");
     }

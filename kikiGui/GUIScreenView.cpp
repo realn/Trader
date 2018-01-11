@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GUIScreenView.h"
-#include "GUIScreen.h"
+#include "GUILayer.h"
 #include "GFXCanvas.h"
 #include "GFXCanvasView.h"
 #include "GFXTextureAtlas.h"
@@ -11,7 +11,7 @@
 #include <CBGL/Texture.h>
 
 namespace gui {
-  CScreenView::CScreenView(std::shared_ptr<core::CFont> font,
+  CScreen::CScreen(std::shared_ptr<core::CFont> font,
                            std::shared_ptr<cb::gl::CProgram> guiProgram,
                            gfx::CTextureAtlas const& textureAtlas, 
                            core::CAssetRepository<cb::gl::CTexture>& texRepo)
@@ -23,19 +23,19 @@ namespace gui {
     mCanvasView = std::make_unique<gfx::CCanvasView>(guiProgram, baseTexture, fontTexture);
   }
 
-  CScreenView::~CScreenView() {}
+  CScreen::~CScreen() {}
 
-  gfx::CCanvas CScreenView::CreateCanvas() const {
+  gfx::CCanvas CScreen::CreateCanvas() const {
     return gfx::CCanvas(mTextureAtlas);
   }
 
-  void CScreenView::UpdateRender(CScreen const& screen, gfx::CCanvas const& canvas) {
+  void CScreen::UpdateRender(CLayer const& screen, gfx::CCanvas const& canvas) {
     auto screenSize = screen.GetSize();
     mTransform = glm::ortho(0.0f, screenSize.x, 0.0f, screenSize.y);
     mCanvasView->UpdateRender(canvas);
   }
 
-  void gui::CScreenView::Render() const {
+  void gui::CScreen::Render() const {
     mCanvasView->Render(mTransform);
   }
 }

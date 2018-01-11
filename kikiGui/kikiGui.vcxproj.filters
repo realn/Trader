@@ -19,9 +19,6 @@
     <ClCompile Include="GUIRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GUIScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GUIScreenView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,6 +35,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GUIXml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUILayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUILayerStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,9 +63,6 @@
     <ClInclude Include="GUIRect.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="GUIScreen.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="GUIScreenView.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -82,6 +82,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIFwd.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUILayer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUILayerStack.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

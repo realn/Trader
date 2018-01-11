@@ -9,9 +9,9 @@
 #include <GFXTextureAtlas.h>
 
 namespace gui {
-  class CScreen;
+  class CLayer;
 
-  class CScreenView {
+  class CScreen {
   private:
     std::shared_ptr<core::CFont> mFont;
     std::unique_ptr<gfx::CCanvasView> mCanvasView;
@@ -19,18 +19,18 @@ namespace gui {
     glm::mat4 mTransform;
 
   public:
-    CScreenView(std::shared_ptr<core::CFont> font,
+    CScreen(std::shared_ptr<core::CFont> font,
                 std::shared_ptr<cb::gl::CProgram> guiProgram,
                 gfx::CTextureAtlas const& textureAtlas,
                 core::CAssetRepository<cb::gl::CTexture>& texRepo);
-    ~CScreenView();
+    ~CScreen();
 
     gfx::CCanvas CreateCanvas() const;
 
     core::CFont const& GetFont() const { return *mFont; }
     gfx::CTextureAtlas const& GetTextureAtlas() const { return mTextureAtlas; }
 
-    void UpdateRender(CScreen const& screen, gfx::CCanvas const& canvas);
+    void UpdateRender(CLayer const& screen, gfx::CCanvas const& canvas);
     void Render() const;
   };
 }

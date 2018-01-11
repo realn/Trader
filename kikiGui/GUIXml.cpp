@@ -5,7 +5,7 @@
 #include "GUIWidget.h"
 #include "GUILabel.h"
 #include "GUIRect.h"
-#include "GUIScreen.h"
+#include "GUILayer.h"
 #include "GUIPanel.h"
 #include "GUIStackPanel.h"
 
@@ -249,7 +249,7 @@ CB_DEFINEXMLREAD(gui::CStackPanel) {
   return true;
 }
 
-CB_DEFINEXMLREAD(gui::CScreen) {
+CB_DEFINEXMLREAD(gui::CLayer) {
   auto size = glm::vec2(10.0f);
   auto textScale = glm::vec2(1.0f);
   auto contentAlign = gui::Align::Default;

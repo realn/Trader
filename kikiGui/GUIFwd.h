@@ -7,6 +7,6 @@ namespace gui {
   class CPanel;
   class CStackPanel;
 
+  class CLayer;
   class CScreen;
-  class CScreenView;
 }

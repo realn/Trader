@@ -9,7 +9,7 @@
 #include "GUIWidgetContainer.h"
 
 namespace gui {
-  class CScreen 
+  class CLayer 
     : public CWidgetContainer
   {
   private:
@@ -17,11 +17,11 @@ namespace gui {
     glm::vec2 mTextScale;
 
   public:
-    CScreen(glm::vec2 const& size = glm::vec2(), 
+    CLayer(glm::vec2 const& size = glm::vec2(), 
             glm::vec4 const& contentMargin = glm::vec4(), 
             Align const contentAlign = Align::Default);
-    CScreen(CScreen&&) = default;
-    virtual ~CScreen();
+    CLayer(CLayer&&) = default;
+    virtual ~CLayer();
 
     void SetSize(glm::vec2 const& value) { mSize = value; }
     void SetTextScale(glm::vec2 const& value) { mTextScale = value; }
@@ -42,6 +42,6 @@ namespace gui {
       return dynamic_cast<const _Type*>(FindWidgetById(id));
     }
 
-    static CScreen Load(cb::string const& filepath);
+    static CLayer Load(cb::string const& filepath);
   };
 }
