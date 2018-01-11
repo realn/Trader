@@ -31,7 +31,8 @@ namespace gui {
     float GetAspectRation() const { return mSize.x / mSize.y; }
 
     void Update(float const timeDelta);
-    void UpdateRender(gfx::CCanvas& canvas, core::CFont const& font);
+    void UpdateRender(core::CFont const& font);
+    void Render(gfx::CCanvas& canvas, core::CFont const& font) const;
 
     template<typename _Type>
     _Type* FindById(cb::string const& id) {

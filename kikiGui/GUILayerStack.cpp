@@ -24,7 +24,8 @@ namespace gui {
   void CLayerStack::UpdateRender(core::CFont const& font) {
     mCanvas->Clear();
     for(auto it = mLayers.rbegin(); it != mLayers.rend(); it++) {
-      (*it)->UpdateRender(*mCanvas, font);
+      (*it)->UpdateRender(font);
+      (*it)->Render(*mCanvas, font);
     }
   }
 

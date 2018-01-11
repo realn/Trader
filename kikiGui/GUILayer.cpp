@@ -9,7 +9,7 @@
 #include <CBIO/File.h>
 
 namespace gui {
-  CLayer::CLayer(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign) 
+  CLayer::CLayer(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign)
     : CWidgetContainer(contentMargin, contentAlign), mSize(size), mTextScale(1.0f) {}
 
   CLayer::~CLayer() {}
@@ -20,16 +20,17 @@ namespace gui {
     }
   }
 
-  void CLayer::UpdateRender(gfx::CCanvas& canvas, core::CFont const& font) {
+  void CLayer::UpdateRender(core::CFont const& font) {
     if(mContent) {
-      {
-        auto ctx = CUpdateContext{font, mTextScale};
-        mContent->UpdateRender(ctx, mSize);
-      }
-      {
-        auto ctx = CRenderContext{font, canvas, mTextScale};
-        mContent->Render(ctx, {0.0f, 0.0f});
-      }
+      auto ctx = CUpdateContext{ font, mTextScale };
+      mContent->UpdateRender(ctx, mSize);
+    }
+  }
+
+  void CLayer::Render(gfx::CCanvas & canvas, core::CFont const& font) const {
+    if(mContent) {
+      auto ctx = CRenderContext{ font, canvas, mTextScale };
+      mContent->Render(ctx, { 0.0f, 0.0f });
     }
   }
 
