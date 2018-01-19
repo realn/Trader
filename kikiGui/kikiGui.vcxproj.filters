@@ -19,9 +19,6 @@
     <ClCompile Include="GUIRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GUIScreenView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GUIStackPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,6 +40,9 @@
     <ClCompile Include="GUILayerStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GUIScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -61,9 +61,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIRect.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIScreenView.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIStackPanel.h">
@@ -88,6 +85,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GUILayerStack.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIScreen.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
