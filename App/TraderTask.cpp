@@ -21,6 +21,7 @@
 #include <ECOCompWarpDrive.h>
 #include <ECOCompNavigation.h>
 #include <ECOCompIndustry.h>
+#include <ECOComponentFactory.h>
 
 #include <GUIScreen.h>
 #include <GUILayerStack.h>
@@ -126,6 +127,12 @@ namespace trader {
   }
 
   bool CTraderTask::InitUniverse() {
+    mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
+    mComponentRegistry->Register<eco::comp::CDock>();
+    mComponentRegistry->Register<eco::comp::CIndustry>();
+    mComponentRegistry->Register<eco::comp::CMarket>();
+    mComponentRegistry->Register<eco::comp::CNavigation>();
+
     mEcoUniverse = std::make_shared<eco::CUniverse>();
 
     {

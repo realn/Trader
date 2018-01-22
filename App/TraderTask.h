@@ -10,6 +10,7 @@
 
 namespace eco {
   class CUniverse;
+  class CComponentFactoryRegistry;
 }
 
 namespace trader {
@@ -29,6 +30,8 @@ namespace trader {
     std::shared_ptr<gfx::CMeshView> mGridMesh;
 
     std::vector<glm::vec3> mPlanetPositions;
+
+    std::shared_ptr<eco::CComponentFactoryRegistry> mComponentRegistry;
 
     std::shared_ptr<eco::CUniverse> mEcoUniverse;
     std::unique_ptr<CUniverseView> mEcoUniverseView;

@@ -49,6 +49,9 @@
     <ClCompile Include="ECOPriceList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ECOComponentFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -94,6 +97,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ECOPriceList.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOComponentFactory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
