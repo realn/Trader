@@ -23,9 +23,9 @@ namespace gui {
 
   void CLayerStack::UpdateRender(core::CFont const& font) {
     mCanvas->Clear();
-    for(auto it = mLayers.rbegin(); it != mLayers.rend(); it++) {
-      (*it)->UpdateRender(font);
-      (*it)->Render(*mCanvas, font);
+    for(auto& layer : cb::reverse(mLayers)) {
+      layer->UpdateRender(font);
+      layer->Render(*mCanvas, font);
     }
   }
 
