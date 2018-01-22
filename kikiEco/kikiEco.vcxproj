@@ -138,6 +138,7 @@
     <ClInclude Include="ECOComponent.h" />
     <ClInclude Include="ECOEntity.h" />
     <ClInclude Include="ECOCompMarket.h" />
+    <ClInclude Include="ECOEntityFactory.h" />
     <ClInclude Include="ECOPriceList.h" />
     <ClInclude Include="ECOProduct.h" />
     <ClInclude Include="ECOStorage.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="ECOCompWarpDrive.cpp" />
     <ClCompile Include="ECOEntity.cpp" />
     <ClCompile Include="ECOCompMarket.cpp" />
+    <ClCompile Include="ECOEntityFactory.cpp" />
     <ClCompile Include="ECOPriceList.cpp" />
     <ClCompile Include="ECOStorage.cpp" />
     <ClCompile Include="ECOTradeRoute.cpp" />

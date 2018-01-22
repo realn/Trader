@@ -2,6 +2,8 @@
 #include "ECOComponentFactory.h"
 
 namespace eco {
+  std::weak_ptr<CComponentFactoryRegistry> CComponentFactoryRegistry::mInstance;
+
   IComponentFactory::~IComponentFactory() {}
 
   CComponentFactoryRegistry::CComponentFactoryRegistry() {}

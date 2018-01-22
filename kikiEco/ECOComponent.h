@@ -5,7 +5,9 @@
 #include <CBStr\Defines.h>
 
 namespace eco {
+
   class CEntity;
+
   class CComponent {
   private:
     std::weak_ptr<CEntity> mParent;

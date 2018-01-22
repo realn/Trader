@@ -8,7 +8,7 @@ namespace eco {
   public:
     virtual ~IComponentFactory();
 
-    virtual bool SetComponentToEntity(CEntity& entity) const = 0;
+    virtual void SetComponentToEntity(CEntity& entity) const = 0;
   };
 
   template<class _Type>
@@ -19,7 +19,7 @@ namespace eco {
     CComponentFactory() {}
     virtual ~CComponentFactory() {}
 
-    bool SetComponentToEntity(CEntity& entity) const override {
+    void SetComponentToEntity(CEntity& entity) const override {
       entity.SetComponent<_Type>();
     }
   };

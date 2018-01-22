@@ -13,8 +13,9 @@
 #include <GFXMeshView.h>
 #include <GFXConsts.h>
 #include <ECOUniverse.h>
-#include <ECOEntity.h>
 #include <ECOTradeRoute.h>
+#include <ECOEntity.h>
+#include <ECOEntityFactory.h>
 
 #include <ECOCompMarket.h>
 #include <ECOCompDock.h>
@@ -132,6 +133,18 @@ namespace trader {
     mComponentRegistry->Register<eco::comp::CIndustry>();
     mComponentRegistry->Register<eco::comp::CMarket>();
     mComponentRegistry->Register<eco::comp::CNavigation>();
+    mComponentRegistry->Register<eco::comp::CWarpDrive>();
+
+    mEntityRegistry = eco::CEntityFactoryRegistry::GetInstance();
+    mEntityRegistry->Register(std::make_shared<eco::CEntityFactory>(L"Planet"s, cb::strvector{
+      eco::GetComponentId<eco::comp::CMarket>(),
+      eco::GetComponentId<eco::comp::CDock>(),
+      eco::GetComponentId<eco::comp::CIndustry>()
+                                                                    }));
+    mEntityRegistry->Register(std::make_shared<eco::CEntityFactory>(L"Ship"s, cb::strvector{
+      eco::GetComponentId<eco::comp::CWarpDrive>(),
+      eco::GetComponentId<eco::comp::CNavigation>()
+                                                                    }));
 
     mEcoUniverse = std::make_shared<eco::CUniverse>();
 
@@ -145,33 +158,22 @@ namespace trader {
       { -3.8, -5.0f }
       };
 
-      eco::CFactoryTemplate solarTemplate;
-      solarTemplate.SetOutput(L"energy", 10.0f);
-
-      auto planetId = L"Planet"s;
+      auto factory = mEntityRegistry->Get(L"Planet"s);
       for(auto& pos : positions) {
-        auto entity = std::make_shared<eco::CEntity>(planetId);
+        auto entity = factory->Create();
         entity->SetPosition(pos);
-        entity->SetComponent<eco::comp::CMarket>();
-        entity->SetComponent<eco::comp::CDock>();
-        entity->SetComponent<eco::comp::CIndustry>();
-        {
-          auto& industry = entity->GetComponent<eco::comp::CIndustry>();
-          industry.SetFactory(L"solarArray", solarTemplate);
-        }
         mEcoUniverse->AddEntity(entity);
       }
     }
 
-    for(auto i = 0u; i < 8u; i++) {
-      auto entity = std::make_shared<eco::CEntity>(L"Ship");
-      entity->SetComponent<eco::comp::CWarpDrive>();
-      entity->SetComponent<eco::comp::CNavigation>();
-
-      mEcoUniverse->AddEntity(entity);
-
-      auto docks = mEcoUniverse->GetEntities(eco::GetComponentId<eco::comp::CDock>());
-      docks.front()->GetComponent<eco::comp::CDock>().DockShip(entity);
+    {
+      auto factory = mEntityRegistry->Get(L"Ship"s);
+      auto dock = mEcoUniverse->GetEntities(eco::GetComponentId<eco::comp::CDock>()).front();
+      for(auto i = 0u; i < 8u; i++) {
+        auto entity = factory->Create();
+        mEcoUniverse->AddEntity(entity);
+        dock->GetComponent<eco::comp::CDock>().DockShip(entity);
+      }
     }
 
     mEcoUniverseView = std::make_unique<CUniverseView>();
