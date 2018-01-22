@@ -22,6 +22,9 @@
 #include <ECOCompNavigation.h>
 #include <ECOCompIndustry.h>
 
+#include <GUIScreen.h>
+#include <GUILayerStack.h>
+
 #include "UniverseView.h"
 #include "Repositories.h"
 #include "TraderTask.h"
@@ -65,6 +68,10 @@ namespace trader {
     }
 
     if(!InitUniverse()) {
+      return false;
+    }
+
+    if(!InitGUI()) {
       return false;
     }
 
@@ -171,6 +178,10 @@ namespace trader {
       rotate(mat4(1.0f), radians(90.0f), { 1.0f, 0.0f, 0.0f }) *
       gfx::CMesh::CreatePlane(vec2(20.0f), { 0.1f,0.1f,0.1f,1.0f }, uvec2(10), true);
     mGridMesh = std::make_shared<gfx::CMeshView>(mesh);
+    return true;
+  }
+
+  bool CTraderTask::InitGUI() {
     return true;
   }
 

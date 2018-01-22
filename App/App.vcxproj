@@ -166,6 +166,9 @@
     <ProjectReference Include="..\kikiGfx\kikiGfx.vcxproj">
       <Project>{9998d53b-cb0b-4e21-a0b6-fec9a27aff01}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\kikiGui\kikiGui.vcxproj">
+      <Project>{eb2178b9-0a8b-4527-90ac-e2669887f777}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />

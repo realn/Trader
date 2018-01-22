@@ -4,6 +4,7 @@
 #include <CoreAppTask.h>
 #include <CoreInputEvents.h>
 #include <GFXFwd.h>
+#include <GUIFwd.h>
 
 #include "Camera.h"
 
@@ -31,6 +32,9 @@ namespace trader {
 
     std::shared_ptr<eco::CUniverse> mEcoUniverse;
     std::unique_ptr<CUniverseView> mEcoUniverseView;
+
+    std::unique_ptr<gui::CLayerStack> mLayerStack;
+    std::unique_ptr<gui::CScreen> mScreen;
 
     CViewportConfig mViewport;
     CCamera mCamera;
@@ -62,6 +66,7 @@ namespace trader {
   private:
     bool InitUniverse();
     bool InitGrid();
+    bool InitGUI();
 
     void RenderGrid(glm::mat4 const& transform) const;
   };
