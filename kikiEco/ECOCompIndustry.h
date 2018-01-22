@@ -61,16 +61,16 @@ namespace eco {
       : public CComponent
     {
     public:
-      using FactoriesT = std::map<cb::string, CFactory>;
+      using FactoriesT = std::vector<CFactory>;
 
     private:
       FactoriesT mFactories;
 
     public:
-      CIndustry(std::shared_ptr<CEntity> parent);
+      CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories = cb::strvector());
       virtual ~CIndustry();
 
-      void SetFactory(cb::string const& id, CFactoryTemplate const& factoryTemplate);
+      void AddFactory(CFactoryTemplate const& factoryTemplate);
 
       void Update(float const timeDelta) override;
     };

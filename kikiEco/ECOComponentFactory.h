@@ -1,6 +1,7 @@
 #pragma once
 
 #include <tuple>
+#include <functional>
 
 #include "ECOComponent.h"
 #include "ECOEntity.h"
@@ -71,9 +72,9 @@ namespace eco {
     void Register(cb::string const& id, std::shared_ptr<IComponentFactory> factory) { mFactories[id] = factory; }
     std::shared_ptr<IComponentFactory> Get(cb::string const& id) const;
 
-    template<class _Type>
-    void Register() {
-      Register(eco::GetComponentId<_Type>(), std::make_shared<CComponentFactory<_Type>>());
+    template<class _Type, class ... _Args>
+    void Register(_Args&&... args) {
+      Register(eco::GetComponentId<_Type>(), std::make_shared<CComponentFactory<_Type, _Args...>>(std::forward<_Args...>(args)...));
     }
   };
 }

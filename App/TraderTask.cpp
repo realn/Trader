@@ -128,9 +128,15 @@ namespace trader {
   }
 
   bool CTraderTask::InitUniverse() {
+    mFactoryTemplateRegistry = eco::CFactoryTemplateRegistry::GetInstance();
+    mFactoryTemplateRegistry->Register(L"solarArray", eco::CFactoryTemplate(
+      {},
+      {{L"energy"s, 10.0f}}
+    ));
+
     mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
     mComponentRegistry->Register<eco::comp::CDock>();
-    mComponentRegistry->Register<eco::comp::CIndustry>();
+    mComponentRegistry->Register<eco::comp::CIndustry>(cb::strvector{L"solarArray"s});
     mComponentRegistry->Register<eco::comp::CMarket>();
     mComponentRegistry->Register<eco::comp::CNavigation>();
     mComponentRegistry->Register<eco::comp::CWarpDrive>();

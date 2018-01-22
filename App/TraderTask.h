@@ -12,6 +12,7 @@ namespace eco {
   class CUniverse;
   class CComponentFactoryRegistry;
   class CEntityFactoryRegistry;
+  class CFactoryTemplateRegistry;
 }
 
 namespace trader {
@@ -34,6 +35,7 @@ namespace trader {
 
     std::shared_ptr<eco::CComponentFactoryRegistry> mComponentRegistry;
     std::shared_ptr<eco::CEntityFactoryRegistry> mEntityRegistry;
+    std::shared_ptr<eco::CFactoryTemplateRegistry> mFactoryTemplateRegistry;
 
     std::shared_ptr<eco::CUniverse> mEcoUniverse;
     std::unique_ptr<CUniverseView> mEcoUniverseView;

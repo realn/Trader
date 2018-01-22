@@ -66,14 +66,21 @@ namespace eco {
   }
 
   namespace comp {
-    CIndustry::CIndustry(std::shared_ptr<CEntity> parent) 
+    CIndustry::CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories) 
       : CComponent(parent, COMP_INDUSTRY_ID)
-    {}
+    {
+      if(!factories.empty()) {
+        auto registry = CFactoryTemplateRegistry::GetInstance();
+        for(auto& factoryId : factories) {
+          AddFactory(registry->Get(factoryId));
+        }
+      }
+    }
 
     CIndustry::~CIndustry() {}
 
-    void CIndustry::SetFactory(cb::string const & id, CFactoryTemplate const & factoryTemplate) {
-      mFactories[id] = CFactory(factoryTemplate);
+    void CIndustry::AddFactory(CFactoryTemplate const & factoryTemplate) {
+      mFactories.push_back(CFactory(factoryTemplate));
     }
 
     void CIndustry::Update(float const timeDelta) {
@@ -83,7 +90,7 @@ namespace eco {
 
       auto& market = parent->GetComponent<comp::CMarket>();
       for(auto& factory : mFactories) {
-        factory.second.Update(market, timeDelta);
+        factory.Update(market, timeDelta);
       }
     }
   }
