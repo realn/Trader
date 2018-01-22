@@ -6,9 +6,38 @@
 namespace eco {
   static const auto COMP_INDUSTRY_ID = L"Industry"s;
 
-  CFactory::CFactory(CFactoryTemplate const& factoryTemplate, size_t const size) 
-    : CFactoryTemplate(factoryTemplate)
-    , mSize(size)
+  std::weak_ptr<CFactoryTemplateRegistry> CFactoryTemplateRegistry::mInstance;
+
+  CFactoryTemplate::CFactoryTemplate() {}
+
+  CFactoryTemplate::CFactoryTemplate(ProductMulsT const & inputs, ProductMulsT const & outputs)
+    : mInputs(inputs), mOutputs(outputs) {}
+
+  CFactoryTemplate::~CFactoryTemplate() {}
+
+
+  CFactoryTemplateRegistry::CFactoryTemplateRegistry() {}
+  CFactoryTemplateRegistry::~CFactoryTemplateRegistry() {}
+
+  std::shared_ptr<CFactoryTemplateRegistry> CFactoryTemplateRegistry::GetInstance() {
+    if(mInstance.expired()) {
+      auto instance = std::make_shared<CFactoryTemplateRegistry>();
+      mInstance = instance;
+      return instance;
+    }
+    return mInstance.lock();
+  }
+
+  void CFactoryTemplateRegistry::Register(cb::string const & id, CFactoryTemplate const & factoryTemplate) {
+    mTemplates[id] = factoryTemplate;
+  }
+
+  CFactoryTemplate CFactoryTemplateRegistry::Get(cb::string const & id) const {
+    return mTemplates.at(id);
+  }
+
+  CFactory::CFactory(CFactoryTemplate const& factoryTemplate, size_t const size)
+    : CFactoryTemplate(factoryTemplate), mSize(size)
   {}
 
   void CFactory::Update(comp::CMarket & market, float const timeDelta) {

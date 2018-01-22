@@ -18,8 +18,26 @@ namespace eco {
     ProductMulsT mOutputs;
 
   public:
-    void SetInput(cb::string const& productId, float mult) { if(mult > 0.0f) mInputs[productId] = mult; else mInputs.erase(productId); }
-    void SetOutput(cb::string const& productId, float mult) { if(mult > 0.0f) mOutputs[productId] = mult; else mOutputs.erase(productId); }
+    CFactoryTemplate();
+    CFactoryTemplate(ProductMulsT const& inputs, ProductMulsT const& outputs);
+    virtual ~CFactoryTemplate();
+  };
+
+  class CFactoryTemplateRegistry {
+  private:
+    using TemplatesT = std::map<cb::string, CFactoryTemplate>;
+
+    TemplatesT mTemplates;
+    static std::weak_ptr<CFactoryTemplateRegistry> mInstance;
+
+  public:
+    CFactoryTemplateRegistry();
+    ~CFactoryTemplateRegistry();
+
+    static std::shared_ptr<CFactoryTemplateRegistry> GetInstance();
+
+    void Register(cb::string const& id, CFactoryTemplate const& factoryTemplate);
+    CFactoryTemplate Get(cb::string const& id) const;
   };
 
   class CFactory
