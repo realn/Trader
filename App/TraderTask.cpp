@@ -136,21 +136,23 @@ namespace trader {
 
     mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
     mComponentRegistry->Register<eco::comp::CDock>();
-    mComponentRegistry->Register<eco::comp::CIndustry>(cb::strvector{L"solarArray"s});
+    mComponentRegistry->Register<eco::comp::CIndustry>();
     mComponentRegistry->Register<eco::comp::CMarket>();
     mComponentRegistry->Register<eco::comp::CNavigation>();
     mComponentRegistry->Register<eco::comp::CWarpDrive>();
 
     mEntityRegistry = eco::CEntityFactoryRegistry::GetInstance();
-    mEntityRegistry->Register(std::make_shared<eco::CEntityFactory>(L"Planet"s, cb::strvector{
-      eco::GetComponentId<eco::comp::CMarket>(),
-      eco::GetComponentId<eco::comp::CDock>(),
-      eco::GetComponentId<eco::comp::CIndustry>()
-                                                                    }));
-    mEntityRegistry->Register(std::make_shared<eco::CEntityFactory>(L"Ship"s, cb::strvector{
-      eco::GetComponentId<eco::comp::CWarpDrive>(),
-      eco::GetComponentId<eco::comp::CNavigation>()
-                                                                    }));
+    {
+      auto ent = mEntityRegistry->Register(L"Planet"s);
+      ent->SetComponent<eco::comp::CMarket>();
+      ent->SetComponent<eco::comp::CDock>();
+      ent->SetComponent<eco::comp::CIndustry>(cb::strvector{ L"solarArray" });
+    }
+    {
+      auto ent = mEntityRegistry->Register(L"Ship"s);
+      ent->SetComponent<eco::comp::CWarpDrive>();
+      ent->SetComponent<eco::comp::CNavigation>();
+    }
 
     mEcoUniverse = std::make_shared<eco::CUniverse>();
 

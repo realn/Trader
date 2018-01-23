@@ -8,8 +8,8 @@
 namespace eco {
   std::weak_ptr<CEntityFactoryRegistry> CEntityFactoryRegistry::mInstance;
 
-  CEntityFactory::CEntityFactory(cb::string const & typeId, cb::strvector const & components)
-    : mTypeId(typeId), mComponents(components)
+  CEntityFactory::CEntityFactory(cb::string const & typeId)
+    : mTypeId(typeId)
   {}
 
   CEntityFactory::~CEntityFactory() {}
@@ -19,10 +19,7 @@ namespace eco {
     auto registry = CComponentFactoryRegistry::GetInstance();
 
     for(auto& component : mComponents) {
-      auto factory = registry->Get(component);
-      if(factory) {
-        factory->SetComponentToEntity(*entity);
-      }
+      component.second->SetComponentToEntity(*entity);
     }
 
     return entity;

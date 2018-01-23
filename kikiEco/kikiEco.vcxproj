@@ -136,6 +136,7 @@
     <ClInclude Include="ECOCompWarpDrive.h" />
     <ClInclude Include="ECOCompDock.h" />
     <ClInclude Include="ECOComponent.h" />
+    <ClInclude Include="ECODefines.h" />
     <ClInclude Include="ECOEntity.h" />
     <ClInclude Include="ECOCompMarket.h" />
     <ClInclude Include="ECOEntityFactory.h" />

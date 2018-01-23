@@ -108,5 +108,8 @@
     <ClInclude Include="ECOEntityFactory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECODefines.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

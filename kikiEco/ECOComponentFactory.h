@@ -3,21 +3,11 @@
 #include <tuple>
 #include <functional>
 
+#include "ECODefines.h"
 #include "ECOComponent.h"
 #include "ECOEntity.h"
 
 namespace eco {
-  namespace helper {
-    template<int... Is>
-    struct index {};
-    
-    template<int N, int... Is>
-    struct gen_seq : gen_seq<N - 1, N - 1, Is...> {};
-
-    template<int ... Is>
-    struct gen_seq<0, Is...> : index<Is...> {};
-  }
-
   class IComponentFactory {
   public:
     virtual ~IComponentFactory();
@@ -39,16 +29,16 @@ namespace eco {
     virtual ~CComponentFactory() {}
 
     void SetComponentToEntity(CEntity& entity) const override {
-      SetComponentWithParams(entity, mParams);
+      SetComponentToEntity(entity, mParams);
     }
 
   private:
     template<class ... _Args>
-    void SetComponentWithParams(CEntity& entity, std::tuple<_Args...> const& params) const {
-      SetComponentWithParams(entity, params, helper::gen_seq<sizeof...(_Args)>{});
+    void SetComponentToEntity(CEntity& entity, std::tuple<_Args...> const& params) const {
+      SetComponentToEntity(entity, params, helper::gen_seq<sizeof...(_Args)>{});
     }
     template<class ... _Args, int ... Is>
-    void SetComponentWithParams(CEntity& entity, std::tuple<_Args...> const& params, helper::index<Is...>) const {
+    void SetComponentToEntity(CEntity& entity, std::tuple<_Args...> const& params, helper::index<Is...>) const {
       entity.SetComponent<_Type>(std::get<Is>(params)...);
     }
   };
