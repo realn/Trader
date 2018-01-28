@@ -180,11 +180,14 @@
     <ClInclude Include="UniverseView.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\font_fs.glsl" />
+    <None Include="assets\shaders\font_vs.glsl" />
     <None Include="assets\shaders\mesh_fs.glsl" />
     <None Include="assets\shaders\mesh_vs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\font.png" />
+    <Image Include="assets\textures\texture.png" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="assets\fonts\font.xml" />

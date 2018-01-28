@@ -19,12 +19,19 @@ namespace trader {
     CViewportConfig(float fov, float aspRatio, float nearZ, float farZ) :
       mFov(fov), mAspectRatio(aspRatio), mNearZ(nearZ), mFarZ(farZ) {}
 
+    void SetAspectRatio(float const value) { mAspectRatio = value; }
     void SetAspectRatio(glm::uvec2 const& size) { 
       mAspectRatio = (size.y != 0 ? static_cast<float>(size.x) / static_cast<float>(size.y) : mAspectRatio);
     }
 
+    float GetAspectRatio() const { return mAspectRatio; }
+
     glm::mat4 GetProjection() const {
       return glm::perspective(mFov, mAspectRatio, mNearZ, mFarZ);
+    }
+
+    glm::vec2 CreateAspectCorrectSize(float const height) const {
+      return glm::vec2(mAspectRatio * height, height);
     }
   };
 

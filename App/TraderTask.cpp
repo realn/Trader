@@ -9,9 +9,11 @@
 #include <CBGL/Program.h>
 
 #include <CoreApp.h>
+#include <CoreFont.h>
 #include <GFXMesh.h>
 #include <GFXMeshView.h>
 #include <GFXConsts.h>
+#include <GFXCanvasVertex.h>
 #include <ECOUniverse.h>
 #include <ECOTradeRoute.h>
 #include <ECOEntity.h>
@@ -26,6 +28,9 @@
 
 #include <GUIScreen.h>
 #include <GUILayerStack.h>
+#include <GUILayer.h>
+#include <GUILabel.h>
+#include <GUIRect.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -57,7 +62,7 @@ namespace trader {
     cb::gl::clearDepth(1.0f);
 
     cb::gl::setState({ cb::gl::DepthFunc::LEQUAL });
-    cb::gl::setStateEnabled(cb::gl::State::DEPTH_TEST, true);
+    //cb::gl::setStateEnabled(cb::gl::State::DEPTH_TEST, true);
 
     mMeshProgram = mRepositories->Shaders.Get(L"mesh_vs,mesh_fs"s);
     mMeshProgram->SetInLocation(gfx::CMeshVertex::Inputs);
@@ -87,21 +92,27 @@ namespace trader {
     }
 
     mEcoUniverse->UpdateEntities(timeDelta);
+    mLayerStack->Update(timeDelta);
   }
 
   void CTraderTask::UpdateRender() {
     mEcoUniverseView->UpdateRender(mEcoUniverse, mRepositories->Meshes);
+    mLayerStack->UpdateRender(*mGuiFont);
+    mScreen->UpdateRender(mLayerStack->GetCanvas(), mViewport.CreateAspectCorrectSize(1.0f));
   }
 
   void CTraderTask::Render() {
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
-    auto transform =
-      mViewport.GetProjection() * mCamera.GetTransform();
-
-    auto gprog = cb::gl::bind(*mMeshProgram);
-    RenderGrid(transform);
-    mEcoUniverseView->Render(transform, *mMeshProgram);
+    {
+      auto gstate = cb::gl::bindStateEnabled(cb::gl::State::DEPTH_TEST, true);
+      auto transform =
+        mViewport.GetProjection() * mCamera.GetTransform();
+      auto gprog = cb::gl::bind(*mMeshProgram);
+      RenderGrid(transform);
+      mEcoUniverseView->Render(transform, *mMeshProgram);
+    }
+    mScreen->Render();
   }
 
   void CTraderTask::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {
@@ -199,6 +210,29 @@ namespace trader {
   }
 
   bool CTraderTask::InitGUI() {
+    {
+      auto shaderFont = mRepositories->Shaders.Get(L"font_vs,font_fs"s);
+      shaderFont->SetInLocation(gfx::CCanvasVertex::Inputs);
+      if(!shaderFont->Link()) {
+        return false;
+      }
+
+      auto textureFont = mRepositories->Textures.Get(L"texture"s);
+      auto textureBase = mRepositories->Textures.Get(L"font"s);
+
+      mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
+    }
+
+    mLayerStack = std::make_unique<gui::CLayerStack>(gfx::CTextureAtlas(L"texture"s, glm::uvec2(256)));
+
+    mGuiFont = mRepositories->Fonts.Get(L"font"s);
+
+    auto layer = std::make_unique<gui::CLayer>(glm::vec2{ 2.0f, 2.0f });
+    auto rect = std::make_unique<gui::CRect>(L"rect");
+    //auto label = std::make_unique<gui::CLabel>(L"labelFps"s, L"10"s);
+    layer->SetContent(std::move(rect));
+    mLayerStack->Insert(std::move(layer));
+
     return true;
   }
 

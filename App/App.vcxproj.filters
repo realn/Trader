@@ -74,9 +74,18 @@
     <None Include="assets\shaders\mesh_vs.glsl">
       <Filter>assets\shaders</Filter>
     </None>
+    <None Include="assets\shaders\font_fs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\font_vs.glsl">
+      <Filter>assets\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\font.png">
+      <Filter>assets\textures</Filter>
+    </Image>
+    <Image Include="assets\textures\texture.png">
       <Filter>assets\textures</Filter>
     </Image>
   </ItemGroup>

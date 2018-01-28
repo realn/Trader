@@ -3,6 +3,7 @@
 #include <random>
 #include <CoreAppTask.h>
 #include <CoreInputEvents.h>
+#include <CoreFwd.h>
 #include <GFXFwd.h>
 #include <GUIFwd.h>
 
@@ -40,6 +41,7 @@ namespace trader {
     std::shared_ptr<eco::CUniverse> mEcoUniverse;
     std::unique_ptr<CUniverseView> mEcoUniverseView;
 
+    std::shared_ptr<core::CFont> mGuiFont;
     std::unique_ptr<gui::CLayerStack> mLayerStack;
     std::unique_ptr<gui::CScreen> mScreen;
 
