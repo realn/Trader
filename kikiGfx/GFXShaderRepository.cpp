@@ -15,9 +15,12 @@ namespace gfx {
   CShaderRepository::~CShaderRepository() {}
 
   std::shared_ptr<cb::gl::CProgram> CShaderRepository::Load(cb::string const & name) const {
+    return Load(ConvertKey(name));
+  }
+
+  std::shared_ptr<cb::gl::CProgram> CShaderRepository::Load(cb::strvector const & names) const {
     auto shaders = std::vector<cb::gl::CShader>();
-    auto shadernames = cb::split(name, L","s);
-    for(auto& shadername : shadernames) {
+    for(auto& shadername : names) {
       auto type = FindShaderType(shadername);
       auto path = GetAssetPath(shadername);
 

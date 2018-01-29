@@ -12,6 +12,7 @@ namespace gfx {
 
     // Inherited via CAssetRepository
     virtual std::shared_ptr<cb::gl::CProgram> Load(cb::string const & name) const override;
+    virtual std::shared_ptr<cb::gl::CProgram> Load(cb::strvector const & names) const override;
 
   private:
     std::shared_ptr<cb::gl::CProgram> CreateProgram(std::vector<cb::gl::CShader>& shaders) const;

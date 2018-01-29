@@ -5,26 +5,43 @@
 #include <CBStr/Defines.h>
 #include <CBIO/Path.h>
 
-#include "CoreFont.h"
-
 namespace core {
-  template<typename _Type>
-  class CAssetRepository {
-  private:
+  class CAssetRepositoryBase {
+  protected:
     cb::string mAssetDir;
     cb::string mAssetExt;
+
+  public:
+    CAssetRepositoryBase(cb::string const& assetDir, cb::string const& assetExt);
+    virtual ~CAssetRepositoryBase();
+
+  protected:
+    virtual cb::string GetAssetPath(cb::string const& name) const;
+    virtual cb::strvector GetAssetPath(cb::strvector const& names) const;
+
+    virtual cb::strvector ConvertKey(cb::string const& name) const;
+    virtual cb::string ConvertKey(cb::strvector const& name) const;
+  };
+
+  template<typename _Type>
+  class CAssetRepository 
+    : public CAssetRepositoryBase
+  {
+  private:
     std::map<cb::string, std::weak_ptr<_Type>> mRepo;
 
   public:
     CAssetRepository(cb::string const& assetDir, cb::string const& assetExt)
-      : mAssetDir(assetDir), mAssetExt(assetExt) {}
+      : CAssetRepositoryBase(assetDir, assetExt) {}
     virtual ~CAssetRepository() = default;
 
     std::shared_ptr<_Type> Get(cb::string const& name);
+    std::shared_ptr<_Type> Get(cb::strvector const& names);
+
     virtual std::shared_ptr<_Type> Load(cb::string const& name) const = 0;
+    virtual std::shared_ptr<_Type> Load(cb::strvector const& names) const;
 
   protected:
-    virtual cb::string GetAssetPath(cb::string const& name) const;
     virtual std::shared_ptr<_Type> LoadAsset(cb::string const& name);
   };
 
@@ -42,12 +59,13 @@ namespace core {
   }
 
   template<typename _Type>
-  cb::string CAssetRepository<_Type>::GetAssetPath(cb::string const & name) const {
-    auto filename = name;
-    if(!cb::ends_with(filename, mAssetExt)) {
-      filename = cb::makefilename(name, mAssetExt);
-    }
-    return cb::makepath(mAssetDir, filename);
+  std::shared_ptr<_Type> CAssetRepository<_Type>::Get(cb::strvector const & names) {
+    return Get(ConvertKey(names));
+  }
+
+  template<typename _Type>
+  std::shared_ptr<_Type> CAssetRepository<_Type>::Load(cb::strvector const & names) const {
+    return Load(ConvertKey(names));
   }
 
   template<typename _Type>

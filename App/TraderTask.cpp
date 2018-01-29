@@ -142,7 +142,7 @@ namespace trader {
     mFactoryTemplateRegistry = eco::CFactoryTemplateRegistry::GetInstance();
     mFactoryTemplateRegistry->Register(L"solarArray", eco::CFactoryTemplate(
       {},
-      {{L"energy"s, 10.0f}}
+      { {L"energy"s, 10.0f} }
     ));
 
     mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
@@ -211,7 +211,10 @@ namespace trader {
 
   bool CTraderTask::InitGUI() {
     {
-      auto shaderFont = mRepositories->Shaders.Get(L"font_vs,font_fs"s);
+      auto shaderFont = mRepositories->Shaders.Get({
+        L"font_vs"s,
+        L"font_fs"s
+                                                   });
       shaderFont->SetInLocation(gfx::CCanvasVertex::Inputs);
       if(!shaderFont->Link()) {
         return false;
