@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CoreFont.h"
-#include "../FontCompiler/DataFont.h"
+#include "DataFont.h"
 
 #include <CBIO/File.h>
 

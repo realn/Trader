@@ -1,5 +1,5 @@
 #include "FontCompiler.h"
-#include "DataFont.h"
+#include "../kikiCore/DataFont.h"
 
 #include <glm/glm.hpp>
 #include <CBSDL/Font.h>
@@ -16,7 +16,9 @@ struct CCompileContext {
 };
 
 bool CompileFont(CFontParams const & params) {
-  auto font = cb::sdl::CFont(params.FontPath, params.FontSize);
+  auto fontPath = cb::makepath(params.FontDir, params.FontFileName);
+
+  auto font = cb::sdl::CFont(fontPath, params.FontSize);
   auto finalSurface = cb::sdl::CSurface(glm::uvec2(params.TexSize), 32, cb::sdl::PixelFormat::RGBA32);
   finalSurface.Fill(glm::vec4(0.0f));
 
@@ -26,9 +28,11 @@ bool CompileFont(CFontParams const & params) {
   ctx.Descent = glm::ivec2(0, font.GetDescent());
   ctx.TexPos = glm::uvec2(params.TexCharBorder);
 
+  auto outName = cb::filenamebase(params.OutputName);
+
   auto outFont = data::CFont();
   outFont.mName = font.GetName();
-  outFont.mTexture = cb::makefilename(params.OutputName, L"png"s);
+  outFont.mTexture = cb::makefilename(outName, L"png"s);
   outFont.mLineHeight = ctx.LineHeight;
   outFont.mTextureSize = glm::uvec2(params.TexSize);
   outFont.mAscent = font.GetAscent();
@@ -64,14 +68,14 @@ bool CompileFont(CFontParams const & params) {
     outFont.mChars.push_back(fontChar);
   }
 
-  finalSurface.SavePNG(cb::makepath(params.OutputPath, outFont.mTexture));
+  finalSurface.SavePNG(cb::makepath(params.OutputTexDir, outFont.mTexture));
 
   auto xmlDoc = cb::CXmlDocument();
   cb::WriteXmlObject(xmlDoc.RootNode, outFont);
   xmlDoc.RootNode.SetName(L"Font");
 
-  auto outfilename = cb::makefilename(params.OutputName, L"xml"s);
+  auto outfilename = cb::makefilename(outName, L"xml"s);
   auto result = xmlDoc.ToString();
-  cb::writetextfileutf8(cb::makepath(params.OutputPath, outfilename), result);
+  cb::writetextfileutf8(cb::makepath(params.OutputDir, outfilename), result);
   return true;
 }

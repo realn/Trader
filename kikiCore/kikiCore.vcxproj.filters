@@ -57,5 +57,8 @@
     <ClInclude Include="CoreEvents.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="DataFont.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

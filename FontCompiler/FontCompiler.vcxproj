@@ -23,7 +23,7 @@
     <ProjectGuid>{90C5676D-84E6-478C-A2DC-035384FD7165}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FontCompiler</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,8 +151,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DataFont.h" />
     <ClInclude Include="FontCompiler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\Instruction.otf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

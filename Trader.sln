@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "App", "App\App.vcxproj", "{76EE33B3-F717-4EB0-BDE4-4C99930F82BC}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kikiEco", "kikiEco\kikiEco.vcxproj", "{A688FA20-A217-4D01-8BE8-1C3751F424BD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kikiGui", "kikiGui\kikiGui.vcxproj", "{EB2178B9-0A8B-4527-90AC-E2669887F777}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FontCompiler", "FontCompiler\FontCompiler.vcxproj", "{90C5676D-84E6-478C-A2DC-035384FD7165}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{EB2178B9-0A8B-4527-90AC-E2669887F777}.Release|x64.Build.0 = Release|x64
 		{EB2178B9-0A8B-4527-90AC-E2669887F777}.Release|x86.ActiveCfg = Release|Win32
 		{EB2178B9-0A8B-4527-90AC-E2669887F777}.Release|x86.Build.0 = Release|Win32
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Debug|x64.ActiveCfg = Debug|x64
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Debug|x64.Build.0 = Debug|x64
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Debug|x86.ActiveCfg = Debug|Win32
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Debug|x86.Build.0 = Debug|Win32
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Release|x64.ActiveCfg = Release|x64
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Release|x64.Build.0 = Release|x64
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Release|x86.ActiveCfg = Release|Win32
+		{90C5676D-84E6-478C-A2DC-035384FD7165}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
