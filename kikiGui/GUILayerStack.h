@@ -17,12 +17,14 @@ namespace gui {
     LayersT mLayers;
     gfx::CTextureAtlas mTexAtlas;
     std::unique_ptr<gfx::CCanvas> mCanvas;
+    glm::vec2 mSize;
 
   public:
-    CLayerStack(gfx::CTextureAtlas const& atlas);
+    CLayerStack(gfx::CTextureAtlas const& atlas, glm::vec2 const& size);
     ~CLayerStack();
 
     gfx::CCanvas const& GetCanvas() const { return *mCanvas; }
+    glm::vec2 GetSize() const { return mSize; }
 
     void Update(float const timeDelta);
     void UpdateRender(core::CFont const& font);

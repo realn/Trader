@@ -9,8 +9,8 @@
 #include <CBIO/File.h>
 
 namespace gui {
-  CLayer::CLayer(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign)
-    : CWidgetContainer(contentMargin, contentAlign), mSize(size), mTextScale(1.0f) {}
+  CLayer::CLayer(glm::vec4 const& contentMargin, Align const contentAlign)
+    : CWidgetContainer(contentMargin, contentAlign), mTextScale(1.0f) {}
 
   CLayer::~CLayer() {}
 
@@ -20,10 +20,10 @@ namespace gui {
     }
   }
 
-  void CLayer::UpdateRender(core::CFont const& font) {
+  void CLayer::UpdateRender(core::CFont const& font, glm::vec2 const& size) {
     if(mContent) {
       auto ctx = CUpdateContext{ font, mTextScale };
-      mContent->UpdateRender(ctx, mSize);
+      mContent->UpdateRender(ctx, size);
     }
   }
 

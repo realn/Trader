@@ -87,9 +87,9 @@
     <ClInclude Include="GUILayerStack.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GUIScreen.h" />
     <ClInclude Include="GUIScreen.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="GUIScreen.h" />
   </ItemGroup>
 </Project>

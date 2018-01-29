@@ -69,7 +69,7 @@
   <Char Code="#" Min="0,2" Max="22,31" TexMin="236,274" TexMax="262,335" Adv="26,0" />
   <Char Code="$" Min="0,0" Max="23,34" TexMin="268,274" TexMax="295,335" Adv="27,0" />
   <Char Code="^" Min="0,39" Max="22,53" TexMin="301,274" TexMax="327,335" Adv="26,0" />
-  <Char Code="&" Min="0,0" Max="23,34" TexMin="333,274" TexMax="360,335" Adv="27,0" />
+  <Char Code="&amp;" Min="0,0" Max="23,34" TexMin="333,274" TexMax="360,335" Adv="27,0" />
   <Char Code="*" Min="2,17" Max="19,34" TexMin="366,274" TexMax="392,335" Adv="26,0" />
   <Char Code="(" Min="2,-5" Max="19,38" TexMin="398,274" TexMax="425,335" Adv="27,0" />
   <Char Code=")" Min="2,-5" Max="20,38" TexMin="431,274" TexMax="458,335" Adv="27,0" />
@@ -84,12 +84,12 @@
   <Char Code=";" Min="2,-7" Max="7,18" TexMin="234,341" TexMax="261,402" Adv="27,0" />
   <Char Code=":" Min="2,0" Max="7,18" TexMin="267,341" TexMax="294,402" Adv="27,0" />
   <Char Code="'" Min="2,23" Max="7,34" TexMin="300,341" TexMax="327,402" Adv="27,0" />
-  <Char Code="\"" Min="2,23" Max="16,34" TexMin="333,341" TexMax="360,402" Adv="27,0" />
+  <Char Code="&quot;" Min="2,23" Max="16,34" TexMin="333,341" TexMax="360,402" Adv="27,0" />
   <Char Code="," Min="2,-7" Max="7,4" TexMin="366,341" TexMax="393,402" Adv="27,0" />
   <Char Code="." Min="2,0" Max="7,5" TexMin="399,341" TexMax="426,402" Adv="27,0" />
   <Char Code="/" Min="0,0" Max="23,34" TexMin="432,341" TexMax="459,402" Adv="27,0" />
-  <Char Code="<" Min="4,3" Max="20,30" TexMin="465,341" TexMax="491,402" Adv="26,0" />
-  <Char Code=">" Min="4,3" Max="20,30" TexMin="6,408" TexMax="32,469" Adv="26,0" />
+  <Char Code="&lt;" Min="4,3" Max="20,30" TexMin="465,341" TexMax="491,402" Adv="26,0" />
+  <Char Code="&gt;" Min="4,3" Max="20,30" TexMin="6,408" TexMax="32,469" Adv="26,0" />
   <Char Code="?" Min="0,0" Max="23,34" TexMin="38,408" TexMax="65,469" Adv="27,0" />
   <Char Code="|" Min="2,-5" Max="7,38" TexMin="71,408" TexMax="98,469" Adv="27,0" />
   <Char Code="\\" Min="0,0" Max="23,34" TexMin="104,408" TexMax="131,469" Adv="27,0" />

@@ -6,8 +6,8 @@
 #include "GUILayerStack.h"
 
 namespace gui {
-  CLayerStack::CLayerStack(gfx::CTextureAtlas const & atlas) 
-    : mTexAtlas(atlas)
+  CLayerStack::CLayerStack(gfx::CTextureAtlas const & atlas, glm::vec2 const& size) 
+    : mTexAtlas(atlas), mSize(size)
   {
     mCanvas = std::make_unique<gfx::CCanvas>(mTexAtlas);
   }
@@ -24,7 +24,7 @@ namespace gui {
   void CLayerStack::UpdateRender(core::CFont const& font) {
     mCanvas->Clear();
     for(auto& layer : cb::reverse(mLayers)) {
-      layer->UpdateRender(font);
+      layer->UpdateRender(font, mSize);
       layer->Render(*mCanvas, font);
     }
   }

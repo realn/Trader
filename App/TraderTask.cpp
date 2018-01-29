@@ -98,7 +98,7 @@ namespace trader {
   void CTraderTask::UpdateRender() {
     mEcoUniverseView->UpdateRender(mEcoUniverse, mRepositories->Meshes);
     mLayerStack->UpdateRender(*mGuiFont);
-    mScreen->UpdateRender(mLayerStack->GetCanvas(), mViewport.CreateAspectCorrectSize(1.0f));
+    mScreen->UpdateRender(mLayerStack->GetCanvas(), mLayerStack->GetSize());
   }
 
   void CTraderTask::Render() {
@@ -226,14 +226,14 @@ namespace trader {
       mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
     }
 
-    mLayerStack = std::make_unique<gui::CLayerStack>(gfx::CTextureAtlas(L"texture"s, glm::uvec2(256)));
+    mLayerStack = std::make_unique<gui::CLayerStack>(gfx::CTextureAtlas(L"texture"s, glm::uvec2(256)), mViewport.CreateAspectCorrectSize(2.0f));
 
     mGuiFont = mRepositories->Fonts.Get(L"font"s);
 
-    auto layer = std::make_unique<gui::CLayer>(glm::vec2{ 2.0f, 2.0f });
-    auto rect = std::make_unique<gui::CRect>(L"rect");
-    //auto label = std::make_unique<gui::CLabel>(L"labelFps"s, L"10"s);
-    layer->SetContent(std::move(rect));
+    auto layer = std::make_unique<gui::CLayer>();
+    //auto rect = std::make_unique<gui::CRect>(L"rect");
+    auto label = std::make_unique<gui::CLabel>(L"labelFps"s, L"a"s);
+    layer->SetContent(std::move(label));
     mLayerStack->Insert(std::move(layer));
 
     return true;
