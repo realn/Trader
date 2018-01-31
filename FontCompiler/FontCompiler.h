@@ -15,6 +15,7 @@ struct CFontParams {
   unsigned TexSize;
   unsigned TexCharBorder;
   glm::vec4 CharColor;
+  glm::vec4 BackColor;
 };
 
 namespace data {

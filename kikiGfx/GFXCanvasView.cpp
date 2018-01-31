@@ -62,7 +62,7 @@ namespace gfx {
       cb::gl::setState(blend);
     }
 
-    auto gstate = cb::gl::bindStateEnabled(cb::gl::State::BLEND, true);
+    //auto gstate = cb::gl::bindStateEnabled(cb::gl::State::BLEND, true);
     auto gibuf = cb::gl::bind(*mIndexBuffer);
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, mNumberOfRenderIndices);
   }

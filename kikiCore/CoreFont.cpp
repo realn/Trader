@@ -13,6 +13,14 @@ namespace core {
     mChars[code] = fontChar;
   }
 
+  glm::vec2 CFont::getVPos(CChar const & fontChar, glm::ivec2 const & xy, glm::vec2 const & scale) const {
+    return fontChar.getVPos(xy, mData, scale);
+  }
+
+  glm::vec2 CFont::getVTex(CChar const & fontChar, glm::ivec2 const & xy) const {
+    return fontChar.getVTex(xy, mData);
+  }
+
   const CFont::CChar & CFont::GetChar(wchar_t code) const {
     auto it = mChars.find(code);
     if(it != mChars.end())
@@ -60,47 +68,36 @@ namespace core {
       throw std::exception("Failed to parse font xml.");
     }
 
-    auto font = CFont(dataFont.mTexture);
-    auto lineSize = glm::vec2(static_cast<float>(dataFont.mLineHeight));
     auto texSize = glm::vec2(dataFont.mTextureSize);
+    auto adj = glm::vec2(static_cast<float>(dataFont.mLineSkip)) / texSize;
 
-    auto posAdj = glm::vec2(0.0f, dataFont.mAscent) / lineSize;
+    auto font = CFont(dataFont.mTexture);
+    font.mData.mLineSkip = dataFont.mLineSkip;
+    font.mData.mLineHeight = dataFont.mLineHeight;
+    font.mData.mAscent = dataFont.mAscent;
+    font.mData.mDescent = dataFont.mDescent;
 
     for(auto& dataChar : dataFont.mChars) {
       auto fontChar = CFont::CChar();
-      fontChar.mMin = vec2(0.0f);// vec2(dataChar.mMin.x, -dataChar.mMax.y) / lineSize + posAdj;
-      fontChar.mMax = vec2(1.0f);// vec2(dataChar.GetSize()) / lineSize + posAdj;
+      fontChar.mMin = vec2(dataChar.mMin);
+      fontChar.mMax = vec2(dataChar.mMax);
       fontChar.mTexMin = vec2(dataChar.mTexMin) / texSize;
       fontChar.mTexMax = vec2(dataChar.mTexMax) / texSize;
-      fontChar.mAdv = vec2(dataChar.mAdv) / lineSize;
-
+      fontChar.mAdv = vec2(dataChar.mAdv);
       font.AddChar(dataChar.mCode, fontChar);
-
-      //font.AddChar(dataChar.mCode, {
-      //  glm::vec2(dataChar.mMin.x, -dataChar.mMax.y) / lineSize + posAdj,
-      //  glm::vec2(dataChar.GetTexSize()) / lineSize + posAdj,
-      //  glm::vec2(dataChar.mTexMin.x, dataChar.mTexMin.y) / texSize,
-      //  glm::vec2(dataChar.mTexMax.x, dataChar.mTexMax.y) / texSize,
-      //  glm::vec2(dataChar.mAdv) / lineSize
-      //});
     }
 
     return font;
   }
 
-  glm::vec2 getOrg(glm::vec2 const& min, glm::vec2 const& max, glm::vec2 const& xy) {
-    auto nxy = glm::vec2(1.0f) - xy;
-    return min * nxy + max * xy;
-  }
-
-
-  glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy, glm::vec2 const& scale) const {
-   // return mMin + glm::vec2(mMax - mMin) * glm::vec2(xy) * scale;
-    //return getOrg(mMin, mMax, glm::vec2(xy));
+  glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy, CData const& data, glm::vec2 const& scale) const {
+    using namespace glm;
+    //return glm::mix(glm::vec2(0.0f), glm::vec2(1.0f), glm::vec2(xy));
     return glm::vec2(xy) * scale;
   }
 
-  glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy) const {
-    return getOrg(mTexMin, mTexMax, glm::vec2(xy));
+  glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy, CData const& data) const {
+    using namespace glm;
+    return mix(mTexMin, mTexMax, vec2(xy));
   }
 }

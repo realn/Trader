@@ -1,4 +1,4 @@
-<Font Name="Instruction" Texture="Instruction.png" TextureSize="512,512" LineHeight="61" Ascent="52" Descent="-8">
+<Font Name="Instruction" Texture="Instruction.png" TextureSize="512,512" LineHeight="61" LineSkip="61" Ascent="52" Descent="-8">
   <Char Code="a" Min="0,0" Max="22,34" TexMin="6,6" TexMax="32,67" Adv="26,0" />
   <Char Code="b" Min="0,0" Max="23,34" TexMin="38,6" TexMax="65,67" Adv="27,0" />
   <Char Code="c" Min="0,0" Max="23,34" TexMin="71,6" TexMax="98,67" Adv="27,0" />
@@ -25,43 +25,43 @@
   <Char Code="x" Min="0,0" Max="22,34" TexMin="268,73" TexMax="294,134" Adv="26,0" />
   <Char Code="y" Min="0,0" Max="22,34" TexMin="300,73" TexMax="326,134" Adv="26,0" />
   <Char Code="z" Min="0,0" Max="22,34" TexMin="332,73" TexMax="358,134" Adv="26,0" />
-  <Char Code=" " Min="0,0" Max="0,0" TexMin="364,73" TexMax="391,134" Adv="27,0" />
-  <Char Code="A" Min="0,0" Max="22,34" TexMin="397,73" TexMax="423,134" Adv="26,0" />
-  <Char Code="B" Min="0,0" Max="23,34" TexMin="429,73" TexMax="456,134" Adv="27,0" />
-  <Char Code="C" Min="0,0" Max="23,34" TexMin="462,73" TexMax="489,134" Adv="27,0" />
-  <Char Code="D" Min="0,0" Max="23,34" TexMin="6,140" TexMax="33,201" Adv="27,0" />
-  <Char Code="E" Min="0,0" Max="23,34" TexMin="39,140" TexMax="66,201" Adv="27,0" />
-  <Char Code="F" Min="0,0" Max="23,34" TexMin="72,140" TexMax="99,201" Adv="27,0" />
-  <Char Code="G" Min="0,0" Max="23,34" TexMin="105,140" TexMax="132,201" Adv="27,0" />
-  <Char Code="H" Min="0,0" Max="23,34" TexMin="138,140" TexMax="165,201" Adv="27,0" />
-  <Char Code="I" Min="0,0" Max="22,34" TexMin="171,140" TexMax="197,201" Adv="26,0" />
-  <Char Code="J" Min="0,0" Max="23,34" TexMin="203,140" TexMax="230,201" Adv="27,0" />
-  <Char Code="K" Min="0,0" Max="23,34" TexMin="236,140" TexMax="263,201" Adv="27,0" />
-  <Char Code="L" Min="0,0" Max="23,34" TexMin="269,140" TexMax="296,201" Adv="27,0" />
-  <Char Code="M" Min="0,0" Max="23,34" TexMin="302,140" TexMax="329,201" Adv="27,0" />
-  <Char Code="N" Min="0,0" Max="23,34" TexMin="335,140" TexMax="362,201" Adv="27,0" />
-  <Char Code="O" Min="0,0" Max="23,34" TexMin="368,140" TexMax="395,201" Adv="27,0" />
-  <Char Code="P" Min="0,0" Max="23,34" TexMin="401,140" TexMax="428,201" Adv="27,0" />
-  <Char Code="Q" Min="0,0" Max="23,34" TexMin="434,140" TexMax="461,201" Adv="27,0" />
-  <Char Code="R" Min="0,0" Max="23,34" TexMin="467,140" TexMax="494,201" Adv="27,0" />
-  <Char Code="S" Min="0,0" Max="23,34" TexMin="6,207" TexMax="33,268" Adv="27,0" />
-  <Char Code="T" Min="0,0" Max="22,34" TexMin="39,207" TexMax="65,268" Adv="26,0" />
-  <Char Code="U" Min="0,0" Max="23,34" TexMin="71,207" TexMax="98,268" Adv="27,0" />
-  <Char Code="V" Min="0,0" Max="22,34" TexMin="104,207" TexMax="130,268" Adv="26,0" />
-  <Char Code="W" Min="0,0" Max="23,34" TexMin="136,207" TexMax="163,268" Adv="27,0" />
-  <Char Code="X" Min="0,0" Max="22,34" TexMin="169,207" TexMax="195,268" Adv="26,0" />
-  <Char Code="Y" Min="0,0" Max="22,34" TexMin="201,207" TexMax="227,268" Adv="26,0" />
-  <Char Code="Z" Min="0,0" Max="22,34" TexMin="233,207" TexMax="259,268" Adv="26,0" />
-  <Char Code="0" Min="0,0" Max="23,34" TexMin="265,207" TexMax="292,268" Adv="27,0" />
-  <Char Code="1" Min="0,0" Max="22,34" TexMin="298,207" TexMax="325,268" Adv="27,0" />
-  <Char Code="2" Min="0,0" Max="23,34" TexMin="331,207" TexMax="358,268" Adv="27,0" />
-  <Char Code="3" Min="0,0" Max="23,34" TexMin="364,207" TexMax="391,268" Adv="27,0" />
-  <Char Code="4" Min="0,0" Max="22,34" TexMin="397,207" TexMax="424,268" Adv="27,0" />
-  <Char Code="5" Min="0,0" Max="23,34" TexMin="430,207" TexMax="457,268" Adv="27,0" />
-  <Char Code="6" Min="0,0" Max="23,34" TexMin="463,207" TexMax="490,268" Adv="27,0" />
-  <Char Code="7" Min="0,0" Max="22,34" TexMin="6,274" TexMax="33,335" Adv="27,0" />
-  <Char Code="8" Min="0,0" Max="23,34" TexMin="39,274" TexMax="66,335" Adv="27,0" />
-  <Char Code="9" Min="0,0" Max="23,34" TexMin="72,274" TexMax="99,335" Adv="27,0" />
+  <Char Code="A" Min="0,0" Max="22,34" TexMin="364,73" TexMax="390,134" Adv="26,0" />
+  <Char Code="B" Min="0,0" Max="23,34" TexMin="396,73" TexMax="423,134" Adv="27,0" />
+  <Char Code="C" Min="0,0" Max="23,34" TexMin="429,73" TexMax="456,134" Adv="27,0" />
+  <Char Code="D" Min="0,0" Max="23,34" TexMin="462,73" TexMax="489,134" Adv="27,0" />
+  <Char Code="E" Min="0,0" Max="23,34" TexMin="6,140" TexMax="33,201" Adv="27,0" />
+  <Char Code="F" Min="0,0" Max="23,34" TexMin="39,140" TexMax="66,201" Adv="27,0" />
+  <Char Code="G" Min="0,0" Max="23,34" TexMin="72,140" TexMax="99,201" Adv="27,0" />
+  <Char Code="H" Min="0,0" Max="23,34" TexMin="105,140" TexMax="132,201" Adv="27,0" />
+  <Char Code="I" Min="0,0" Max="22,34" TexMin="138,140" TexMax="164,201" Adv="26,0" />
+  <Char Code="J" Min="0,0" Max="23,34" TexMin="170,140" TexMax="197,201" Adv="27,0" />
+  <Char Code="K" Min="0,0" Max="23,34" TexMin="203,140" TexMax="230,201" Adv="27,0" />
+  <Char Code="L" Min="0,0" Max="23,34" TexMin="236,140" TexMax="263,201" Adv="27,0" />
+  <Char Code="M" Min="0,0" Max="23,34" TexMin="269,140" TexMax="296,201" Adv="27,0" />
+  <Char Code="N" Min="0,0" Max="23,34" TexMin="302,140" TexMax="329,201" Adv="27,0" />
+  <Char Code="O" Min="0,0" Max="23,34" TexMin="335,140" TexMax="362,201" Adv="27,0" />
+  <Char Code="P" Min="0,0" Max="23,34" TexMin="368,140" TexMax="395,201" Adv="27,0" />
+  <Char Code="Q" Min="0,0" Max="23,34" TexMin="401,140" TexMax="428,201" Adv="27,0" />
+  <Char Code="R" Min="0,0" Max="23,34" TexMin="434,140" TexMax="461,201" Adv="27,0" />
+  <Char Code="S" Min="0,0" Max="23,34" TexMin="467,140" TexMax="494,201" Adv="27,0" />
+  <Char Code="T" Min="0,0" Max="22,34" TexMin="6,207" TexMax="32,268" Adv="26,0" />
+  <Char Code="U" Min="0,0" Max="23,34" TexMin="38,207" TexMax="65,268" Adv="27,0" />
+  <Char Code="V" Min="0,0" Max="22,34" TexMin="71,207" TexMax="97,268" Adv="26,0" />
+  <Char Code="W" Min="0,0" Max="23,34" TexMin="103,207" TexMax="130,268" Adv="27,0" />
+  <Char Code="X" Min="0,0" Max="22,34" TexMin="136,207" TexMax="162,268" Adv="26,0" />
+  <Char Code="Y" Min="0,0" Max="22,34" TexMin="168,207" TexMax="194,268" Adv="26,0" />
+  <Char Code="Z" Min="0,0" Max="22,34" TexMin="200,207" TexMax="226,268" Adv="26,0" />
+  <Char Code="0" Min="0,0" Max="23,34" TexMin="232,207" TexMax="259,268" Adv="27,0" />
+  <Char Code="1" Min="0,0" Max="22,34" TexMin="265,207" TexMax="292,268" Adv="27,0" />
+  <Char Code="2" Min="0,0" Max="23,34" TexMin="298,207" TexMax="325,268" Adv="27,0" />
+  <Char Code="3" Min="0,0" Max="23,34" TexMin="331,207" TexMax="358,268" Adv="27,0" />
+  <Char Code="4" Min="0,0" Max="22,34" TexMin="364,207" TexMax="391,268" Adv="27,0" />
+  <Char Code="5" Min="0,0" Max="23,34" TexMin="397,207" TexMax="424,268" Adv="27,0" />
+  <Char Code="6" Min="0,0" Max="23,34" TexMin="430,207" TexMax="457,268" Adv="27,0" />
+  <Char Code="7" Min="0,0" Max="22,34" TexMin="463,207" TexMax="490,268" Adv="27,0" />
+  <Char Code="8" Min="0,0" Max="23,34" TexMin="6,274" TexMax="33,335" Adv="27,0" />
+  <Char Code="9" Min="0,0" Max="23,34" TexMin="39,274" TexMax="66,335" Adv="27,0" />
+  <Char Code=" " Min="0,0" Max="0,0" TexMin="72,274" TexMax="99,335" Adv="27,0" />
   <Char Code="`" Min="4,39" Max="18,53" TexMin="105,274" TexMax="131,335" Adv="26,0" />
   <Char Code="~" Min="0,39" Max="23,48" TexMin="137,274" TexMax="164,335" Adv="27,0" />
   <Char Code="!" Min="2,0" Max="7,34" TexMin="170,274" TexMax="197,335" Adv="27,0" />

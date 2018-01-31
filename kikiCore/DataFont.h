@@ -55,6 +55,7 @@ namespace data {
     cb::string mName;
     cb::string mTexture;
     cb::u32 mLineHeight;
+    cb::u32 mLineSkip;
     cb::s32 mAscent;
     cb::s32 mDescent;
     glm::uvec2 mTextureSize;
@@ -73,6 +74,7 @@ namespace data {
   static const auto XML_FONT_TEXTURESIZE = L"TextureSize"s;
   static const auto XML_FONT_CHARS_ELEM = L"Char"s;
   static const auto XML_FONT_LINEHEIGHT = L"LineHeight"s;
+  static const auto XML_FONT_LINESKIP = L"LineSkip"s;
   static const auto XML_FONT_ASCENT = L"Ascent";
   static const auto XML_FONT_DESCENT = L"Descent";
 }
@@ -93,6 +95,7 @@ CB_DEFINEXMLRW(data::CFont) {
     RWAttribute(data::XML_FONT_TEXTURE, mObject.mTexture) &&
     RWAttribute(data::XML_FONT_TEXTURESIZE, mObject.mTextureSize) &&
     RWAttribute(data::XML_FONT_LINEHEIGHT, mObject.mLineHeight) &&
+    RWAttribute(data::XML_FONT_LINESKIP, mObject.mLineSkip) &&
     RWAttribute(data::XML_FONT_ASCENT, mObject.mAscent) &&
     RWAttribute(data::XML_FONT_DESCENT, mObject.mDescent) &&
     RWNodeList(mObject.mChars, data::XML_FONT_CHARS_ELEM);

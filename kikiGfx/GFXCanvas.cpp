@@ -59,18 +59,25 @@ namespace gfx {
                       cb::string const & text, 
                       glm::vec4 const& color,
                       glm::vec2 const& scale) {
+    using namespace glm;
+
     auto idx = {0, 1, 2, 0, 2, 3};
-    auto pos = tpos;
-    auto col = glm::vec4(color.r, color.g, color.b, color.a + 2.0f);
+    auto pos = vec2{ 0.0f, 0.0f };// tpos;
+    auto col = vec4(color.r, color.g, color.b, color.a + 2.0f);
+    auto vcoords = std::vector<ivec2>{
+      {0, 0}, {1, 0}, {1, 1}, {0, 1}
+    };
+
     for(auto& item : text) {
       auto& glyph = font.GetChar(item);
 
       auto i = static_cast<cb::u16>(mVertices.size());
 
-      mVertices.push_back({pos + glyph.getVPos({0, 0}) * scale, glyph.getVTex({0, 0}), col});
-      mVertices.push_back({pos + glyph.getVPos({1, 0}) * scale, glyph.getVTex({1, 0}), col});
-      mVertices.push_back({pos + glyph.getVPos({1, 1}) * scale, glyph.getVTex({1, 1}), col});
-      mVertices.push_back({pos + glyph.getVPos({0, 1}) * scale, glyph.getVTex({0, 1}), col});
+      for(auto& coord : vcoords) {
+        AddVertexFast(font.getVPos(glyph, coord) * scale + pos,
+                      font.getVTex(glyph, coord), 
+                      col);
+      }
 
       for(auto& item : idx) { mIndices.push_back(static_cast<cb::u16>(i + item)); }
 
@@ -104,5 +111,9 @@ namespace gfx {
       mVertices.push_back(vert);
       mIndices.push_back(static_cast<cb::u16>(index));
     }
+  }
+
+  void CCanvas::AddVertexFast(glm::vec2 const & pos, glm::vec2 const & tex, glm::vec4 const & color) {
+    mVertices.push_back({ pos, tex, color });
   }
 }

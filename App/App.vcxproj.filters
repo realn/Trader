@@ -88,9 +88,15 @@
     <Image Include="assets\textures\texture.png">
       <Filter>assets\textures</Filter>
     </Image>
+    <Image Include="assets\textures\Instruction.png">
+      <Filter>assets\textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="assets\fonts\font.xml">
+      <Filter>assets\fonts</Filter>
+    </Xml>
+    <Xml Include="assets\fonts\Instruction.xml">
       <Filter>assets\fonts</Filter>
     </Xml>
   </ItemGroup>

@@ -49,5 +49,6 @@ namespace gfx {
   private:
     void internalDrawRect(core::CBRect const& prect, core::CBRect const& trect, glm::vec4 const& color);
     void AddVertex(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
+    void AddVertexFast(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
   };
 }

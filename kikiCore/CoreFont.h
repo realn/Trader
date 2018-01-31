@@ -11,6 +11,12 @@
 namespace core {
   class CFont {
   public:
+    struct CData {
+      float mLineHeight = 0.0f;
+      float mLineSkip = 0.0f;
+      float mAscent = 0.0f;
+      float mDescent = 0.0f;
+    };
     struct CChar {
       glm::vec2 mMin;
       glm::vec2 mMax;
@@ -18,14 +24,13 @@ namespace core {
       glm::vec2 mTexMax;
       glm::vec2 mAdv;
 
-      glm::vec2 getVPos(glm::ivec2 const& xy, glm::vec2 const& scale = glm::vec2(1.0f)) const;
-      glm::vec2 getVTex(glm::ivec2 const& xy) const;
+      glm::vec2 getVPos(glm::ivec2 const& xy, CData const& data, glm::vec2 const& scale = glm::vec2(1.0f)) const;
+      glm::vec2 getVTex(glm::ivec2 const& xy, CData const& data) const;
     };
+    using CharsT = std::map<wchar_t, CChar>;
   private:
-    std::map<wchar_t, CChar> mChars;
-    float mLineHeight;
-    float mAscent;
-    float mDescent;
+    CData mData;
+    CharsT mChars;
     cb::string mTextureFilePath;
 
   public:
@@ -33,6 +38,9 @@ namespace core {
     ~CFont();
 
     void AddChar(wchar_t code, CChar const& fontChar);
+
+    glm::vec2 getVPos(CChar const& fontChar, glm::ivec2 const& xy, glm::vec2 const& scale = glm::vec2(1.0f)) const;
+    glm::vec2 getVTex(CChar const& fontChar, glm::ivec2 const& xy) const;
 
     const CChar&  GetChar(wchar_t code) const;
     float GetLineHeight() const { return 1.0f; }
