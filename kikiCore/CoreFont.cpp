@@ -97,7 +97,7 @@ namespace core {
   }
 
   glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy, CData const& data) const {
-    using namespace glm;
-    return mix(mTexMin, mTexMax, vec2(xy));
+    //return getOrg(mTexMin, mTexMax, glm::vec2(xy));
+    return glm::vec2(xy);
   }
 }

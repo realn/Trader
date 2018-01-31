@@ -220,8 +220,8 @@ namespace trader {
         return false;
       }
 
-      auto textureFont = mRepositories->Textures.Get(L"texture"s);
-      auto textureBase = mRepositories->Textures.Get(L"Instruction"s);
+      auto textureFont = mRepositories->Textures.Get(L"Instruction"s);
+      auto textureBase = mRepositories->Textures.Get(L"font"s);
 
       mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
     }

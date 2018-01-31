@@ -9,6 +9,8 @@
 namespace gfx {
   class CCanvasVertex {
   public:
+    using InputsT = std::map<cb::u32, cb::string>;
+
     glm::vec2 mPos;
     glm::vec2 mTex;
     glm::vec4 mColor = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -29,6 +31,6 @@ namespace gfx {
     bool operator!=(CCanvasVertex const& other) const { return !(*this == other); }
 
     static cb::gl::CVertexDefinition Def;
-    static std::map<cb::u32, cb::string> Inputs;
+    static InputsT Inputs;
   };
 }
