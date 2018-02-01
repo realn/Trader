@@ -16,6 +16,9 @@ namespace gfx {
     CMeshView();
     CMeshView(CMesh const& mesh);
 
+    void Set(CMesh const& mesh);
+    void Update(CMesh const& mesh);
+
     void Bind() const;
     void UnBind() const;
 

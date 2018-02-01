@@ -39,5 +39,6 @@ namespace gui {
     }
 
     static CLayer Load(cb::string const& filepath);
+    static std::unique_ptr<CLayer> LoadPtr(cb::string const& filepath);
   };
 }

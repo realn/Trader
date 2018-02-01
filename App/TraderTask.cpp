@@ -31,6 +31,7 @@
 #include <GUILayer.h>
 #include <GUILabel.h>
 #include <GUIRect.h>
+#include <GUIAbsolute.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -135,6 +136,8 @@ namespace trader {
 
       mCamera.ModRotation(rot);
     }
+
+    mLayerStack->FindById<gui::CAbsolute>(L"cursor"s)->SetPosition({ pos.x, 1.0f - pos.y });
   }
 
   void CTraderTask::OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {
@@ -236,10 +239,10 @@ namespace trader {
 
     mLayerStack = std::make_unique<gui::CLayerStack>(
       gfx::CTextureAtlas(L"texture"s, uvec2(256)), 
-      mViewport.CreateAspectCorrectSize(10.0f));
+      mViewport.CreateAspectCorrectSize(25));
 
-    auto layer = gui::CLayer::Load(L"assets/gui/layer_consttop.xml"s);
-    mLayerStack->Insert(std::make_unique<gui::CLayer>(std::move(layer)));
+    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
+    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));
 
     return true;
   }

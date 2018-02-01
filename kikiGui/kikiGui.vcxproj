@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GUIAbsolute.h" />
     <ClInclude Include="GUIConsts.h" />
     <ClInclude Include="GUIContext.h" />
     <ClInclude Include="GUIFwd.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GUIAbsolute.cpp" />
     <ClCompile Include="GUILabel.cpp" />
     <ClCompile Include="GUILayerStack.cpp" />
     <ClCompile Include="GUIPanel.cpp" />

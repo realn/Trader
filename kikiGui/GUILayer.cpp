@@ -48,4 +48,8 @@ namespace gui {
     }
     return screen;
   }
+  std::unique_ptr<CLayer> CLayer::LoadPtr(cb::string const & filepath) {
+    auto layer = Load(filepath);
+    return std::make_unique<CLayer>(std::move(layer));
+  }
 }

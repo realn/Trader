@@ -7,6 +7,7 @@
 #include "GUIRect.h"
 #include "GUILayer.h"
 #include "GUIPanel.h"
+#include "GUIAbsolute.h"
 #include "GUIStackPanel.h"
 
 static const auto XML_WIDGET_ID = L"Id"s;
@@ -21,6 +22,7 @@ static const auto XML_WIDGET_TEXT = L"Text"s;
 static const auto XML_WIDGET_TEXTALIGN = L"TextAlign"s;
 static const auto XML_WIDGET_TEXTSCALE = L"TextScale"s;
 static const auto XML_WIDGET_TEXTCOLOR = L"TextColor"s;
+static const auto XML_WIDGET_POSITION = L"Position"s;
 
 namespace {
   class IWidgetObjectXmlFactory {
@@ -97,6 +99,7 @@ public:
     result[L"Label"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CLabel>>();
     result[L"Panel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CPanel>>();
     result[L"StackPanel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CStackPanel>>();
+    result[L"Absolute"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CAbsolute>>();
     return result;
   }
   static auto widgetFactory = CWidgetXmlFactory(getWidgetFactoriesMap());
@@ -244,6 +247,27 @@ CB_DEFINEXMLREAD(gui::CStackPanel) {
       auto itemAlign = gui::Align::Default;
       cb::fromStr(node.Attributes.GetValue(XML_WIDGET_ITEMALIGN), itemAlign);
       mObject.AddWidget(std::move(widget), itemAlign);
+    }
+  }
+  return true;
+}
+
+CB_DEFINEXMLREAD(gui::CAbsolute) {
+  if(!cb::ReadXmlObject<gui::CWidget>(mNode, mObject)) { return false; }
+
+  auto align = gui::Align::Default;
+  auto margin = glm::vec4(0.0f);
+  auto pos = glm::vec2(0.0f);
+
+  if(GetAttribute(XML_WIDGET_CONTENTALIGN, align)) { mObject.SetContentAlign(align); }
+  if(GetAttribute(XML_WIDGET_CONTENTMARGIN, margin)) { mObject.SetContentMargin(margin); }
+  if(GetAttribute(XML_WIDGET_POSITION, pos)) { mObject.SetPosition(pos); }
+
+  for(auto& node : mNode.Nodes) {
+    auto widget = widgetFactory.CreateWidget(node);
+    if(widget) {
+      mObject.SetContent(std::move(widget));
+      return true;
     }
   }
   return true;

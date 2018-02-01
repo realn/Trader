@@ -196,6 +196,7 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="assets\gui\layer_consttop.xml" />
+    <Xml Include="assets\gui\layer_cursor.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

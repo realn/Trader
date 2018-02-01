@@ -1,6 +1,6 @@
 <Layer>
-  <StackPanel>
+  <StackPanel ContentMargin="1.0,1.0,1.0,1.0" ContentAlign="Right">
     <Label Text="FPS: " />
-    <Label Id="labelFps" Text="0" />
+    <Label Id="labelFps" Text="0" Size="5.0,1.0"/>
   </StackPanel>
 </Layer>

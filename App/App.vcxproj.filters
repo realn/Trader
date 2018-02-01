@@ -105,5 +105,6 @@
     <Xml Include="assets\gui\layer_consttop.xml">
       <Filter>assets\gui</Filter>
     </Xml>
+    <Xml Include="assets\gui\layer_cursor.xml" />
   </ItemGroup>
 </Project>

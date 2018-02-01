@@ -43,6 +43,9 @@
     <ClCompile Include="GUIScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GUIAbsolute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="GUIScreen.h" />
     <ClInclude Include="GUIScreen.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIAbsolute.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
