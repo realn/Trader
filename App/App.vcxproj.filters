@@ -106,5 +106,6 @@
       <Filter>assets\gui</Filter>
     </Xml>
     <Xml Include="assets\gui\layer_cursor.xml" />
+    <Xml Include="assets\gui\atlas_controls.xml" />
   </ItemGroup>
 </Project>

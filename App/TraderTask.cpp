@@ -220,7 +220,9 @@ namespace trader {
   bool CTraderTask::InitGUI() {
     using namespace glm;
 
+    auto texAtlas = gfx::CTextureAtlas::Load(L"assets/gui/atlas_controls.xml"s);
     mGuiFont = mRepositories->Fonts.Get(L"Instruction"s);
+
     {
       auto shaderFont = mRepositories->Shaders.Get({
         L"font_vs"s,
@@ -232,14 +234,12 @@ namespace trader {
       }
 
       auto textureFont = mRepositories->Textures.Get(mGuiFont->GetTextureFilePath());
-      auto textureBase = mRepositories->Textures.Get(L"font"s);
+      auto textureBase = mRepositories->Textures.Get(texAtlas.GetTextureFileName());
 
       mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
     }
 
-    mLayerStack = std::make_unique<gui::CLayerStack>(
-      gfx::CTextureAtlas(L"texture"s, uvec2(256)), 
-      mViewport.CreateAspectCorrectSize(25));
+    mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(25));
 
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));

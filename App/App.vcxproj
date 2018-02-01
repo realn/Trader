@@ -195,6 +195,7 @@
     <Xml Include="assets\fonts\Instruction.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="assets\gui\atlas_controls.xml" />
     <Xml Include="assets\gui\layer_consttop.xml" />
     <Xml Include="assets\gui\layer_cursor.xml" />
   </ItemGroup>

@@ -14,8 +14,9 @@ namespace gfx {
       glm::vec2 TexMin;
       glm::vec2 TexMax;
     };
+    using CoordsT = std::map<cb::string, Coords>;
   private:
-    std::map<cb::string, Coords> mCoordMap;
+    CoordsT mCoordMap;
     glm::uvec2 mTextureSize;
     cb::string mTextureFileName;
     
@@ -32,5 +33,7 @@ namespace gfx {
 
     const Coords& GetCoords(cb::string const& imgName) const { return mCoordMap.at(imgName); }
     const Coords& operator[](cb::string const& imgName) const { return GetCoords(imgName); }
+
+    static CTextureAtlas Load(cb::string const& filepath);
   };
 }
