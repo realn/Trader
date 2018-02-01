@@ -62,7 +62,6 @@ namespace trader {
     cb::gl::clearDepth(1.0f);
 
     cb::gl::setState({ cb::gl::DepthFunc::LEQUAL });
-    //cb::gl::setStateEnabled(cb::gl::State::DEPTH_TEST, true);
 
     mMeshProgram = mRepositories->Shaders.Get(L"mesh_vs,mesh_fs"s);
     mMeshProgram->SetInLocation(gfx::CMeshVertex::Inputs);
@@ -91,12 +90,17 @@ namespace trader {
       return;
     }
 
+    mFrameTD += timeDelta;
+
     mEcoUniverse->UpdateEntities(timeDelta);
     mLayerStack->Update(timeDelta);
   }
 
   void CTraderTask::UpdateRender() {
     mEcoUniverseView->UpdateRender(mEcoUniverse, mRepositories->Meshes);
+
+    mLayerStack->FindById<gui::CLabel>(L"labelFps"s)->SetText(cb::toStr(mFrameTD));
+
     mLayerStack->UpdateRender(*mGuiFont);
     mScreen->UpdateRender(mLayerStack->GetCanvas(), mLayerStack->GetSize());
   }
@@ -210,6 +214,9 @@ namespace trader {
   }
 
   bool CTraderTask::InitGUI() {
+    using namespace glm;
+
+    mGuiFont = mRepositories->Fonts.Get(L"Instruction"s);
     {
       auto shaderFont = mRepositories->Shaders.Get({
         L"font_vs"s,
@@ -220,21 +227,18 @@ namespace trader {
         return false;
       }
 
-      auto textureFont = mRepositories->Textures.Get(L"Instruction"s);
+      auto textureFont = mRepositories->Textures.Get(mGuiFont->GetTextureFilePath());
       auto textureBase = mRepositories->Textures.Get(L"font"s);
 
       mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
     }
 
-    mLayerStack = std::make_unique<gui::CLayerStack>(gfx::CTextureAtlas(L"texture"s, glm::uvec2(256)), mViewport.CreateAspectCorrectSize(3.0f));
+    mLayerStack = std::make_unique<gui::CLayerStack>(
+      gfx::CTextureAtlas(L"texture"s, uvec2(256)), 
+      mViewport.CreateAspectCorrectSize(10.0f));
 
-    mGuiFont = mRepositories->Fonts.Get(L"Instruction"s);
-
-    auto layer = std::make_unique<gui::CLayer>();
-    auto rect = std::make_unique<gui::CRect>(L"rect");
-    auto label = std::make_unique<gui::CLabel>(L"labelFps"s, L"abcd,!~[]"s);
-    layer->SetContent(std::move(label));
-    mLayerStack->Insert(std::move(layer));
+    auto layer = gui::CLayer::Load(L"assets/gui/layer_consttop.xml"s);
+    mLayerStack->Insert(std::make_unique<gui::CLayer>(std::move(layer)));
 
     return true;
   }

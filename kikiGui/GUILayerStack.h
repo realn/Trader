@@ -8,6 +8,7 @@
 
 namespace gui {
   class CLayer;
+  class CWidget;
 
   class CLayerStack {
   public:
@@ -32,5 +33,17 @@ namespace gui {
     void Insert(std::unique_ptr<CLayer> layer, size_t pos = 0);
     void Push(std::unique_ptr<CLayer> layer);
     std::unique_ptr<CLayer> Pop();
+
+    virtual CWidget* FindWidgetById(cb::string const& id);
+    virtual const CWidget* FindWidgetById(cb::string const& id) const;
+
+    template<typename _Type>
+    _Type* FindById(cb::string const& id) {
+      return dynamic_cast<_Type*>(FindWidgetById(id));
+    }
+    template<typename _Type>
+    const _Type* FindById(cb::string const& id) const {
+      return dynamic_cast<const _Type*>(FindWidgetById(id));
+    }
   };
 }

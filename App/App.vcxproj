@@ -192,7 +192,10 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="assets\fonts\font.xml" />
-    <Xml Include="assets\fonts\Instruction.xml" />
+    <Xml Include="assets\fonts\Instruction.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="assets\gui\layer_consttop.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

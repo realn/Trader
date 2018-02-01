@@ -39,7 +39,7 @@ namespace gui {
     if(!xmlDoc.IsValid()) {
       throw std::exception("Invalid xml doc file for screen loading.");
     }
-    if(xmlDoc.RootNode.GetName() != L"Screen"s) {
+    if(xmlDoc.RootNode.GetName() != L"Layer"s) {
       throw std::exception("Invalid root node for screen reading.");
     }
     auto screen = CLayer();

@@ -1,0 +1,6 @@
+<Layer>
+  <StackPanel>
+    <Label Text="FPS: " />
+    <Label Id="labelFps" Text="0" />
+  </StackPanel>
+</Layer>

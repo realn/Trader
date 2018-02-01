@@ -46,4 +46,23 @@ namespace gui {
     return layer;
   }
 
+  CWidget * CLayerStack::FindWidgetById(cb::string const & id) {
+    for(auto& layer : mLayers) {
+      auto widget = layer->FindWidgetById(id);
+      if(widget) {
+        return widget;
+      }
+    }
+    return nullptr;
+  }
+
+  const CWidget * CLayerStack::FindWidgetById(cb::string const & id) const {
+    for(auto& layer : mLayers) {
+      auto widget = layer->FindWidgetById(id);
+      if(widget) {
+        return widget;
+      }
+    }
+    return nullptr;
+  }
 }

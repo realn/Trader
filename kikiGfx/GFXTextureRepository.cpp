@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GFXTextureRepository.h"
 
+#include <CBIO/Path.h>
 #include <CBSDL/Surface.h>
 #include <CBGL/Texture.h>
 
@@ -12,7 +13,7 @@ namespace gfx {
   CTextureRepository::~CTextureRepository() {}
 
   std::shared_ptr<cb::gl::CTexture> CTextureRepository::Load(cb::string const & name) const {
-    auto path = GetAssetPath(name);
+    auto path = GetAssetPath(cb::filenamebase(name));
     auto surface = cb::sdl::CSurface::Load(path);
     surface = surface.Convert(cb::sdl::PixelFormat::RGBA32);
 

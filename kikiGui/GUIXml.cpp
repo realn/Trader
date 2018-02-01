@@ -250,12 +250,10 @@ CB_DEFINEXMLREAD(gui::CStackPanel) {
 }
 
 CB_DEFINEXMLREAD(gui::CLayer) {
-  //auto size = glm::vec2(10.0f);
   auto textScale = glm::vec2(1.0f);
   auto contentAlign = gui::Align::Default;
   auto contentMargin = glm::vec4(0.0f);
 
-  //if(GetAttribute(XML_WIDGET_SIZE, size)) { mObject.SetSize(size); }
   if(GetAttribute(XML_WIDGET_CONTENTALIGN, contentAlign)) { mObject.SetContentAlign(contentAlign); }
   if(GetAttribute(XML_WIDGET_CONTENTMARGIN, contentMargin)) { mObject.SetContentMargin(contentMargin); }
   if(GetAttribute(XML_WIDGET_TEXTSCALE, textScale)) { mObject.SetTextScale(textScale); }

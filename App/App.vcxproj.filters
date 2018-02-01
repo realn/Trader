@@ -17,6 +17,9 @@
     <Filter Include="assets\fonts">
       <UniqueIdentifier>{def86181-531e-4403-8af1-4730e98ef8bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets\gui">
+      <UniqueIdentifier>{b43cc69a-4012-43af-a95d-50dd74a1c95e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -98,6 +101,9 @@
     </Xml>
     <Xml Include="assets\fonts\Instruction.xml">
       <Filter>assets\fonts</Filter>
+    </Xml>
+    <Xml Include="assets\gui\layer_consttop.xml">
+      <Filter>assets\gui</Filter>
     </Xml>
   </ItemGroup>
 </Project>

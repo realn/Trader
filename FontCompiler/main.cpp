@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
   params.FontChars = DEF_FONT_CHARS;
   params.TexCharBorder = takeArg(args, L"-texBorder"s, 6u);
   params.CharColor = glm::vec4(1.0f);
-  params.BackColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+  params.BackColor = glm::vec4(0.0f);
   params.OutputName = takeArg(args, L"-out"s, params.FontFileName);
   params.OutputDir = takeArg(args, L"-odir"s, L"../App/assets/fonts"s);
   params.OutputTexDir = takeArg(args, L"-otexdir"s, L"../App/assets/textures"s);

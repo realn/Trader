@@ -49,6 +49,7 @@ namespace trader {
     CCamera mCamera;
     bool mExit = false;
     bool mDrag = false;
+    float mFrameTD = 0.0f;
 
   public:
     CTraderTask(core::CAppBase& app);
