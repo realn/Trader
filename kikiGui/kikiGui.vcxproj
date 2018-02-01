@@ -137,6 +137,7 @@
     <ClInclude Include="GUIConsts.h" />
     <ClInclude Include="GUIContext.h" />
     <ClInclude Include="GUIFwd.h" />
+    <ClInclude Include="GUIImage.h" />
     <ClInclude Include="GUILabel.h" />
     <ClInclude Include="GUILayerStack.h" />
     <ClInclude Include="GUIPanel.h" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GUIAbsolute.cpp" />
+    <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUILabel.cpp" />
     <ClCompile Include="GUILayerStack.cpp" />
     <ClCompile Include="GUIPanel.cpp" />

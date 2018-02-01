@@ -48,7 +48,7 @@ CB_DEFINEXMLREAD(CAtlasData) {
   return
     GetAttribute(XML_ATLAS_TEXTURE, mObject.mTextureFile) &&
     GetAttribute(XML_ATLAS_TEXSIZE, mObject.mTextureSize) &&
-    GetNodeList(mObject.mImages, XML_ATLAS_IMAGE_NAME);
+    GetNodeList(mObject.mImages, XML_ATLAS_IMAGE);
 }
 
 namespace gfx {

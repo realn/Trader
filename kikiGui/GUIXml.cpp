@@ -8,6 +8,7 @@
 #include "GUILayer.h"
 #include "GUIPanel.h"
 #include "GUIAbsolute.h"
+#include "GUIImage.h"
 #include "GUIStackPanel.h"
 
 static const auto XML_WIDGET_ID = L"Id"s;
@@ -23,6 +24,7 @@ static const auto XML_WIDGET_TEXTALIGN = L"TextAlign"s;
 static const auto XML_WIDGET_TEXTSCALE = L"TextScale"s;
 static const auto XML_WIDGET_TEXTCOLOR = L"TextColor"s;
 static const auto XML_WIDGET_POSITION = L"Position"s;
+static const auto XML_WIDGET_IMGNAME = L"ImgName"s;
 
 namespace {
   class IWidgetObjectXmlFactory {
@@ -96,6 +98,7 @@ public:
   static auto getWidgetFactoriesMap() {
     auto result = CWidgetXmlFactory::FactoryMapT();
     result[L"Rect"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CRect>>();
+    result[L"Image"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CImage>>();
     result[L"Label"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CLabel>>();
     result[L"Panel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CPanel>>();
     result[L"StackPanel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CStackPanel>>();
@@ -192,6 +195,15 @@ CB_DEFINEXMLREAD(gui::CRect) {
   auto backColor = glm::vec4();
 
   if(GetAttribute(XML_WIDGET_BACKCOLOR, backColor)) { mObject.SetBackColor(backColor); }
+  return true;
+}
+
+CB_DEFINEXMLREAD(gui::CImage) {
+  if(!cb::ReadXmlObject<gui::CRect>(mNode, mObject)) { return false; }
+
+  auto imgName = cb::string();
+  if(GetAttribute(XML_WIDGET_IMGNAME, imgName)) { mObject.SetImage(imgName); }
+
   return true;
 }
 

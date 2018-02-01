@@ -7,6 +7,7 @@ namespace gui {
   class CPanel;
   class CStackPanel;
   class CAbsolute;
+  class CImage;
 
   class CLayer;
   class CLayerStack;

@@ -41,9 +41,7 @@ namespace gfx {
     auto prect = CBRect(pos, size);
     auto trect = CBRect(tex.TexMin, tex.TexMax - tex.TexMin);
 
-    internalDrawRect(CBRect(pos, size),
-                     CBRect(tex.TexMin, tex.TexMax - tex.TexMin),
-                     glm::clamp(color, 0.0f, 1.0f) + glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    internalDrawRect(prect, trect, glm::clamp(color, 0.0f, 1.0f) + glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
   }
 
   void CCanvas::DrawRect(core::CBRect const & rect, glm::vec4 const & color) {
