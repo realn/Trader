@@ -9,6 +9,14 @@
 #include <CBGL/Program.h>
 
 namespace gfx {
+  auto constexpr TEX_IDX_CANVAS_BASE = 0;
+  auto constexpr TEX_IDX_CANVAS_FONT = 1;
+
+  auto const TEX_IN_CANVAS_BASE = L"texBase"s;
+  auto const TEX_IN_CANVAS_FONT = L"texFont"s;
+
+  auto const MIN_CANVAS_TRANSFORM = L"mTransform"s;
+
   CCanvasView::CCanvasView(std::shared_ptr<cb::gl::CProgram> program, 
                            std::shared_ptr<cb::gl::CTexture> baseTexture, 
                            std::shared_ptr<cb::gl::CTexture> fontTexture) 
@@ -46,14 +54,14 @@ namespace gfx {
     }
 
     auto gprog = cb::gl::bind(*mProgram);
-    auto gtex0 = cb::gl::bind(*mBaseTexture, 0);
-    auto gtex1 = cb::gl::bind(*mFontTexture, 1);
+    auto gtex0 = cb::gl::bind(*mBaseTexture, TEX_IDX_CANVAS_BASE);
+    auto gtex1 = cb::gl::bind(*mFontTexture, TEX_IDX_CANVAS_FONT);
     auto gvbuf = cb::gl::bind(*mVertexBuffer);
     auto gdef = cb::gl::bind(gfx::CCanvasVertex::Def);
 
-    mProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
-    mProgram->SetUniform(gfx::UNI_BASE_TEXTURE, 0);
-    mProgram->SetUniform(gfx::UNI_FONT_TEXTURE, 1);
+    mProgram->SetUniform(MIN_CANVAS_TRANSFORM, transform);
+    mProgram->SetUniform(TEX_IN_CANVAS_BASE, TEX_IDX_CANVAS_BASE);
+    mProgram->SetUniform(TEX_IN_CANVAS_FONT, TEX_IDX_CANVAS_FONT);
 
     {
       auto blend = cb::gl::CBlendState();
@@ -62,7 +70,7 @@ namespace gfx {
       cb::gl::setState(blend);
     }
 
-    //auto gstate = cb::gl::bindStateEnabled(cb::gl::State::BLEND, true);
+    auto gstate = cb::gl::bindStateEnabled(cb::gl::State::BLEND, true);
     auto gibuf = cb::gl::bind(*mIndexBuffer);
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, mNumberOfRenderIndices);
   }

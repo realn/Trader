@@ -226,13 +226,13 @@ namespace trader {
       mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
     }
 
-    mLayerStack = std::make_unique<gui::CLayerStack>(gfx::CTextureAtlas(L"texture"s, glm::uvec2(256)), mViewport.CreateAspectCorrectSize(256.0f));
+    mLayerStack = std::make_unique<gui::CLayerStack>(gfx::CTextureAtlas(L"texture"s, glm::uvec2(256)), mViewport.CreateAspectCorrectSize(3.0f));
 
     mGuiFont = mRepositories->Fonts.Get(L"Instruction"s);
 
     auto layer = std::make_unique<gui::CLayer>();
     auto rect = std::make_unique<gui::CRect>(L"rect");
-    auto label = std::make_unique<gui::CLabel>(L"labelFps"s, L"abcd,!"s);
+    auto label = std::make_unique<gui::CLabel>(L"labelFps"s, L"abcd,!~[]"s);
     layer->SetContent(std::move(label));
     mLayerStack->Insert(std::move(layer));
 

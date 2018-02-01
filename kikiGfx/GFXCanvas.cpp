@@ -62,7 +62,7 @@ namespace gfx {
     using namespace glm;
 
     auto idx = {0, 1, 2, 0, 2, 3};
-    auto pos = vec2{ 0.0f, 0.0f };// tpos;
+    auto pos = tpos;
     auto col = vec4(color.r, color.g, color.b, color.a + 2.0f);
     auto vcoords = std::vector<ivec2>{
       {0, 0}, {1, 0}, {1, 1}, {0, 1}
@@ -74,8 +74,8 @@ namespace gfx {
       auto i = static_cast<cb::u16>(mVertices.size());
 
       for(auto& coord : vcoords) {
-        AddVertexFast(font.getVPos(glyph, coord) * scale + pos,
-                      font.getVTex(glyph, coord), 
+        AddVertexFast(glyph.getVPos(coord, scale) + pos,
+                      glyph.getVTex(coord),
                       col);
       }
 

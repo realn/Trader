@@ -13,14 +13,6 @@ namespace core {
     mChars[code] = fontChar;
   }
 
-  glm::vec2 CFont::getVPos(CChar const & fontChar, glm::ivec2 const & xy, glm::vec2 const & scale) const {
-    return fontChar.getVPos(xy, mData, scale);
-  }
-
-  glm::vec2 CFont::getVTex(CChar const & fontChar, glm::ivec2 const & xy) const {
-    return fontChar.getVTex(xy, mData);
-  }
-
   const CFont::CChar & CFont::GetChar(wchar_t code) const {
     auto it = mChars.find(code);
     if(it != mChars.end())
@@ -37,21 +29,24 @@ namespace core {
     }
 
     auto result = glm::vec2();
-    for(auto i = 0u; i < text.length()-1; i++) {
-      auto data = GetChar(text[i]);
+    for(auto& fc : text) {
+      auto data = GetChar(fc);
       result.x += data.mAdv.x;
       result.y = glm::max(result.y, data.mMax.y);
     }
 
     auto data = GetChar(*text.rbegin());
-    result.x += data.mMax.x - data.mMin.x;
-    result.y = glm::max(result.y, data.mMax.y);
+    result.x += (data.mMax.x - data.mMin.x) - data.mAdv.x;
 
     if(!charHeight) {
       result.y = glm::max(result.y, 1.0f);
     }
 
     return result;
+  }
+
+  glm::vec2 texComb(glm::ivec2 const& min, glm::ivec2 const& max) {
+    return glm::vec2(static_cast<float>(min.x), static_cast<float>(max.y));
   }
 
   CFont CFont::Load(cb::string const & filepath) {
@@ -69,39 +64,36 @@ namespace core {
     }
 
     auto texSize = glm::vec2(dataFont.mTextureSize);
-    auto adj = glm::vec2(static_cast<float>(dataFont.mLineSkip)) / texSize;
+    auto lineDiv = static_cast<float>(dataFont.mLineHeight);
 
     auto font = CFont(dataFont.mTexture);
-    font.mData.mLineSkip = dataFont.mLineSkip;
-    font.mData.mLineHeight = dataFont.mLineHeight;
-    font.mData.mAscent = static_cast<float>(dataFont.mAscent);
-    font.mData.mDescent = static_cast<float>(dataFont.mDescent);
-
-    auto padj = vec2(0.0f, font.mData.mLineHeight - font.mData.mDescent);
-    auto pmul = vec2(1.0f, -1.0f);
+    font.mData.mLineSkip = static_cast<float>(dataFont.mLineSkip) / lineDiv;
+    font.mData.mLineHeight = 1.0f;
+    font.mData.mAscent = static_cast<float>(dataFont.mAscent) / lineDiv;
+    font.mData.mDescent = static_cast<float>(dataFont.mDescent) / lineDiv;
 
     for(auto& dataChar : dataFont.mChars) {
+      auto charSize = vec2(dataChar.mTexMax - dataChar.mTexMin);
+
       auto fontChar = CFont::CChar();
-      fontChar.mMin = vec2(0.0f) * pmul + padj + vec2(dataChar.mMin) * pmul;
-      fontChar.mMax = vec2(dataChar.mTexMax - dataChar.mTexMin) * pmul + padj + vec2(dataChar.mMin) * pmul;
-      fontChar.mTexMin = vec2(dataChar.mTexMin) / texSize;
-      fontChar.mTexMax = vec2(dataChar.mTexMax) / texSize;
-      fontChar.mAdv = vec2(dataChar.mAdv);
+      fontChar.mMin = vec2(0.0f) / lineDiv;
+      fontChar.mMax = charSize / lineDiv;
+      fontChar.mTexMin = texComb(dataChar.mTexMin, dataChar.mTexMax) / texSize;
+      fontChar.mTexMax = texComb(dataChar.mTexMax, dataChar.mTexMin) / texSize;
+      fontChar.mAdv = vec2(dataChar.mAdv) / lineDiv;
       font.AddChar(dataChar.mCode, fontChar);
     }
 
     return font;
   }
 
-  glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy, CData const& data, glm::vec2 const& scale) const {
+  glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy, glm::vec2 const& scale) const {
     using namespace glm;
-    //return glm::mix(glm::vec2(0.0f), glm::vec2(1.0f), glm::vec2(xy));
     return mix(mMin, mMax, vec2(xy)) * scale;
   }
 
-  glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy, CData const& data) const {
+  glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy) const {
     using namespace glm;
-    //return getOrg(mTexMin, mTexMax, glm::vec2(xy));
     return mix(mTexMin, mTexMax, vec2(xy));
   }
 }

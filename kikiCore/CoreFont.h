@@ -24,8 +24,8 @@ namespace core {
       glm::vec2 mTexMax;
       glm::vec2 mAdv;
 
-      glm::vec2 getVPos(glm::ivec2 const& xy, CData const& data, glm::vec2 const& scale = glm::vec2(1.0f)) const;
-      glm::vec2 getVTex(glm::ivec2 const& xy, CData const& data) const;
+      glm::vec2 getVPos(glm::ivec2 const& xy, glm::vec2 const& scale = glm::vec2(1.0f)) const;
+      glm::vec2 getVTex(glm::ivec2 const& xy) const;
     };
     using CharsT = std::map<wchar_t, CChar>;
   private:
@@ -38,9 +38,6 @@ namespace core {
     ~CFont();
 
     void AddChar(wchar_t code, CChar const& fontChar);
-
-    glm::vec2 getVPos(CChar const& fontChar, glm::ivec2 const& xy, glm::vec2 const& scale = glm::vec2(1.0f)) const;
-    glm::vec2 getVTex(CChar const& fontChar, glm::ivec2 const& xy) const;
 
     const CChar&  GetChar(wchar_t code) const;
     float GetLineHeight() const { return 1.0f; }
