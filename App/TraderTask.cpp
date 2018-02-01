@@ -100,6 +100,7 @@ namespace trader {
     mEcoUniverseView->UpdateRender(mEcoUniverse, mRepositories->Meshes);
 
     mLayerStack->FindById<gui::CLabel>(L"labelFps"s)->SetText(cb::toStr(mFrameTD));
+    mFrameTD = 0.0f;
 
     mLayerStack->UpdateRender(*mGuiFont);
     mScreen->UpdateRender(mLayerStack->GetCanvas(), mLayerStack->GetSize());
