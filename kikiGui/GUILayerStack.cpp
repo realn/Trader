@@ -14,7 +14,6 @@ namespace gui {
 
   CLayerStack::~CLayerStack() {}
 
-
   void CLayerStack::Update(float const timeDelta) {
     for(auto& layer : mLayers) {
       layer->Update(timeDelta);
@@ -41,7 +40,7 @@ namespace gui {
     if(mLayers.empty()) {
       return std::unique_ptr<CLayer>();
     }
-    auto layer = std::move(*mLayers.rbegin());
+    auto layer = std::move(mLayers.back());
     mLayers.pop_back();
     return layer;
   }

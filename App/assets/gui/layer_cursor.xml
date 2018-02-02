@@ -1,5 +1,5 @@
 <Layer>
   <Absolute Id="cursor">
-    <Image ImgName="cursor" Size="1.0,1.0" BackColor="1.0,0.0,0.0,1.0" />
+    <Image ImgName="cursor" Size="2.0,2.0" BackColor="1.0,0.0,0.0,1.0" FlipVertical="True" />
   </Absolute>
 </Layer>

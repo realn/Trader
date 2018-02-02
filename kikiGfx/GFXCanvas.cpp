@@ -34,14 +34,19 @@ namespace gfx {
     internalDrawRect(core::CBRect(pos, size), core::CBRect(), glm::clamp(color, 0.0f, 1.0f));
   }
 
-  void CCanvas::DrawRect(glm::vec2 const & pos, glm::vec2 const & size, cb::string const & imgName, glm::vec4 const & color) {
+  void CCanvas::DrawRect(glm::vec2 const & pos, 
+                         glm::vec2 const & size, 
+                         cb::string const & imgName, 
+                         glm::vec4 const & color,
+                         core::RectFlip const imgFlip) {
     using namespace core;
 
     auto tex = mTextureAtlas[imgName];
     auto prect = CBRect(pos, size);
     auto trect = CBRect(tex.TexMin, tex.TexMax - tex.TexMin);
+    auto rcol = glm::clamp(color, 0.0f, 1.0f) + glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
-    internalDrawRect(prect, trect, glm::clamp(color, 0.0f, 1.0f) + glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+    internalDrawRect(prect, trect, rcol, core::RectFlip::None, imgFlip);
   }
 
   void CCanvas::DrawRect(core::CBRect const & rect, glm::vec4 const & color) {
@@ -60,11 +65,12 @@ namespace gfx {
     using namespace glm;
 
     auto idx = {0, 1, 2, 0, 2, 3};
+    auto vcoords = std::vector<ivec2>{
+      { 0, 0 },{ 1, 0 },{ 1, 1 },{ 0, 1 }
+    };
+
     auto pos = tpos;
     auto col = vec4(color.r, color.g, color.b, color.a + 2.0f);
-    auto vcoords = std::vector<ivec2>{
-      {0, 0}, {1, 0}, {1, 1}, {0, 1}
-    };
 
     for(auto& item : text) {
       auto& glyph = font.GetChar(item);
@@ -88,14 +94,19 @@ namespace gfx {
     mIndices.clear();
   }
 
-  void CCanvas::internalDrawRect(core::CBRect const & prect, core::CBRect const & trect, glm::vec4 const & color) {
-    AddVertex(prect.GetUCrd(0, 0), trect.GetUCrd(0, 0), color);
-    AddVertex(prect.GetUCrd(1, 0), trect.GetUCrd(1, 0), color);
-    AddVertex(prect.GetUCrd(1, 1), trect.GetUCrd(1, 1), color);
+  void CCanvas::internalDrawRect(core::CBRect const & prect, 
+                                 core::CBRect const & trect, 
+                                 glm::vec4 const & color,
+                                 core::RectFlip const flipPRect,
+                                 core::RectFlip const flipTRect) {
+    auto coords = std::vector<glm::uvec2>{
+      {0, 0}, {1, 0}, {1, 1}, 
+      {0, 0}, {1, 1}, {0, 1}
+    };
 
-    AddVertex(prect.GetUCrd(0, 0), trect.GetUCrd(0, 0), color);
-    AddVertex(prect.GetUCrd(1, 1), trect.GetUCrd(1, 1), color);
-    AddVertex(prect.GetUCrd(0, 1), trect.GetUCrd(0, 1), color);
+    for(auto& coord : coords) {
+      AddVertex(prect.GetUCrd(coord, flipPRect), trect.GetUCrd(coord, flipTRect), color);
+    }
   }
 
   void CCanvas::AddVertex(glm::vec2 const & pos, glm::vec2 const & tex, glm::vec4 const & color) {

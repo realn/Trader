@@ -15,7 +15,17 @@ namespace gui {
 
   void CImage::Render(CRenderContext & ctx, glm::vec2 const & pos) const {
     if(mBackColor.a != 0.0f) {
-      ctx.Canvas.DrawRect(pos, mSize, mImgName, mBackColor);
+      core::RectFlip flip = core::RectFlip::None;
+      if(mFlipHorizontal && mFlipVertical) {
+        flip = core::RectFlip::Both;
+      }
+      else if(mFlipHorizontal) {
+        flip = core::RectFlip::Horizontal;
+      }
+      else if(mFlipVertical) {
+        flip = core::RectFlip::Vertical;
+      }
+      ctx.Canvas.DrawRect(pos, mSize, mImgName, mBackColor, flip);
     }
   }
 }

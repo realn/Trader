@@ -4,6 +4,7 @@
 
 #include <CBSDL/Consts.h>
 #include <CBSDL/Window.h>
+#include <CBSDL/Funcs.h>
 #include <CBGL/Rendering.h>
 #include <CBGL/State.h>
 #include <CBGL/Program.h>
@@ -243,6 +244,8 @@ namespace trader {
 
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));
+
+    cb::sdl::SetCursorVisible(false);
 
     return true;
   }

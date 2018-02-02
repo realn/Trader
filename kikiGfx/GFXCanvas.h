@@ -3,6 +3,7 @@
 #include <memory>
 #include <CBGL/Fwd.h>
 #include <CoreFwd.h>
+#include <CoreBRect.h>
 
 #include "GFXConsts.h"
 #include "GFXCanvasVertex.h"
@@ -38,7 +39,8 @@ namespace gfx {
     void DrawRect(glm::vec2 const& pos,
                   glm::vec2 const& size,
                   cb::string const& imgName,
-                  glm::vec4 const& color = glm::vec4(1.0f));
+                  glm::vec4 const& color = glm::vec4(1.0f),
+                  core::RectFlip const imgFlip = core::RectFlip::None);
     void DrawRect(core::CBRect const& rect, glm::vec4 const& color = glm::vec4(1.0f));
     void DrawRect(core::CBRect const& rect, core::CBRect const& texRect, glm::vec4 const& color = glm::vec4(1.0f));
     void Print(glm::vec2 const& tpos, core::CFont const& font, cb::string const& text, 
@@ -47,7 +49,11 @@ namespace gfx {
     void Clear();
 
   private:
-    void internalDrawRect(core::CBRect const& prect, core::CBRect const& trect, glm::vec4 const& color);
+    void internalDrawRect(core::CBRect const& prect, 
+                          core::CBRect const& trect, 
+                          glm::vec4 const& color,
+                          core::RectFlip const flipPRect = core::RectFlip::None,
+                          core::RectFlip const flipTRect = core::RectFlip::None);
     void AddVertex(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
     void AddVertexFast(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
   };

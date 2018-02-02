@@ -2,6 +2,22 @@
 #include "CoreBRect.h"
 
 namespace core {
+  cb::u32 constexpr flipValue(cb::u32 const value, bool const flip) { 
+    if(!flip) { return value; }
+    return value == 0 ? 1 : 0; 
+  }
+
+  glm::uvec2 flipValue(glm::uvec2 const& value, RectFlip const flip) {
+    return {
+      flipValue(value.x, flip == RectFlip::Horizontal || flip == RectFlip::Both),
+      flipValue(value.y, flip == RectFlip::Vertical || flip == RectFlip::Both)
+    };
+  }
+
+  glm::vec2 CBRect::GetUCrd(glm::uvec2 const & xy, RectFlip const flip) const { 
+    return mPos + glm::vec2(flipValue(xy, flip)) * mSize; 
+  }
+
   CBRect CBRect::GetEdge(RectEdge side) const {
     switch(side) {
     case RectEdge::XMin: return CBRect(GetMin(), {0.0f, mSize.y});

@@ -25,6 +25,8 @@ static const auto XML_WIDGET_TEXTSCALE = L"TextScale"s;
 static const auto XML_WIDGET_TEXTCOLOR = L"TextColor"s;
 static const auto XML_WIDGET_POSITION = L"Position"s;
 static const auto XML_WIDGET_IMGNAME = L"ImgName"s;
+static const auto XML_WIDGET_FLIPHORIZONTAL = L"FlipHorizontal"s;
+static const auto XML_WIDGET_FLIPVERTICAL = L"FlipVertical"s;
 
 namespace {
   class IWidgetObjectXmlFactory {
@@ -202,7 +204,12 @@ CB_DEFINEXMLREAD(gui::CImage) {
   if(!cb::ReadXmlObject<gui::CRect>(mNode, mObject)) { return false; }
 
   auto imgName = cb::string();
+  auto flipHor = false;
+  auto flipVer = false;
+
   if(GetAttribute(XML_WIDGET_IMGNAME, imgName)) { mObject.SetImage(imgName); }
+  if(GetAttribute(XML_WIDGET_FLIPHORIZONTAL, flipHor)) { mObject.SetFlipHorizontal(flipHor); }
+  if(GetAttribute(XML_WIDGET_FLIPVERTICAL, flipVer)) { mObject.SetFlipVertical(flipVer); }
 
   return true;
 }

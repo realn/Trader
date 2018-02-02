@@ -44,7 +44,7 @@ namespace gfx {
     else {
       mVertexBuffer.SetData(mesh.GetVertices());
       mIndexBuffer.SetData(indices);
-      mNumberOfIndices = indices.size();
+      mNumberOfIndices = static_cast<cb::u32>(indices.size());
       mPrimitiveType = mesh.GetPrimitiveType();
     }
   }
