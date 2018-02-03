@@ -26,10 +26,10 @@ namespace trader {
     };
     using TransformsT = std::vector<RenderData>;
     using MeshTypeTransformsT = std::map<std::shared_ptr<gfx::CMeshView>, TransformsT>;
-    using EntitiesT = std::map<std::shared_ptr<eco::CEntity>, CEntityView>;
+    using EntitiesMapT = std::map<std::shared_ptr<eco::CEntity>, CEntityView>;
 
   private:
-    EntitiesT mEntities;
+    EntitiesMapT mEntities;
     gfx::CMeshView mJunctionView;
     size_t mFrame = 0;
 

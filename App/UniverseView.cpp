@@ -70,8 +70,9 @@ namespace trader {
     for(auto& entity : mEntities) {
       auto mesh = entity.second.GetMesh();
       auto trans = entity.second.GetTransform();
+      auto color = entity.second.GetColor();
 
-      meshtrans[mesh].push_back({trans, glm::vec4(1.0f)});
+      meshtrans[mesh].push_back({trans, color});
     }
 
     auto gprog = cb::gl::bind(meshProgram);
