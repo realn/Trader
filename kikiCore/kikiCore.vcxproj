@@ -134,6 +134,7 @@
     <ClInclude Include="CoreApp.h" />
     <ClInclude Include="CoreAppTask.h" />
     <ClInclude Include="CoreBRect.h" />
+    <ClInclude Include="CoreBSphere.h" />
     <ClInclude Include="CoreEvents.h" />
     <ClInclude Include="CoreFont.h" />
     <ClInclude Include="CoreFontRepository.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="CoreApp.cpp" />
     <ClCompile Include="CoreAssetRepository.cpp" />
     <ClCompile Include="CoreBRect.cpp" />
+    <ClCompile Include="CoreBSphere.cpp" />
     <ClCompile Include="CoreFont.cpp" />
     <ClCompile Include="CoreFontRepository.cpp" />
     <ClCompile Include="stdafx.cpp">

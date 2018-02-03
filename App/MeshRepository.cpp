@@ -32,17 +32,16 @@ namespace trader {
 
   CMeshRepository::~CMeshRepository() {}
 
-  std::shared_ptr<gfx::CMeshView> CMeshRepository::Get(MeshType const type) {
+  std::shared_ptr<gfx::CMesh> CMeshRepository::Get(MeshType const type) {
     auto it = mMeshes.find(type);
     if(it != mMeshes.end()) {
       return it->second;
     }
 
-    auto mesh = CreateMesh(type);
-    auto view = std::make_shared<gfx::CMeshView>(mesh);
-    mMeshes[type] = view;
+    auto mesh = std::make_shared<gfx::CMesh>(std::move(CreateMesh(type)));
+    mMeshes[type] = mesh;
 
-    return view;
+    return mesh;
   }
 }
 

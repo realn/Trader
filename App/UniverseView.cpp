@@ -2,6 +2,8 @@
 
 #include <CBGL\Program.h>
 
+#include <CoreBSphere.h>
+
 #include <GFXConsts.h>
 #include <GFXMesh.h>
 #include <GFXMeshView.h>
@@ -101,8 +103,16 @@ namespace trader {
       return CEntityView();
     }
     auto mesh = meshRepo.Get(type);
-    auto view = CEntityView(mesh);
-    view.SetPosition(to3DSpace(entity.GetPosition()));
+    auto pos = to3DSpace(entity.GetPosition());
+    auto bSphere = core::CBSphere();
+    for(auto& vertex : mesh->GetVertices()) {
+      bSphere.AdjustRadius(vertex.Pos);
+    }
+    bSphere.SetOrigin(pos);
+
+    auto view = CEntityView(std::make_shared<gfx::CMeshView>(*mesh));
+    view.SetBSphere(bSphere);
+    view.SetPosition(pos);
     view.SetRotation(glm::angleAxis(0.0f, glm::vec3(0.0f, 1.0f, 0.0f)));
     view.SetFrame(mFrame);
     return view;
@@ -116,6 +126,9 @@ namespace trader {
       auto ang = glm::atan(vec.z, vec.x);
       view.SetRotation(glm::angleAxis(ang, glm::vec3(0.0f, -1.0f, 0.0f))
                        * glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+      auto sphere = view.GetBSphere();
+      sphere.SetOrigin(view.GetPosition());
+      view.SetBSphere(sphere);
     }
     view.SetFrame(mFrame);
   }

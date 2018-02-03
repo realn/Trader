@@ -19,7 +19,7 @@ namespace trader {
 
   class CMeshRepository {
   private:
-    using MeshesT = std::map<MeshType, std::shared_ptr<gfx::CMeshView>>;
+    using MeshesT = std::map<MeshType, std::shared_ptr<gfx::CMesh>>;
 
     MeshesT mMeshes;
 
@@ -27,7 +27,7 @@ namespace trader {
     CMeshRepository();
     ~CMeshRepository();
 
-    std::shared_ptr<gfx::CMeshView> Get(MeshType const type);
+    std::shared_ptr<gfx::CMesh> Get(MeshType const type);
   };
 }
 
