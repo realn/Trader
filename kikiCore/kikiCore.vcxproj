@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="CoreApp.h" />
     <ClInclude Include="CoreAppTask.h" />
+    <ClInclude Include="CoreBLine.h" />
     <ClInclude Include="CoreBRect.h" />
     <ClInclude Include="CoreBSphere.h" />
     <ClInclude Include="CoreEvents.h" />

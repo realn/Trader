@@ -7,6 +7,8 @@ namespace core {
   class IInputMouseEvents;
   class IInputKeyEvents;
 
+  class CBSphere;
+  class CBLine;
   class CBRect;
   class CFont;
   class CFontRepository;

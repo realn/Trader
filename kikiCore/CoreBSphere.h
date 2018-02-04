@@ -3,6 +3,8 @@
 #include <glm/vec3.hpp>
 
 namespace core {
+  class CBLine;
+
   class CBSphere {
   public:
     using PointsT = std::vector<glm::vec3>;
@@ -26,7 +28,10 @@ namespace core {
 
     bool ContainsPoint(glm::vec3 const& point) const;
     bool ContainsLine(glm::vec3 const& beg, glm::vec3 const& end) const;
+    bool ContainsLine(CBLine const& line) const;
 
     PointsT IntersectsLine(glm::vec3 const& beg, glm::vec3 const& end) const;
+    PointsT IntersectsLine(CBLine const& line) const;
+
   };
 }

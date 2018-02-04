@@ -27,6 +27,7 @@ namespace trader {
     using TransformsT = std::vector<RenderData>;
     using MeshTypeTransformsT = std::map<std::shared_ptr<gfx::CMeshView>, TransformsT>;
     using EntitiesMapT = std::map<std::shared_ptr<eco::CEntity>, CEntityView>;
+    using EntitiesT = std::vector<std::shared_ptr<eco::CEntity>>;
 
   private:
     EntitiesMapT mEntities;
@@ -35,6 +36,11 @@ namespace trader {
 
   public:
     CUniverseView();
+
+    void SetEntityViewColorOverride(glm::vec4 const& color);
+    EntitiesT FindEntitiesByLine(glm::vec3 const& beg, glm::vec3 const& end) const;
+    EntitiesT FindEntitiesByLine(core::CBLine const& line) const;
+    CEntityView& GetEntityView(std::shared_ptr<eco::CEntity> entity);
 
     void UpdateRender(std::shared_ptr<eco::CUniverse> universe, CMeshRepository& meshRepo);
     void Render(glm::mat4 const& transform, cb::gl::CProgram& meshProgram);

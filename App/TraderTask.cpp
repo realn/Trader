@@ -11,6 +11,7 @@
 
 #include <CoreApp.h>
 #include <CoreFont.h>
+#include <CoreBLine.h>
 #include <GFXMesh.h>
 #include <GFXMeshView.h>
 #include <GFXConsts.h>
@@ -99,7 +100,16 @@ namespace trader {
   }
 
   void CTraderTask::UpdateRender() {
+    using namespace glm;
+
     mEcoUniverseView->UpdateRender(mEcoUniverse, mRepositories->Meshes);
+    mEcoUniverseView->SetEntityViewColorOverride(vec4(0.0f));
+    if(mEcoSelectedEntity) {
+      mEcoUniverseView->GetEntityView(mEcoSelectedEntity).SetColorOverride(mSelectedColor);
+    }
+    if(mEcoHighlightedEntity) {
+      mEcoUniverseView->GetEntityView(mEcoHighlightedEntity).SetColorOverride(mHighLightColor);
+    }
 
     mLayerStack->FindById<gui::CLabel>(L"labelFps"s)->SetText(cb::toStr(mFrameTD));
     mFrameTD = 0.0f;
@@ -115,9 +125,9 @@ namespace trader {
       auto gstate = cb::gl::bindStateEnabled(cb::gl::State::DEPTH_TEST, true);
       auto transform =
         mViewport.GetProjection() * mCamera.GetTransform();
-      auto gprog = cb::gl::bind(*mMeshProgram);
+
       RenderGrid(transform);
-      mEcoUniverseView->Render(transform, *mMeshProgram);
+      RenderUniverse(transform);
     }
     mScreen->Render();
   }
@@ -126,10 +136,16 @@ namespace trader {
     if(button == cb::sdl::Button::LEFT) {
       mDrag = state == cb::sdl::KeyState::PRESSED;
     }
+    if(button == cb::sdl::Button::LEFT && state == cb::sdl::KeyState::RELEASED) {
+      mEcoSelectedEntity = mEcoHighlightedEntity;
+    }
   }
 
   void CTraderTask::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {
     using namespace glm;
+
+    auto lbpos = vec2(pos.x, 1.0f - pos.y);
+
     if(mDrag) {
       auto rot =
         angleAxis(radians(delta.x * 100.0f), vec3(0.0f, 1.0f, 0.0f)) *
@@ -138,7 +154,19 @@ namespace trader {
       mCamera.ModRotation(rot);
     }
 
-    mLayerStack->FindById<gui::CAbsolute>(L"cursor"s)->SetPosition({ pos.x, 1.0f - pos.y });
+    mLayerStack->FindById<gui::CAbsolute>(L"cursor"s)->SetPosition(lbpos);
+
+    mEcoUniverseView->SetEntityViewColorOverride(vec4(0.0f));
+
+    auto line = CreateScreenHitLine(lbpos);
+    auto result = mEcoUniverseView->FindEntitiesByLine(line);
+    if(!result.empty()) {
+      mEcoHighlightedEntity = result.front();
+      mEcoUniverseView->GetEntityView(mEcoHighlightedEntity).SetColorOverride(vec4(1.0f, 1.0f, 0.0f, 1.0f));
+    }
+    else {
+      mEcoHighlightedEntity.reset();
+    }
   }
 
   void CTraderTask::OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {
@@ -251,8 +279,24 @@ namespace trader {
   }
 
   void CTraderTask::RenderGrid(glm::mat4 const & transform) const {
+    auto gprog = cb::gl::bind(*mMeshProgram);
     auto gmesh = cb::gl::bind(*mGridMesh);
     mMeshProgram->SetUniform(gfx::UNI_TRANSFORM, transform);
+    mMeshProgram->SetUniform(gfx::UNI_MESHCOLOR, glm::vec4(0.0f));
     mGridMesh->Render();
+  }
+
+  void CTraderTask::RenderUniverse(glm::mat4 const transform) const {
+    mEcoUniverseView->Render(transform, *mMeshProgram);
+  }
+
+  core::CBLine CTraderTask::CreateScreenHitLine(glm::vec2 lbpos) const {
+    using namespace glm;
+    auto transform = mCamera.GetTransform();
+    auto proj = mViewport.GetProjection();
+    auto viewport = vec4(0.0f, 0.0f, 1.0f, 1.0f);
+    auto beg = unProject(vec3(lbpos, 0.0f), transform, proj, viewport);
+    auto end = unProject(vec3(lbpos, 1.0f), transform, proj, viewport);
+    return { beg, end };
   }
 }

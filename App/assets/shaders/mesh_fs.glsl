@@ -5,8 +5,8 @@ in vec4 vFragColor;
 
 out vec4 vOutColor;
 
-uniform vec4 vMeshColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+uniform vec4 vMeshColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 void main() {
-	vOutColor = vFragColor * vMeshColor;
+	vOutColor = mix(vFragColor, vMeshColor, vMeshColor.a);
 }

@@ -10,6 +10,7 @@
 #include "Camera.h"
 
 namespace eco {
+  class CEntity;
   class CUniverse;
   class CComponentFactoryRegistry;
   class CEntityFactoryRegistry;
@@ -40,6 +41,8 @@ namespace trader {
 
     std::shared_ptr<eco::CUniverse> mEcoUniverse;
     std::unique_ptr<CUniverseView> mEcoUniverseView;
+    std::shared_ptr<eco::CEntity> mEcoSelectedEntity;
+    std::shared_ptr<eco::CEntity> mEcoHighlightedEntity;
 
     std::shared_ptr<core::CFont> mGuiFont;
     std::unique_ptr<gui::CLayerStack> mLayerStack;
@@ -50,6 +53,8 @@ namespace trader {
     bool mExit = false;
     bool mDrag = false;
     float mFrameTD = 0.0f;
+    glm::vec4 mHighLightColor = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+    glm::vec4 mSelectedColor = glm::vec4(1.0f);
 
   public:
     CTraderTask(core::CAppBase& app);
@@ -79,6 +84,8 @@ namespace trader {
     bool InitGUI();
 
     void RenderGrid(glm::mat4 const& transform) const;
+    void RenderUniverse(glm::mat4 const transform) const;
+    core::CBLine CreateScreenHitLine(glm::vec2 lbpos) const;
   };
 
 }

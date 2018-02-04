@@ -6,6 +6,7 @@ namespace gfx {
   using namespace std::literals;
 
   static const auto UNI_TRANSFORM = L"mTransform"s;
+  static const auto UNI_MESHCOLOR = L"vMeshColor"s;
 
   static const auto VIN_VERTEX3_POS = L"vInVertex"s;
   static const auto VIN_VERTEX3_NORMAL = L"vInNormal"s;

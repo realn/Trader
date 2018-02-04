@@ -66,5 +66,8 @@
     <ClInclude Include="CoreBSphere.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoreBLine.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include <glm/gtx/intersect.hpp>
 
+#include "CoreBLine.h"
 #include "CoreBSphere.h"
 
 namespace core {
@@ -17,6 +18,10 @@ namespace core {
   bool CBSphere::ContainsLine(glm::vec3 const & beg, glm::vec3 const & end) const {
     return ContainsPoint(beg) && ContainsPoint(end);
   }
+  bool CBSphere::ContainsLine(CBLine const & line) const {
+    return ContainsLine(line.GetBeg(), line.GetEnd());
+  }
+
   CBSphere::PointsT CBSphere::IntersectsLine(glm::vec3 const & beg, glm::vec3 const & end) const {
     using namespace glm;
     auto pos1 = vec3();
@@ -29,5 +34,9 @@ namespace core {
       return { pos1 };
     }
     return { pos1, pos2 };
+  }
+
+  CBSphere::PointsT CBSphere::IntersectsLine(CBLine const & line) const {
+    return IntersectsLine(line.GetBeg(), line.GetEnd());
   }
 }
