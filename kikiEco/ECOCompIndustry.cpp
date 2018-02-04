@@ -15,6 +15,26 @@ namespace eco {
 
   CFactoryTemplate::~CFactoryTemplate() {}
 
+  void CFactoryTemplate::PrintProducts(cb::ostream & stream) const {
+    PrintInfo(L"In"s, mInputs, stream);
+    PrintInfo(L"Out"s, mOutputs, stream);
+  }
+
+  void CFactoryTemplate::PrintInfo(cb::string const & name, ProductMulsT const& products, cb::ostream & stream) const {
+    stream << L"  "s << name << L": "s;
+    if(products.empty()) {
+      stream << L"[None]"s;
+    }
+    else {
+      auto result = cb::strvector();
+      for(auto& item : products) {
+        result.push_back(cb::format(L"{0}({1})"s, item.first, item.second));
+      }
+      stream << cb::join(result, L", "s);
+    }
+    stream << std::endl;
+  }
+
 
   CFactoryTemplateRegistry::CFactoryTemplateRegistry() {}
   CFactoryTemplateRegistry::~CFactoryTemplateRegistry() {}
@@ -36,8 +56,8 @@ namespace eco {
     return mTemplates.at(id);
   }
 
-  CFactory::CFactory(CFactoryTemplate const& factoryTemplate, size_t const size)
-    : CFactoryTemplate(factoryTemplate), mSize(size)
+  CFactory::CFactory(cb::string const& name, CFactoryTemplate const& factoryTemplate, size_t const size)
+    : CFactoryTemplate(factoryTemplate), mName(name), mSize(size)
   {}
 
   void CFactory::Update(comp::CMarket & market, float const timeDelta) {
@@ -65,6 +85,11 @@ namespace eco {
     }
   }
 
+  void CFactory::PrintInfo(cb::ostream & stream) const {
+    stream << L" Factory: " << mName << std::endl;
+    PrintProducts(stream);
+  }
+
   namespace comp {
     CIndustry::CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories) 
       : CComponent(parent, COMP_INDUSTRY_ID)
@@ -72,15 +97,15 @@ namespace eco {
       if(!factories.empty()) {
         auto registry = CFactoryTemplateRegistry::GetInstance();
         for(auto& factoryId : factories) {
-          AddFactory(registry->Get(factoryId));
+          AddFactory(factoryId, registry->Get(factoryId));
         }
       }
     }
 
     CIndustry::~CIndustry() {}
 
-    void CIndustry::AddFactory(CFactoryTemplate const & factoryTemplate) {
-      mFactories.push_back(CFactory(factoryTemplate));
+    void CIndustry::AddFactory(cb::string const& name, CFactoryTemplate const & factoryTemplate) {
+      mFactories.push_back(CFactory(name, factoryTemplate));
     }
 
     void CIndustry::Update(float const timeDelta) {
@@ -91,6 +116,13 @@ namespace eco {
       auto& market = parent->GetComponent<comp::CMarket>();
       for(auto& factory : mFactories) {
         factory.Update(market, timeDelta);
+      }
+    }
+
+    void CIndustry::PrintInfo(cb::ostream & stream) const {
+      stream << L"Industry: "s << std::endl;
+      for(auto& factory : mFactories) {
+        factory.PrintInfo(stream);
       }
     }
   }

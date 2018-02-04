@@ -2,7 +2,8 @@
 
 #include <memory>
 
-#include <CBStr\Defines.h>
+#include <CBIO/Defines.h>
+#include <CBStr/Defines.h>
 
 namespace eco {
 
@@ -22,6 +23,8 @@ namespace eco {
     cb::string const& GetId() const { return mId; }
 
     virtual void Update(const float timeDelta) {}
+
+    virtual void PrintInfo(cb::ostream& stream) const {}
   };
 
   template<class _Type>

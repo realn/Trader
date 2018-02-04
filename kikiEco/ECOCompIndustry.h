@@ -21,6 +21,11 @@ namespace eco {
     CFactoryTemplate();
     CFactoryTemplate(ProductMulsT const& inputs, ProductMulsT const& outputs);
     virtual ~CFactoryTemplate();
+
+    void PrintProducts(cb::ostream& stream) const;
+
+  private:
+    void PrintInfo(cb::string const& name, ProductMulsT const& products, cb::ostream& stream) const;
   };
 
   class CFactoryTemplateRegistry {
@@ -44,16 +49,19 @@ namespace eco {
     : public CFactoryTemplate
   {
   private:
+    cb::string mName;
     size_t mSize;
 
   public:
-    CFactory(CFactoryTemplate const& factoryTemplate = CFactoryTemplate(), size_t const size = 1);
+    CFactory(cb::string const& name, CFactoryTemplate const& factoryTemplate = CFactoryTemplate(), size_t const size = 1);
 
     void Update(comp::CMarket& market, float const timeDelta);
+    void PrintInfo(cb::ostream& stream) const;
 
   private:
     bool GetInputProducts(comp::CMarket& market, float const timeDelta);
     void PutOutputProducts(comp::CMarket& market, float const timeDelta);
+
   };
 
   namespace comp {
@@ -70,9 +78,11 @@ namespace eco {
       CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories = cb::strvector());
       virtual ~CIndustry();
 
-      void AddFactory(CFactoryTemplate const& factoryTemplate);
+      void AddFactory(cb::string const& name, CFactoryTemplate const& factoryTemplate);
 
       void Update(float const timeDelta) override;
+
+      void PrintInfo(cb::ostream& stream) const override;
     };
   }
 

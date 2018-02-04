@@ -40,6 +40,8 @@ namespace eco {
     bool HasComponents(cb::strvector const& ids) const;
     CComponent& GetComponent(cb::string const& id) const;
 
+    void PrintInfo(cb::ostream& stream, ComponentIdsT const& componentIds = ComponentIdsT()) const;
+
     template<class _Type, class ... _Args>
     void SetComponent(_Args&&... args) {
       SetComponent(std::make_unique<_Type>(shared_from_this(), std::forward<_Args>(args)...));

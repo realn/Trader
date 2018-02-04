@@ -37,4 +37,15 @@ namespace eco {
     return *mComponents.at(id);
   }
 
+  void CEntity::PrintInfo(cb::ostream & stream, ComponentIdsT const & componentIds) const {
+    stream << cb::format(L"Entity: {0} ({1})"s, mId, mTypeId) << std::endl;
+    auto ids = componentIds.empty() ? mComponentIds : componentIds;
+    for(auto& id : ids) {
+      auto it = mComponents.find(id);
+      if(it != mComponents.end()) {
+        it->second->PrintInfo(stream);
+      }
+    }
+  }
+
 }
