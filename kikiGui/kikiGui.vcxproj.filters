@@ -49,6 +49,9 @@
     <ClCompile Include="GUIImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GUIText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -101,6 +104,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIImage.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIText.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -145,6 +145,7 @@
     <ClInclude Include="GUILayer.h" />
     <ClInclude Include="GUIScreen.h" />
     <ClInclude Include="GUIStackPanel.h" />
+    <ClInclude Include="GUIText.h" />
     <ClInclude Include="GUIWidget.h" />
     <ClInclude Include="GUIWidgetContainer.h" />
     <ClInclude Include="GUIWidgetListContainer.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="GUILayer.cpp" />
     <ClCompile Include="GUIScreen.cpp" />
     <ClCompile Include="GUIStackPanel.cpp" />
+    <ClCompile Include="GUIText.cpp" />
     <ClCompile Include="GUIWidget.cpp" />
     <ClCompile Include="GUIWidgetContainer.cpp" />
     <ClCompile Include="GUIWidgetListContainer.cpp" />
