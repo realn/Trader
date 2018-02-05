@@ -8,6 +8,7 @@ namespace gui {
   class CStackPanel;
   class CAbsolute;
   class CImage;
+  class CText;
 
   class CLayer;
   class CLayerStack;

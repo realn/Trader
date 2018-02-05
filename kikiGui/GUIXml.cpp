@@ -7,6 +7,7 @@
 #include "GUIRect.h"
 #include "GUILayer.h"
 #include "GUIPanel.h"
+#include "GUIText.h"
 #include "GUIAbsolute.h"
 #include "GUIImage.h"
 #include "GUIStackPanel.h"
@@ -105,6 +106,7 @@ public:
     result[L"Panel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CPanel>>();
     result[L"StackPanel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CStackPanel>>();
     result[L"Absolute"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CAbsolute>>();
+    result[L"Text"] = std::make_unique<CWidgetXmlObjectFactory<gui::CText>>();
     return result;
   }
   static auto widgetFactory = CWidgetXmlFactory(getWidgetFactoriesMap());
@@ -229,6 +231,12 @@ CB_DEFINEXMLREAD(gui::CLabel) {
   if(GetAttribute(XML_WIDGET_TEXTCOLOR, color)) { mObject.SetTextColor(color); }
   if(GetAttribute(XML_WIDGET_TEXT, text)) { mObject.SetText(text); }
   else { mObject.SetText(mNode.GetValue()); }
+  return true;
+}
+
+CB_DEFINEXMLREAD(gui::CText) {
+  if(!cb::ReadXmlObject<gui::CLabel>(mNode, mObject)) { return false; }
+
   return true;
 }
 

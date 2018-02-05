@@ -111,5 +111,8 @@
     <Xml Include="assets\gui\layer_cursor.xml">
       <Filter>assets\gui</Filter>
     </Xml>
+    <Xml Include="assets\gui\layer_info.xml">
+      <Filter>assets\gui</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

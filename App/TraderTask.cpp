@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <iostream>
+
 #include <glm/vec4.hpp>
 
 #include <CBSDL/Consts.h>
@@ -34,6 +36,7 @@
 #include <GUILabel.h>
 #include <GUIRect.h>
 #include <GUIAbsolute.h>
+#include <GUIText.h>
 
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -102,10 +105,18 @@ namespace trader {
   void CTraderTask::UpdateRender() {
     using namespace glm;
 
+    auto textInfo = mLayerStack->FindById<gui::CText>(L"infoText"s);
+
     mEcoUniverseView->UpdateRender(mEcoUniverse, mRepositories->Meshes);
     mEcoUniverseView->SetEntityViewColorOverride(vec4(0.0f));
     if(mEcoSelectedEntity) {
       mEcoUniverseView->GetEntityView(mEcoSelectedEntity).SetColorOverride(mSelectedColor);
+      auto buffer = cb::stringstream();
+      mEcoSelectedEntity->PrintInfo(buffer);
+      textInfo->SetText(buffer.str());
+    }
+    else {
+      textInfo->SetText(L""s);
     }
     if(mEcoHighlightedEntity) {
       mEcoUniverseView->GetEntityView(mEcoHighlightedEntity).SetColorOverride(mHighLightColor);
@@ -270,6 +281,7 @@ namespace trader {
 
     mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(25));
 
+    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));
 

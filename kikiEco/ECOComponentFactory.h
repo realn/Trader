@@ -35,10 +35,10 @@ namespace eco {
   private:
     template<class ... _Args>
     void SetComponentToEntity(CEntity& entity, std::tuple<_Args...> const& params) const {
-      SetComponentToEntity(entity, params, helper::gen_seq<sizeof...(_Args)>{});
+      SetComponentToEntity(entity, params, typename helper::gen_seq<sizeof...(_Args)>::type());
     }
     template<class ... _Args, int ... Is>
-    void SetComponentToEntity(CEntity& entity, std::tuple<_Args...> const& params, helper::index<Is...>) const {
+    void SetComponentToEntity(CEntity& entity, std::tuple<_Args...> const& params, helper::seq<Is...>) const {
       entity.SetComponent<_Type>(std::get<Is>(params)...);
     }
   };

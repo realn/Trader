@@ -43,8 +43,8 @@ namespace eco {
     void PrintInfo(cb::ostream& stream, ComponentIdsT const& componentIds = ComponentIdsT()) const;
 
     template<class _Type, class ... _Args>
-    void SetComponent(_Args&&... args) {
-      SetComponent(std::make_unique<_Type>(shared_from_this(), std::forward<_Args>(args)...));
+    void SetComponent(_Args const&... args) {
+      SetComponent(std::make_unique<_Type>(shared_from_this(), args...));
     }
 
     template<class _Type>

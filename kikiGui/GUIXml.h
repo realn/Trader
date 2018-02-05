@@ -13,3 +13,4 @@ CB_DEFINEXMLREAD(gui::CStackPanel);
 CB_DEFINEXMLREAD(gui::CAbsolute);
 CB_DEFINEXMLREAD(gui::CImage);
 CB_DEFINEXMLREAD(gui::CLayer);
+CB_DEFINEXMLREAD(gui::CText);

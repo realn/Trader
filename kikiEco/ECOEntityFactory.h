@@ -26,17 +26,13 @@ namespace eco {
     virtual ~CEntityComponentConfig() {}
 
     void SetComponentToEntity(CEntity& entity) const override {
-      SetComponentToEntity(entity, mParams);
+      SetComponentToEntity(entity, std::index_sequence_for<_Params...>{});
     }
 
   private:
-    template<class ... _Args>
-    void SetComponentToEntity(CEntity& entity, std::tuple<_Params...> const& args) const {
-      SetComponentToEntity(entity, args, helper::gen_seq<sizeof...(_Args)>{});
-    }
-    template<class ... _Args, int ... Is>
-    void SetComponentToEntity(CEntity& entity, std::tuple<_Args...> const& params, helper::index<Is...>) const {
-      entity.SetComponent<_Type>(std::get<Is>(params)...);
+    template<size_t ... Is>
+    void SetComponentToEntity(CEntity& entity, std::index_sequence<Is...>) const {
+      entity.SetComponent<_Type, _Params...>(std::get<Is>(mParams)...);
     }
   };
 
