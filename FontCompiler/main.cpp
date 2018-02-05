@@ -58,9 +58,9 @@ int main(int argc, char* argv[]) {
   params.FontFileName = takeArg(args, L"-font"s, L"Instruction.otf"s);
   params.FontDir = takeArg(args, L"-path"s, L"assets"s);
   params.TexSize = takeArg(args, L"-texSize"s, 512u);
-  params.FontSize = takeArg(args, L"-fontSize"s, 46u);
+  params.FontSize = takeArg(args, L"-fontSize"s, 54u);
   params.FontChars = DEF_FONT_CHARS;
-  params.TexCharBorder = takeArg(args, L"-texBorder"s, 6u);
+  params.TexCharBorder = takeArg(args, L"-texBorder"s, 2u);
   params.CharColor = glm::vec4(1.0f);
   params.BackColor = glm::vec4(0.0f);
   params.OutputName = takeArg(args, L"-out"s, params.FontFileName);

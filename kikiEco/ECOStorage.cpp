@@ -42,7 +42,7 @@ namespace eco {
     if(it == mValues.end()) {
       return false;
     }
-    return it->second <= amount;
+    return it->second >= amount;
   }
 
   void CStorage::PrintInfo(cb::ostream & stream) const {
