@@ -16,7 +16,8 @@ namespace eco {
       CPriceList mPriceList;
 
     public:
-      CMarket(std::shared_ptr<CEntity> parent);
+      CMarket(std::shared_ptr<CEntity> parent, 
+              CStorage::ValuesT const& initStorage = CStorage::ValuesT());
       virtual ~CMarket();
 
       CStorage const& GetStorage() const { return mStorage; }
@@ -31,6 +32,8 @@ namespace eco {
 
       bool CanBuyProduct(cb::string const& id, float const amount, CWallet const& buyerWallet);
       bool CanSellProduct(cb::string const& id, float const amount, CStorage const& sellerStorage);
+
+      void PrintInfo(cb::ostream& stream) const;
     };
   }
 

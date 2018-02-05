@@ -51,6 +51,10 @@ namespace eco {
       }
       return result;
     }
+
+    void CDock::PrintInfo(cb::ostream & stream) const {
+      stream << L" Dock: "s << mDockedShips.size() << L" ships docked." << std::endl;
+    }
   }
 
   template<>

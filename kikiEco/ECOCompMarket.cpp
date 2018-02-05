@@ -7,8 +7,11 @@ namespace eco {
   static auto COMP_MARKET_ID = L"market"s;
 
   namespace comp {
-    CMarket::CMarket(std::shared_ptr<CEntity> parent)
-      : CComponent(parent, COMP_MARKET_ID) {}
+    CMarket::CMarket(std::shared_ptr<CEntity> parent,
+                     CStorage::ValuesT const& initStorage)
+      : CComponent(parent, COMP_MARKET_ID) 
+      , mStorage(initStorage)
+    {}
 
     CMarket::~CMarket() {}
 
@@ -48,6 +51,12 @@ namespace eco {
         return false;
 
       return sellerStorage.CanRemove(id, amount);
+    }
+
+    void CMarket::PrintInfo(cb::ostream & stream) const {
+      stream << L" MARKET:"s << std::endl;
+      mStorage.PrintInfo(stream);
+      mPriceList.PrintInfo(stream);
     }
   }
 

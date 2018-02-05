@@ -32,6 +32,8 @@ namespace eco {
 
       EntitiesT const& GetDockedShips() const { return mDockedShips; }
       EntitiesT GetConnectedDocks() const;
+
+      void PrintInfo(cb::ostream& stream) const override;
     };
   }
 

@@ -52,7 +52,6 @@ namespace trader {
     CCamera mCamera;
     bool mExit = false;
     bool mDrag = false;
-    float mFrameTD = 0.0f;
     glm::vec4 mHighLightColor = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
     glm::vec4 mSelectedColor = glm::vec4(1.0f);
 

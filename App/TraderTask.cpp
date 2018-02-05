@@ -96,8 +96,6 @@ namespace trader {
       return;
     }
 
-    mFrameTD += timeDelta;
-
     mEcoUniverse->UpdateEntities(timeDelta);
     mLayerStack->Update(timeDelta);
   }
@@ -123,8 +121,6 @@ namespace trader {
     }
 
     mLayerStack->FindById<gui::CLabel>(L"labelFps"s)->SetText(cb::toStr(timeDelta));
-    mFrameTD = 0.0f;
-
     mLayerStack->UpdateRender(*mGuiFont);
     mScreen->UpdateRender(mLayerStack->GetCanvas(), mLayerStack->GetSize());
   }
@@ -192,6 +188,14 @@ namespace trader {
       {},
       { {L"energy"s, 10.0f} }
     ));
+    mFactoryTemplateRegistry->Register(L"bioRecycler"s, eco::CFactoryTemplate(
+      { { L"energy"s, 3.0f }, {L"waste", 3.0f} },
+      { { L"biomass"s, 2.0f } }
+    ));
+    mFactoryTemplateRegistry->Register(L"foodFarm"s, eco::CFactoryTemplate(
+      { {L"energy"s, 2.0f}, {L"biomass"s, 5.0f} },
+      { {L"food"s, 3.0f}, {L"waste", 2.0f} }
+    ));
 
     mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
     mComponentRegistry->Register<eco::comp::CDock>();
@@ -203,9 +207,13 @@ namespace trader {
     mEntityRegistry = eco::CEntityFactoryRegistry::GetInstance();
     {
       auto ent = mEntityRegistry->Register(L"Planet"s);
-      ent->SetComponent<eco::comp::CMarket>();
+      ent->SetComponent<eco::comp::CMarket>(eco::CStorage::ValuesT{
+        {L"biomass"s, 100.0f}
+                                            });
       ent->SetComponent<eco::comp::CDock>();
-      ent->SetComponent<eco::comp::CIndustry>(cb::strvector{ L"solarArray" });
+      ent->SetComponent<eco::comp::CIndustry>(cb::strvector{ 
+        L"solarArray"s, L"bioRecycler"s, L"foodFarm"s
+                                              });
     }
     {
       auto ent = mEntityRegistry->Register(L"Ship"s);
@@ -279,7 +287,7 @@ namespace trader {
       mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
     }
 
-    mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(25));
+    mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(36));
 
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));

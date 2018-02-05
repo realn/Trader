@@ -2,6 +2,9 @@
 #include "ECOStorage.h"
 
 namespace eco {
+  CStorage::CStorage(ValuesT const& initStorage)
+    : mValues(initStorage) {}
+
   void CStorage::AddProduct(cb::string const & id, float const amount) {
     if(amount <= 0.0f) {
       throw std::exception("Cannot add negative or zero number.");
@@ -40,5 +43,14 @@ namespace eco {
       return false;
     }
     return it->second <= amount;
+  }
+
+  void CStorage::PrintInfo(cb::ostream & stream) const {
+    if(!mValues.empty()) {
+      stream << L"  Storage:" << std::endl;
+      for(auto& item : mValues) {
+        stream << L"   "s << item.first << L" x "s << item.second << std::endl;
+      }
+    }
   }
 }

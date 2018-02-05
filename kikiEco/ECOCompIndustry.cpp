@@ -21,7 +21,7 @@ namespace eco {
   }
 
   void CFactoryTemplate::PrintInfo(cb::string const & name, ProductMulsT const& products, cb::ostream & stream) const {
-    stream << L"  "s << name << L": "s;
+    stream << L"   "s << name << L": "s;
     if(products.empty()) {
       stream << L"[None]"s;
     }
@@ -86,7 +86,7 @@ namespace eco {
   }
 
   void CFactory::PrintInfo(cb::ostream & stream) const {
-    stream << L" Factory: " << mName << std::endl;
+    stream << L"  Factory: " << mName << std::endl;
     PrintProducts(stream);
   }
 
@@ -120,7 +120,7 @@ namespace eco {
     }
 
     void CIndustry::PrintInfo(cb::ostream & stream) const {
-      stream << L"Industry: "s << std::endl;
+      stream << L"Industry:  "s << std::endl;
       for(auto& factory : mFactories) {
         factory.PrintInfo(stream);
       }

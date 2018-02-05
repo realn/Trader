@@ -22,4 +22,13 @@ namespace eco {
     return it->second;
   }
 
+  void CPriceList::PrintInfo(cb::ostream & stream) const {
+    if(!mValues.empty()) {
+      stream << L"  Prices:"s << std::endl;
+      for(auto& item : mValues) {
+        stream << L"   "s << item.first << L": " << item.second << L"$"s << std::endl;
+      }
+    }
+  }
+
 }

@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include <CBIO\Defines.h>
 #include <CBStr\Defines.h>
 
 namespace eco {
@@ -17,5 +18,7 @@ namespace eco {
     float GetValue(cb::string const& productId) const;
 
     bool Contains(cb::string const& productId) const { return mValues.find(productId) != mValues.end(); }
+
+    void PrintInfo(cb::ostream& stream) const;
   };
 }
