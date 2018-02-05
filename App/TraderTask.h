@@ -67,7 +67,7 @@ namespace trader {
 
     virtual void Update(core::CAppBase& app, float const & timeDelta) override;
 
-    virtual void UpdateRender() override;
+    virtual void UpdateRender(float const timeDelta) override;
 
     virtual void Render() override;
 

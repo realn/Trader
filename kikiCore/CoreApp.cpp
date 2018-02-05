@@ -37,7 +37,7 @@ namespace core {
 
       mGLContext->SwapWindow(*mWindow);
 
-      UpdateRender();
+      UpdateRender(frameTime);
 
       mTimer.Update();
       frameTime += mTimer.GetTimeDelta();
@@ -120,8 +120,8 @@ namespace core {
     mTask->Update(*this, timeDelta);
   }
 
-  void CAppBase::UpdateRender() {
-    mTask->UpdateRender();
+  void CAppBase::UpdateRender(float const timeDelta) {
+    mTask->UpdateRender(timeDelta);
   }
 
   void CAppBase::Render() {

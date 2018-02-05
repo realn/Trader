@@ -102,7 +102,7 @@ namespace trader {
     mLayerStack->Update(timeDelta);
   }
 
-  void CTraderTask::UpdateRender() {
+  void CTraderTask::UpdateRender(float const timeDelta) {
     using namespace glm;
 
     auto textInfo = mLayerStack->FindById<gui::CText>(L"infoText"s);
@@ -122,7 +122,7 @@ namespace trader {
       mEcoUniverseView->GetEntityView(mEcoHighlightedEntity).SetColorOverride(mHighLightColor);
     }
 
-    mLayerStack->FindById<gui::CLabel>(L"labelFps"s)->SetText(cb::toStr(mFrameTD));
+    mLayerStack->FindById<gui::CLabel>(L"labelFps"s)->SetText(cb::toStr(timeDelta));
     mFrameTD = 0.0f;
 
     mLayerStack->UpdateRender(*mGuiFont);

@@ -54,7 +54,7 @@ namespace core {
     void ProcessEvents();
     void Update(float& frameTime);
     void UpdateFrame(float const timeDelta);
-    void UpdateRender();
+    void UpdateRender(float const timeDelta);
     void Render();
 
     void ProcessWindowEvent(cb::sdl::CEvent const& event);

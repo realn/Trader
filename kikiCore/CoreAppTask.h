@@ -19,7 +19,7 @@ namespace core {
     virtual bool Init(CAppBase& app) = 0;
 
     virtual void Update(CAppBase& app, float const& timeDelta) = 0;
-    virtual void UpdateRender() = 0;
+    virtual void UpdateRender(float const timeDelta) = 0;
     virtual void Render() = 0;
 
   };
