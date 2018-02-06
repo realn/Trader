@@ -33,6 +33,15 @@ namespace eco {
         }
       }
     }
+    void CWarpDrive::PrintInfo(cb::ostream & stream) const {
+      stream << L" WARPDRIVE: "s;
+      if(!mJunction.expired()) {
+        stream << L"ONLINE" << std::endl;
+      }
+      else {
+        stream << L"OFFLINE" << std::endl;
+      }
+    }
   }
 
   template<>

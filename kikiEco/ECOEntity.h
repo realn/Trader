@@ -7,6 +7,8 @@
 #include "ECOComponent.h"
 
 namespace eco {
+  class CUniverse;
+
   class CEntity
     : public std::enable_shared_from_this<CEntity>
   {
@@ -15,6 +17,7 @@ namespace eco {
     using ComponentIdsT = std::set<cb::string>;
 
   private:
+    std::weak_ptr<CUniverse> mUniverse;
     cb::string mTypeId;
     cb::string mId;
     glm::vec2 mPosition;
@@ -30,10 +33,12 @@ namespace eco {
 
     void SetId(cb::string const& id) { mId = id; }
     void SetPosition(glm::vec2 const& value) { mPosition = value; }
+    void SetUniverse(std::shared_ptr<CUniverse> value) { mUniverse = value; }
 
     cb::string GetTypeId() const { return mTypeId; }
     cb::string GetId() const { return mId; }
     glm::vec2 GetPosition() const { return mPosition; }
+    std::shared_ptr<CUniverse> GetUniverse() const { return mUniverse.lock(); }
 
     void SetComponent(std::unique_ptr<CComponent> component);
     bool HasComponent(cb::string const& id) const;

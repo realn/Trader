@@ -22,6 +22,7 @@ namespace eco {
       
     public:
       CDock(std::shared_ptr<CEntity> parent);
+      CDock(CDock&&) = default;
       virtual ~CDock();
 
       void AddJunction(std::shared_ptr<CTradeJunction> junction);

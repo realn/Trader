@@ -20,6 +20,8 @@ namespace eco {
       void ClearJunction();
 
       void Update(float const timeDelta) override;
+
+      void PrintInfo(cb::ostream& stream) const override;
     };
   }
 

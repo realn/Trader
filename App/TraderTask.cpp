@@ -234,18 +234,22 @@ namespace trader {
       };
 
       auto factory = mEntityRegistry->Get(L"Planet"s);
+      auto idx = 0u;
       for(auto& pos : positions) {
-        auto entity = factory->Create();
+        auto entity = factory->Create(cb::format(L"Some Planet {0}"s, idx++));
         entity->SetPosition(pos);
+        entity->SetUniverse(mEcoUniverse);
         mEcoUniverse->AddEntity(entity);
       }
     }
 
     {
+      auto idx = 0u;
       auto factory = mEntityRegistry->Get(L"Ship"s);
       auto dock = mEcoUniverse->GetEntities(eco::GetComponentId<eco::comp::CDock>()).front();
       for(auto i = 0u; i < 8u; i++) {
-        auto entity = factory->Create();
+        auto entity = factory->Create(cb::format(L"Some Ship {0}"s, idx++));
+        entity->SetUniverse(mEcoUniverse);
         mEcoUniverse->AddEntity(entity);
         dock->GetComponent<eco::comp::CDock>().DockShip(entity);
       }

@@ -32,6 +32,16 @@ namespace eco {
     static_assert(false && "Not implemented.");
   }
 
+  //template<class _Type, class ... _Types>
+  //cb::strvector GetComponentIds(cb::strvector& list = cb::strvector()) {
+  //  list.push_back(GetComponentId<_Type>());
+  //  return GetComponentIds<_Types...>(list);
+  //}
+
+  //cb::strvector GetComponentIds(cb::strvector& list = cb::strvector()) {
+  //  return list;
+  //}
+
   template<class _Type>
   struct weak_ptr_less {
     bool operator()(const std::weak_ptr<_Type> left, const std::weak_ptr<_Type> right) const {
