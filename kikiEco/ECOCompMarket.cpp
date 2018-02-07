@@ -4,7 +4,7 @@
 #include "ECOCompMarket.h"
 
 namespace eco {
-  static auto COMP_MARKET_ID = L"market"s;
+  static auto COMP_MARKET_ID = L"Market"s;
 
   namespace comp {
     CMarket::CMarket(std::shared_ptr<CEntity> parent,

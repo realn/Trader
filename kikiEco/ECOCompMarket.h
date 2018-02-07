@@ -18,6 +18,7 @@ namespace eco {
     public:
       CMarket(std::shared_ptr<CEntity> parent, 
               CStorage::ValuesT const& initStorage = CStorage::ValuesT());
+      CMarket(CMarket&&) = default;
       virtual ~CMarket();
 
       CStorage const& GetStorage() const { return mStorage; }

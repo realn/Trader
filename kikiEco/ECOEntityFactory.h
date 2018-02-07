@@ -6,6 +6,7 @@
 
 #include "ECODefines.h"
 #include "ECOComponent.h"
+#include "ECOComponentFactory.h"
 
 namespace eco {
   class IEntityComponentConfig {
@@ -13,6 +14,24 @@ namespace eco {
     virtual ~IEntityComponentConfig() {}
 
     virtual void SetComponentToEntity(CEntity& entity) const = 0;
+  };
+
+  class CEntityComponentConfigSimple 
+    : public IEntityComponentConfig
+  {
+  private:
+    cb::string mId;
+
+  public:
+    CEntityComponentConfigSimple(cb::string const& id) : mId(id) {}
+    virtual ~CEntityComponentConfigSimple() {}
+
+    virtual void SetComponentToEntity(CEntity& entity) const override {
+      auto componentFactory = CComponentFactoryRegistry::GetFactory(mId);
+      if(componentFactory) {
+        componentFactory->SetComponentToEntity(entity);
+      }
+    }
   };
 
   template<class _Type, class ... _Params>
@@ -23,6 +42,7 @@ namespace eco {
 
   public:
     CEntityComponentConfig(_Params&&... args) : mParams(std::forward<_Params>(args)...) {}
+    CEntityComponentConfig(CEntityComponentConfig&&) = default;
     virtual ~CEntityComponentConfig() {}
 
     void SetComponentToEntity(CEntity& entity) const override {
@@ -44,9 +64,14 @@ namespace eco {
 
   public:
     CEntityFactory(cb::string const& typeId);
+    CEntityFactory(CEntityFactory&&) = default;
     ~CEntityFactory();
 
     cb::string GetTypeId() const { return mTypeId; }
+
+    void SetComponentById(cb::string const& id) {
+      mComponents[id] = std::make_unique<CEntityComponentConfigSimple>(id);
+    }
 
     template<class _Type, class ... _Params>
     void SetComponent(_Params&& ... args) {

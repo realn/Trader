@@ -208,26 +208,46 @@ namespace trader {
     mComponentRegistry->Register<eco::comp::CWarpDrive>();
 
     mEntityRegistry = eco::CEntityFactoryRegistry::GetInstance();
-    {
-      auto ent = mEntityRegistry->Register(L"Planet"s);
-      ent->SetComponent<eco::comp::CMarket>(eco::CStorage::ValuesT{
-        {L"biomass"s, 100.0f}
-                                            });
-      ent->SetComponent<eco::comp::CDock>();
-      ent->SetComponent<eco::comp::CIndustry>(cb::strvector{ 
-        L"solarArray"s, L"bioRecycler"s, L"foodFarm"s
-                                              });
+    for(auto& entityType : uniData.mTypes) {
+      auto ent = mEntityRegistry->Register(entityType.mId);
+      for(auto& component : entityType.mComponents) {
+        if(component->mId == L"Industry"s) {
+          auto& industry = static_cast<data::CIndustry&>(*component);
+          ent->SetComponent<eco::comp::CIndustry>(industry.mFactories);
+        }
+        else if(component->mId == L"Market") {
+          auto& market = static_cast<data::CMarket&>(*component);
+          eco::CStorage::ValuesT values;
+          for(auto& product : market.mStorage.mProducts) {
+            values[product.mId] = product.mValue;
+          }
+          ent->SetComponent<eco::comp::CMarket>(std::move(values));
+        }
+        else {
+          ent->SetComponentById(component->mId);
+        }
+      }
     }
-    {
-      auto ent = mEntityRegistry->Register(L"Ship"s);
-      ent->SetComponent<eco::comp::CWarpDrive>();
-      ent->SetComponent<eco::comp::CNavigation>();
-    }
+    //{
+    //  auto ent = mEntityRegistry->Register(L"Planet"s);
+    //  ent->SetComponent<eco::comp::CMarket>(eco::CStorage::ValuesT{
+    //    {L"biomass"s, 100.0f}
+    //                                        });
+    //  ent->SetComponent<eco::comp::CDock>();
+    //  ent->SetComponent<eco::comp::CIndustry>(cb::strvector{ 
+    //    L"solarArray"s, L"bioRecycler"s, L"foodFarm"s
+    //                                          });
+    //}
+    //{
+    //  auto ent = mEntityRegistry->Register(L"Ship"s);
+    //  ent->SetComponent<eco::comp::CWarpDrive>();
+    //  ent->SetComponent<eco::comp::CNavigation>();
+    //}
 
     mEcoUniverse = std::make_shared<eco::CUniverse>();
 
     mEcoUniverse->SetMaxJunctionDistance(uniData.mMaxJunctionDistance);
-    for(auto& entityType : uniData.mTypes) {
+    for(auto& entityType : uniData.mLists) {
       auto factory = mEntityRegistry->Get(entityType.mTypeId);
       for(auto& entityInst : entityType.mEntities) {
         auto entity = factory->Create(entityInst.mName);

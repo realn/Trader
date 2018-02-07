@@ -13,6 +13,19 @@
     <Out Id="food" Value="2.0" />
     <Out Id="waste" Value="2.0" />
   </FactoryTemplate>
+  <EntityType Id="Planet">
+    <Dock />
+    <Market>
+      <Storage>
+        <Product Id="biomass" Value="100.0" />
+      </Storage>
+    </Market>
+    <Industry Factories="solarArray,bioRecycler,foodFarm" />
+  </EntityType>
+  <EntityType Id="Ship">
+    <WarpDrive />
+    <Navigation />
+  </EntityType>
   <EntityList TypeId="Planet">
     <Entity Name="Venus" Position="2.0f,-4.0f" />
     <Entity Name="Mercury" Position="6.4f,-2.0f" />

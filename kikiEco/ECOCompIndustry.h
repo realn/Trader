@@ -80,6 +80,7 @@ namespace eco {
 
     public:
       CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories = cb::strvector());
+      CIndustry(CIndustry&&) = default;
       virtual ~CIndustry();
 
       void AddFactory(CFactoryTemplate const& factoryTemplate);
