@@ -1,5 +1,5 @@
 <Universe MaxJunctionDistance="7.0">
-  <EntityType TypeId="Planet">
+  <EntityList TypeId="Planet">
     <Entity Name="Venus" Position="2.0f,-4.0f" />
     <Entity Name="Mercury" Position="6.4f,-2.0f" />
     <Entity Name="Mars" Position="4.3f,2.0f" />
@@ -9,8 +9,8 @@
     <Entity Name="Pluto" Position="-3.8,-5.0f" />
     <Entity Name="Celti" Position="-2.8,-9.0f" />
     <Entity Name="Kasio" Position="-2.8,5.7f" />
-  </EntityType>
-  <EntityType TypeId="Ship">
+  </EntityList>
+  <EntityList TypeId="Ship">
     <Entity Name="Enterprise" Dock="Random" />
     <Entity Name="Yamato" Dock="Random" />
     <Entity Name="Missisipi" Dock="Random" />
@@ -19,5 +19,5 @@
     <Entity Name="Copernicus" Dock="Random" />
     <Entity Name="Gauss" Dock="Random" />
     <Entity Name="Tesla" Dock="Random" />
-  </EntityType>
+  </EntityList>
 </Universe>

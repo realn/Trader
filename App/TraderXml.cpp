@@ -8,10 +8,10 @@
 
 const auto XML_UNIVERSE = L"Universe"s;
 const auto XML_UNIVERSE_MAXJUNCTIONDISTANCE = L"MaxJunctionDistance"s;
-const auto XML_UNIVERSE_ENTITYTYPE = L"EntityType"s;
+const auto XML_UNIVERSE_ENTITYLIST = L"EntityList"s;
 
-const auto XML_ENTITYTYPE_TYPEID = L"TypeId"s;
-const auto XML_ENTITYTYPE_ENTITY = L"Entity"s;
+const auto XML_ENTITYLIST_TYPEID = L"TypeId"s;
+const auto XML_ENTITYLIST_ENTITY = L"Entity"s;
 
 const auto XML_ENTITY_NAME = L"Name"s;
 const auto XML_ENTITY_POSITION = L"Position"s;
@@ -34,13 +34,13 @@ CB_DEFINEXMLREAD(trader::data::CEntity) {
 
 CB_DEFINEXMLREAD(trader::data::CEntityList) {
   return
-    GetAttribute(XML_ENTITYTYPE_TYPEID, mObject.mTypeId) &&
-    GetNodeList(mObject.mEntities, XML_ENTITYTYPE_ENTITY);
+    GetAttribute(XML_ENTITYLIST_TYPEID, mObject.mTypeId) &&
+    GetNodeList(mObject.mEntities, XML_ENTITYLIST_ENTITY);
 }
 
 CB_DEFINEXMLREAD(trader::data::CUniverse) {
   GetAttribute(XML_UNIVERSE_MAXJUNCTIONDISTANCE, mObject.mMaxJunctionDistance);
-  return this->GetNodeList(mObject.mTypes, XML_UNIVERSE_ENTITYTYPE);
+  return this->GetNodeList(mObject.mTypes, XML_UNIVERSE_ENTITYLIST);
 }
 
 bool trader::data::Load(cb::string const & filepath, CUniverse & outUniverse) {
