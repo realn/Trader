@@ -10,8 +10,11 @@ namespace eco {
 
   CFactoryTemplate::CFactoryTemplate() {}
 
-  CFactoryTemplate::CFactoryTemplate(ProductMulsT const & inputs, ProductMulsT const & outputs)
-    : mInputs(inputs), mOutputs(outputs) {}
+  CFactoryTemplate::CFactoryTemplate(cb::string const& id,
+                                     cb::string const& name, 
+                                     ProductMulsT const & inputs, 
+                                     ProductMulsT const & outputs)
+    : mId(id), mName(name), mInputs(inputs), mOutputs(outputs) {}
 
   CFactoryTemplate::~CFactoryTemplate() {}
 
@@ -48,16 +51,16 @@ namespace eco {
     return mInstance.lock();
   }
 
-  void CFactoryTemplateRegistry::Register(cb::string const & id, CFactoryTemplate const & factoryTemplate) {
-    mTemplates[id] = factoryTemplate;
+  void CFactoryTemplateRegistry::Register(CFactoryTemplate const & factoryTemplate) {
+    mTemplates[factoryTemplate.GetId()] = factoryTemplate;
   }
 
   CFactoryTemplate CFactoryTemplateRegistry::Get(cb::string const & id) const {
     return mTemplates.at(id);
   }
 
-  CFactory::CFactory(cb::string const& name, CFactoryTemplate const& factoryTemplate, size_t const size)
-    : CFactoryTemplate(factoryTemplate), mName(name), mSize(size)
+  CFactory::CFactory(CFactoryTemplate const& factoryTemplate, size_t const size)
+    : CFactoryTemplate(factoryTemplate), mSize(size)
   {}
 
   void CFactory::Update(comp::CMarket & market, float const timeDelta) {
@@ -97,15 +100,15 @@ namespace eco {
       if(!factories.empty()) {
         auto registry = CFactoryTemplateRegistry::GetInstance();
         for(auto& factoryId : factories) {
-          AddFactory(factoryId, registry->Get(factoryId));
+          AddFactory(registry->Get(factoryId));
         }
       }
     }
 
     CIndustry::~CIndustry() {}
 
-    void CIndustry::AddFactory(cb::string const& name, CFactoryTemplate const & factoryTemplate) {
-      mFactories.push_back(CFactory(name, factoryTemplate));
+    void CIndustry::AddFactory(CFactoryTemplate const & factoryTemplate) {
+      mFactories.push_back(CFactory(factoryTemplate));
     }
 
     void CIndustry::Update(float const timeDelta) {

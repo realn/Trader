@@ -7,6 +7,20 @@
 
 namespace trader {
   namespace data {
+    struct CProduct {
+      cb::string mId;
+      float mValue = 0.0f;
+    };
+    using ProductsT = std::vector<CProduct>;
+
+    struct CFactoryTemplate {
+      cb::string mId;
+      cb::string mName;
+      ProductsT mInProducts;
+      ProductsT mOutProducts;
+    };
+    using FactoryTemplatesT = std::vector<CFactoryTemplate>;
+
     struct CEntity {
       cb::string mName;
       glm::vec2 mPosition; // optional
@@ -22,6 +36,7 @@ namespace trader {
 
     struct CUniverse {
       float mMaxJunctionDistance = 7.0f;
+      FactoryTemplatesT mFactoryTemplates;
       EntityTypesT mTypes;
     };
 

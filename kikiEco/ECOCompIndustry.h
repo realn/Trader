@@ -14,13 +14,18 @@ namespace eco {
     using ProductMulsT = std::map<cb::string, float>;
 
   protected:
+    cb::string mId;
+    cb::string mName;
     ProductMulsT mInputs;
     ProductMulsT mOutputs;
 
   public:
     CFactoryTemplate();
-    CFactoryTemplate(ProductMulsT const& inputs, ProductMulsT const& outputs);
+    CFactoryTemplate(cb::string const& id, cb::string const& name, ProductMulsT const& inputs, ProductMulsT const& outputs);
     virtual ~CFactoryTemplate();
+
+    cb::string const& GetId() const { return mId; }
+    cb::string const& GetName() const { return mName; }
 
     void PrintProducts(cb::ostream& stream) const;
 
@@ -41,7 +46,7 @@ namespace eco {
 
     static std::shared_ptr<CFactoryTemplateRegistry> GetInstance();
 
-    void Register(cb::string const& id, CFactoryTemplate const& factoryTemplate);
+    void Register(CFactoryTemplate const& factoryTemplate);
     CFactoryTemplate Get(cb::string const& id) const;
   };
 
@@ -49,11 +54,10 @@ namespace eco {
     : public CFactoryTemplate
   {
   private:
-    cb::string mName;
     size_t mSize;
 
   public:
-    CFactory(cb::string const& name, CFactoryTemplate const& factoryTemplate = CFactoryTemplate(), size_t const size = 1);
+    CFactory(CFactoryTemplate const& factoryTemplate = CFactoryTemplate(), size_t const size = 1);
 
     void Update(comp::CMarket& market, float const timeDelta);
     void PrintInfo(cb::ostream& stream) const;
@@ -78,7 +82,7 @@ namespace eco {
       CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories = cb::strvector());
       virtual ~CIndustry();
 
-      void AddFactory(cb::string const& name, CFactoryTemplate const& factoryTemplate);
+      void AddFactory(CFactoryTemplate const& factoryTemplate);
 
       void Update(float const timeDelta) override;
 

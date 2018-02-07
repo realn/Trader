@@ -184,19 +184,21 @@ namespace trader {
   }
 
   bool CTraderTask::InitUniverse() {
+    auto uniData = data::CUniverse();
+    if(!data::Load(L"assets/universe.xml", uniData)) {
+      return false;
+    }
+
     mFactoryTemplateRegistry = eco::CFactoryTemplateRegistry::GetInstance();
-    mFactoryTemplateRegistry->Register(L"solarArray", eco::CFactoryTemplate(
-      {},
-      { {L"energy"s, 10.0f} }
-    ));
-    mFactoryTemplateRegistry->Register(L"bioRecycler"s, eco::CFactoryTemplate(
-      { { L"energy"s, 3.0f }, {L"waste", 3.0f} },
-      { { L"biomass"s, 2.0f } }
-    ));
-    mFactoryTemplateRegistry->Register(L"foodFarm"s, eco::CFactoryTemplate(
-      { {L"energy"s, 2.0f}, {L"biomass"s, 5.0f} },
-      { {L"food"s, 3.0f}, {L"waste", 2.0f} }
-    ));
+    for(auto& factoryTemplate : uniData.mFactoryTemplates) {
+      eco::CFactoryTemplate::ProductMulsT in;
+      eco::CFactoryTemplate::ProductMulsT out;
+      for(auto product : factoryTemplate.mInProducts) { in[product.mId] = product.mValue; }
+      for(auto product : factoryTemplate.mOutProducts) { out[product.mId] = product.mValue; }
+      mFactoryTemplateRegistry->Register(eco::CFactoryTemplate(factoryTemplate.mId,
+                                                               factoryTemplate.mName,
+                                                               in, out));
+    }
 
     mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
     mComponentRegistry->Register<eco::comp::CDock>();
@@ -223,11 +225,6 @@ namespace trader {
     }
 
     mEcoUniverse = std::make_shared<eco::CUniverse>();
-
-    auto uniData = data::CUniverse();
-    if(!data::Load(L"assets/universe.xml", uniData)) {
-      return false;
-    }
 
     mEcoUniverse->SetMaxJunctionDistance(uniData.mMaxJunctionDistance);
     for(auto& entityType : uniData.mTypes) {

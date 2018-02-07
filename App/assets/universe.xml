@@ -1,4 +1,18 @@
 <Universe MaxJunctionDistance="7.0">
+  <FactoryTemplate Id="solarArray" Name="Solar Panel Array">
+    <Out Id="energy" Value="10.0" />
+  </FactoryTemplate>
+  <FactoryTemplate Id="bioRecycler" Name="Biological Recycler">
+    <In Id="waste" Value="3.0" />
+    <In Id="energy" Value="3.0" />
+    <Out Id="biomass" Value="2.0" />
+  </FactoryTemplate>
+  <FactoryTemplate Id="foodFarm" Name="Food Farm">
+    <In Id="energy" Value="4.0" />
+    <In Id="biomass" Value="4.0" />
+    <Out Id="food" Value="2.0" />
+    <Out Id="waste" Value="2.0" />
+  </FactoryTemplate>
   <EntityList TypeId="Planet">
     <Entity Name="Venus" Position="2.0f,-4.0f" />
     <Entity Name="Mercury" Position="6.4f,-2.0f" />
