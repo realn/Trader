@@ -154,6 +154,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TraderTask.cpp" />
+    <ClCompile Include="TraderXml.cpp" />
     <ClCompile Include="UniverseView.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,7 @@
     <ClInclude Include="Repositories.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TraderTask.h" />
+    <ClInclude Include="TraderXml.h" />
     <ClInclude Include="UniverseView.h" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +201,7 @@
     <Xml Include="assets\gui\layer_consttop.xml" />
     <Xml Include="assets\gui\layer_cursor.xml" />
     <Xml Include="assets\gui\layer_info.xml" />
+    <Xml Include="assets\universe.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -32,6 +32,11 @@ namespace eco {
     static_assert(false && "Not implemented.");
   }
 
+  template<class _Type, class ... _Types>
+  cb::strvector GetComponentIds() {
+    return { GetComponentId<_Type>(), GetComponentId<_Types>()... };
+  }
+
   //template<class _Type, class ... _Types>
   //cb::strvector GetComponentIds(cb::strvector& list = cb::strvector()) {
   //  list.push_back(GetComponentId<_Type>());

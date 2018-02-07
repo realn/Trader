@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <random>
+
 #include "ECOEntity.h"
 #include "ECOUniverse.h"
 #include "ECOCompMarket.h"
@@ -33,6 +35,47 @@ namespace eco {
     mEntities.push_back(entity);
   }
 
+  std::shared_ptr<CEntity> CUniverse::FindEntity(cb::string const & id) const {
+    if(id != L"Random"s) {
+      auto it = std::find_if(mEntities.begin(), mEntities.end(),
+                             [&id](EntitiesT::value_type const& item)->auto{return item->GetId() == id; });
+      if(it != mEntities.end()) {
+        return *it;
+      }
+      return std::shared_ptr<CEntity>();
+    }
+    else {
+      static std::random_device dev;
+      auto it = mEntities.begin();
+      std::advance(it, dev() % mEntities.size());
+      return *it;
+    }
+  }
+
+  std::shared_ptr<CEntity> CUniverse::FindEntity(cb::string const & id, cb::string const & requiredComponent) const {
+    return FindEntity(id, cb::strvector{ requiredComponent });
+  }
+
+  std::shared_ptr<CEntity> CUniverse::FindEntity(cb::string const & id, cb::strvector const & requiredComponents) const {
+    if(id != L"Random"s) {
+      auto pred = [&id, &requiredComponents](EntitiesT::value_type const& item) -> auto {
+        return item->GetId() == id && item->HasComponents(requiredComponents);
+      };
+      auto it = std::find_if(mEntities.begin(), mEntities.end(), pred);
+      if(it != mEntities.end()) {
+        return *it;
+      }
+      return std::shared_ptr<CEntity>();
+    }
+    else {
+      static std::random_device dev;
+      auto entities = GetEntities(requiredComponents);
+      auto it = entities.begin();
+      std::advance(it, dev() % entities.size());
+      return *it;
+    }
+  }
+
   CUniverse::EntitiesT CUniverse::GetEntities(cb::strvector const & requiredComponents) const {
     auto result = EntitiesT();
     for(auto& entity : mEntities) {
@@ -52,5 +95,5 @@ namespace eco {
     }
     return result;
   }
-
 }
+

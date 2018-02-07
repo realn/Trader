@@ -38,6 +38,7 @@
 #include <GUIAbsolute.h>
 #include <GUIText.h>
 
+#include "TraderXml.h"
 #include "UniverseView.h"
 #include "Repositories.h"
 #include "TraderTask.h"
@@ -223,35 +224,25 @@ namespace trader {
 
     mEcoUniverse = std::make_shared<eco::CUniverse>();
 
-    {
-      auto positions = std::vector<glm::vec2>{
-        { 2.0f, -4.0f },
-      { 6.4f, -2.0f },
-      { 4.3f, 2.0f },
-      { -5.4f, 0.5f },
-      { 0.0f, 4.0f },
-      { -3.8, -5.0f }
-      };
-
-      auto factory = mEntityRegistry->Get(L"Planet"s);
-      auto idx = 0u;
-      for(auto& pos : positions) {
-        auto entity = factory->Create(cb::format(L"Some Planet {0}"s, idx++));
-        entity->SetPosition(pos);
-        entity->SetUniverse(mEcoUniverse);
-        mEcoUniverse->AddEntity(entity);
-      }
+    auto uniData = data::CUniverse();
+    if(!data::Load(L"assets/universe.xml", uniData)) {
+      return false;
     }
 
-    {
-      auto idx = 0u;
-      auto factory = mEntityRegistry->Get(L"Ship"s);
-      auto dock = mEcoUniverse->GetEntities(eco::GetComponentId<eco::comp::CDock>()).front();
-      for(auto i = 0u; i < 8u; i++) {
-        auto entity = factory->Create(cb::format(L"Some Ship {0}"s, idx++));
+    mEcoUniverse->SetMaxJunctionDistance(uniData.mMaxJunctionDistance);
+    for(auto& entityType : uniData.mTypes) {
+      auto factory = mEntityRegistry->Get(entityType.mTypeId);
+      for(auto& entityInst : entityType.mEntities) {
+        auto entity = factory->Create(entityInst.mName);
         entity->SetUniverse(mEcoUniverse);
+        entity->SetPosition(entityInst.mPosition);
+        if(!entityInst.mDock.empty()) {
+          auto dock = mEcoUniverse->FindEntity<eco::comp::CDock>(entityInst.mDock);
+          if(dock) {
+            dock->GetComponent<eco::comp::CDock>().DockShip(entity);
+          }
+        }
         mEcoUniverse->AddEntity(entity);
-        dock->GetComponent<eco::comp::CDock>().DockShip(entity);
       }
     }
 

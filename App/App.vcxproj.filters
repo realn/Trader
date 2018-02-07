@@ -46,6 +46,9 @@
     <ClCompile Include="UniverseView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TraderXml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TraderTask.h">
@@ -67,6 +70,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="MeshRepository.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TraderXml.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,6 +119,9 @@
     </Xml>
     <Xml Include="assets\gui\layer_info.xml">
       <Filter>assets\gui</Filter>
+    </Xml>
+    <Xml Include="assets\universe.xml">
+      <Filter>assets</Filter>
     </Xml>
   </ItemGroup>
 </Project>
