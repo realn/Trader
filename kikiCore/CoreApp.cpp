@@ -27,7 +27,7 @@ namespace core {
   }
 
   void CAppBase::MainLoop() {
-    auto frameTime = 0.01f;
+    auto frameTime = 0.03f;
     mTimer.Update();
     while(mRun) {
       Render();

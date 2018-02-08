@@ -8,6 +8,11 @@ namespace eco {
   namespace comp {
     class CMarket;
   }
+  namespace xml {
+    struct CComponent;
+    struct CUniverse;
+  }
+
 
   class CFactoryTemplate {
   public:
@@ -68,9 +73,6 @@ namespace eco {
 
   };
 
-  namespace xml {
-    struct CComponent;
-  }
 
   namespace comp {
     class CIndustry 

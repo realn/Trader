@@ -28,6 +28,7 @@
 #include <ECOCompWarpDrive.h>
 #include <ECOCompNavigation.h>
 #include <ECOCompIndustry.h>
+#include <ECOCompGovernor.h>
 #include <ECOComponentFactory.h>
 #include <ECOXml.h>
 
@@ -191,6 +192,7 @@ namespace trader {
     mComponentRegistry->Register<eco::comp::CMarket>();
     mComponentRegistry->Register<eco::comp::CNavigation>();
     mComponentRegistry->Register<eco::comp::CWarpDrive>();
+    mComponentRegistry->Register<eco::comp::CGovernor>();
 
     auto uniData = eco::xml::CUniverse();
     if(!eco::xml::Load(L"assets/universe.xml", uniData)) {

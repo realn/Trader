@@ -21,6 +21,7 @@
       </Storage>
     </Market>
     <Industry Factories="solarArray,bioRecycler,foodFarm" />
+    <Governor />
   </EntityType>
   <EntityType Id="Ship">
     <WarpDrive />

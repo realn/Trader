@@ -150,7 +150,7 @@ namespace eco {
     }
 
     void CIndustry::PrintInfo(cb::ostream & stream) const {
-      stream << L"Industry:  "s << std::endl;
+      stream << L" Industry:"s << std::endl;
       for(auto& factory : mFactories) {
         factory.PrintInfo(stream);
       }

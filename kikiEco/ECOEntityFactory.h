@@ -11,6 +11,7 @@
 namespace eco {
   namespace xml {
     struct CComponent;
+    struct CUniverse;
   }
 
   class IEntityComponentConfig {
@@ -104,6 +105,7 @@ namespace eco {
     ~CEntityFactoryRegistry();
 
     static std::shared_ptr<CEntityFactoryRegistry> GetInstance();
+
     std::shared_ptr<CEntityFactory> Get(cb::string const& typeId) const;
     void Register(std::shared_ptr<CEntityFactory> factory);
 
