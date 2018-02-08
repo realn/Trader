@@ -3,10 +3,11 @@
 #include <random>
 
 #include "ECOEntity.h"
-#include "ECOUniverse.h"
 #include "ECOCompMarket.h"
 #include "ECOCompDock.h"
 #include "ECOTradeRoute.h"
+#include "ECOXml.h"
+#include "ECOUniverse.h"
 
 namespace eco {
   CUniverse::~CUniverse() {}

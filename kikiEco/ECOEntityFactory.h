@@ -9,16 +9,18 @@
 #include "ECOComponentFactory.h"
 
 namespace eco {
+  namespace xml {
+    struct CComponent;
+  }
+
   class IEntityComponentConfig {
   public:
     virtual ~IEntityComponentConfig() {}
-
     virtual void SetComponentToEntity(CEntity& entity) const = 0;
   };
 
-  class CEntityComponentConfigSimple 
-    : public IEntityComponentConfig
-  {
+  class CEntityComponentConfigSimple
+    : public IEntityComponentConfig {
   private:
     cb::string mId;
 
@@ -26,12 +28,21 @@ namespace eco {
     CEntityComponentConfigSimple(cb::string const& id) : mId(id) {}
     virtual ~CEntityComponentConfigSimple() {}
 
-    virtual void SetComponentToEntity(CEntity& entity) const override {
-      auto componentFactory = CComponentFactoryRegistry::GetFactory(mId);
-      if(componentFactory) {
-        componentFactory->SetComponentToEntity(entity);
-      }
-    }
+    virtual void SetComponentToEntity(CEntity& entity) const override;
+  };
+
+  class CEntityComponentConfigXml 
+    : public IEntityComponentConfig {
+  private:
+    cb::string mId;
+    std::shared_ptr<xml::CComponent> mData;
+
+  public:
+    CEntityComponentConfigXml(cb::string const& id, 
+                              std::shared_ptr<xml::CComponent> data);
+    virtual ~CEntityComponentConfigXml();
+
+    virtual void SetComponentToEntity(CEntity& entity) const override;
   };
 
   template<class _Type, class ... _Params>
@@ -69,9 +80,9 @@ namespace eco {
 
     cb::string GetTypeId() const { return mTypeId; }
 
-    void SetComponentById(cb::string const& id) {
-      mComponents[id] = std::make_unique<CEntityComponentConfigSimple>(id);
-    }
+    void SetComponentById(cb::string const& id);
+
+    void SetComponentByXml(std::shared_ptr<xml::CComponent> component);
 
     template<class _Type, class ... _Params>
     void SetComponent(_Params&& ... args) {
@@ -93,13 +104,13 @@ namespace eco {
     ~CEntityFactoryRegistry();
 
     static std::shared_ptr<CEntityFactoryRegistry> GetInstance();
-
+    std::shared_ptr<CEntityFactory> Get(cb::string const& typeId) const;
     void Register(std::shared_ptr<CEntityFactory> factory);
+
     std::shared_ptr<CEntityFactory> Register(cb::string const& typeId) {
       auto factory = std::make_shared<CEntityFactory>(typeId);
       Register(factory);
       return factory;
     }
-    std::shared_ptr<CEntityFactory> Get(cb::string const& typeId) const;
   };
 }

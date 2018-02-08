@@ -8,11 +8,16 @@
 #include "ECOEntity.h"
 
 namespace eco {
+  namespace xml {
+    struct CComponent;
+  }
+
   class IComponentFactory {
   public:
     virtual ~IComponentFactory();
 
     virtual void SetComponentToEntity(CEntity& entity) const = 0;
+    virtual void SetComponentToEntity(CEntity& entity, xml::CComponent const& data) const = 0;
   };
 
   template<class _Type, class ... _Params>
@@ -30,6 +35,10 @@ namespace eco {
 
     void SetComponentToEntity(CEntity& entity) const override {
       SetComponentToEntity(entity, mParams);
+    }
+
+    void SetComponentToEntity(CEntity& entity, xml::CComponent const& data) const override {
+      entity.SetComponent<_Type>(data);
     }
 
   private:
@@ -65,6 +74,7 @@ namespace eco {
     template<class _Type, class ... _Args>
     void Register(_Args&&... args) {
       Register(eco::GetComponentId<_Type>(), std::make_shared<CComponentFactory<_Type, _Args...>>(std::forward<_Args...>(args)...));
+      xml::RegisterComponent<_Type>();
     }
   };
 }

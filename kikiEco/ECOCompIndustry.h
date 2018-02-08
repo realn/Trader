@@ -68,6 +68,10 @@ namespace eco {
 
   };
 
+  namespace xml {
+    struct CComponent;
+  }
+
   namespace comp {
     class CIndustry 
       : public CComponent
@@ -80,6 +84,7 @@ namespace eco {
 
     public:
       CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories = cb::strvector());
+      CIndustry(std::shared_ptr<CEntity> parent, xml::CComponent const& component);
       CIndustry(CIndustry&&) = default;
       virtual ~CIndustry();
 
@@ -89,6 +94,10 @@ namespace eco {
 
       void PrintInfo(cb::ostream& stream) const override;
     };
+  }
+
+  namespace xml {
+    template<> void RegisterComponent<comp::CIndustry>();
   }
 
   template<>

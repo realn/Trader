@@ -3,6 +3,10 @@
 #include "ECOComponent.h"
 
 namespace eco {
+  namespace xml {
+    struct CComponent;
+  }
+
   namespace comp {
     class CNavigation 
       : public CComponent
@@ -20,6 +24,7 @@ namespace eco {
 
     public:
       CNavigation(std::shared_ptr<CEntity> parent);
+      CNavigation(std::shared_ptr<CEntity> parent, xml::CComponent const& component);
       virtual ~CNavigation();
 
       void SetCurrentDock(std::shared_ptr<CEntity> dock);
@@ -36,6 +41,10 @@ namespace eco {
       void FindWays(EntitiesT const& entities, std::shared_ptr<CEntity> source, JumpsT& outJumps, LinksT & outLinks) const;
       WaypointsT CreateWaypoints(LinksT const& links, std::shared_ptr<CEntity> source, std::shared_ptr<CEntity> target) const;
     };
+  }
+
+  namespace xml {
+    template<> void RegisterComponent<comp::CNavigation>();
   }
 
   template<>

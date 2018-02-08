@@ -29,6 +29,7 @@
 #include <ECOCompNavigation.h>
 #include <ECOCompIndustry.h>
 #include <ECOComponentFactory.h>
+#include <ECOXml.h>
 
 #include <GUIScreen.h>
 #include <GUILayerStack.h>
@@ -184,8 +185,15 @@ namespace trader {
   }
 
   bool CTraderTask::InitUniverse() {
-    auto uniData = data::CUniverse();
-    if(!data::Load(L"assets/universe.xml", uniData)) {
+    mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
+    mComponentRegistry->Register<eco::comp::CDock>();
+    mComponentRegistry->Register<eco::comp::CIndustry>();
+    mComponentRegistry->Register<eco::comp::CMarket>();
+    mComponentRegistry->Register<eco::comp::CNavigation>();
+    mComponentRegistry->Register<eco::comp::CWarpDrive>();
+
+    auto uniData = eco::xml::CUniverse();
+    if(!eco::xml::Load(L"assets/universe.xml", uniData)) {
       return false;
     }
 
@@ -200,53 +208,17 @@ namespace trader {
                                                                in, out));
     }
 
-    mComponentRegistry = eco::CComponentFactoryRegistry::GetInstance();
-    mComponentRegistry->Register<eco::comp::CDock>();
-    mComponentRegistry->Register<eco::comp::CIndustry>();
-    mComponentRegistry->Register<eco::comp::CMarket>();
-    mComponentRegistry->Register<eco::comp::CNavigation>();
-    mComponentRegistry->Register<eco::comp::CWarpDrive>();
-
     mEntityRegistry = eco::CEntityFactoryRegistry::GetInstance();
     for(auto& entityType : uniData.mTypes) {
       auto ent = mEntityRegistry->Register(entityType.mId);
       for(auto& component : entityType.mComponents) {
-        if(component->mId == L"Industry"s) {
-          auto& industry = static_cast<data::CIndustry&>(*component);
-          ent->SetComponent<eco::comp::CIndustry>(industry.mFactories);
-        }
-        else if(component->mId == L"Market") {
-          auto& market = static_cast<data::CMarket&>(*component);
-          eco::CStorage::ValuesT values;
-          for(auto& product : market.mStorage.mProducts) {
-            values[product.mId] = product.mValue;
-          }
-          ent->SetComponent<eco::comp::CMarket>(std::move(values));
-        }
-        else {
-          ent->SetComponentById(component->mId);
-        }
+        ent->SetComponentByXml(component);
       }
     }
-    //{
-    //  auto ent = mEntityRegistry->Register(L"Planet"s);
-    //  ent->SetComponent<eco::comp::CMarket>(eco::CStorage::ValuesT{
-    //    {L"biomass"s, 100.0f}
-    //                                        });
-    //  ent->SetComponent<eco::comp::CDock>();
-    //  ent->SetComponent<eco::comp::CIndustry>(cb::strvector{ 
-    //    L"solarArray"s, L"bioRecycler"s, L"foodFarm"s
-    //                                          });
-    //}
-    //{
-    //  auto ent = mEntityRegistry->Register(L"Ship"s);
-    //  ent->SetComponent<eco::comp::CWarpDrive>();
-    //  ent->SetComponent<eco::comp::CNavigation>();
-    //}
 
     mEcoUniverse = std::make_shared<eco::CUniverse>();
-
     mEcoUniverse->SetMaxJunctionDistance(uniData.mMaxJunctionDistance);
+
     for(auto& entityType : uniData.mLists) {
       auto factory = mEntityRegistry->Get(entityType.mTypeId);
       for(auto& entityInst : entityType.mEntities) {

@@ -1,16 +1,32 @@
 #include "stdafx.h"
+
+#include <CBXml/Serialize.h>
+
 #include "ECOEntity.h"
 #include "ECOTradeRoute.h"
 #include "ECOCompNavigation.h"
+
+#include "ECOXml.h"
+#include "ECOXmlComponentFactory.h"
 #include "ECOCompDock.h"
 
 namespace eco {
   static auto COMP_DOCK_ID = L"Dock"s;
 
+  namespace xml {
+    template<>
+    void RegisterComponent<comp::CDock>() {
+      CComponentFactory::GetInstance()->Register<CComponent>(COMP_DOCK_ID);
+    }
+  }
+
   namespace comp {
     CDock::CDock(std::shared_ptr<CEntity> parent) 
       : CComponent(parent, COMP_DOCK_ID)
     {}
+
+    CDock::CDock(std::shared_ptr<CEntity> parent, xml::CComponent const& component)
+      : CComponent(parent, COMP_DOCK_ID) {}
 
     CDock::~CDock() {}
 

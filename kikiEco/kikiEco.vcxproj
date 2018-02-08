@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ECOCompGovernor.h" />
     <ClInclude Include="ECOCompIndustry.h" />
     <ClInclude Include="ECOCompNavigation.h" />
     <ClInclude Include="ECOComponentFactory.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="ECOUniverse.h" />
     <ClInclude Include="ECOWallet.h" />
     <ClInclude Include="ECOXml.h" />
+    <ClInclude Include="ECOXmlComponentFactory.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +167,7 @@
     <ClCompile Include="ECOUniverse.cpp" />
     <ClCompile Include="ECOWallet.cpp" />
     <ClCompile Include="ECOXml.cpp" />
+    <ClCompile Include="ECOXmlComponentFactory.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

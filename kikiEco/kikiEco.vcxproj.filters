@@ -55,6 +55,9 @@
     <ClCompile Include="ECOEntityFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ECOXmlComponentFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -109,6 +112,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ECODefines.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOCompGovernor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECOXmlComponentFactory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

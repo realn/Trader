@@ -1,60 +1,110 @@
 #include "stdafx.h"
-//
-//#include <CBStr\StringEx.h>
-//#include <CBStr\Convert.h>
-//#include <CBXml\Serialize.h>
-//
-//#include "ECOEntity.h"
-//#include "ECOTradeRoute.h"
-//#include "ECOUniverse.h"
-//
-//#include "ECOXml.h"
-//
-//using namespace std::literals;
-//
-//static const auto XML_ELEM_ENTITY = L"Entity"s;
-//static const auto XML_ATTR_ENTITY_ID = L"Id"s;
-//static const auto XML_ATTR_ENTITY_POSITION = L"Position"s;
-//
-//namespace cb {
-//  template<> string toStr<glm::vec2>(glm::vec2 const& value) {
-//    return format(L"{0},{1}", value.x, value.y);
-//  }
-//
-//  template<> bool fromStr<glm::vec2>(string const& value, glm::vec2& outValue) {
-//    auto list = split(value, L",");
-//    if(list.size() != 2) {
-//      return false;
-//    }
-//    return
-//      fromStr(list[0], outValue.x) &&
-//      fromStr(list[1], outValue.y);
-//  }
-//}
-//
-//CB_DEFINEXMLWRITE(eco::CEntity) {
-//  SetAttribute(XML_ATTR_ENTITY_ID, mObject.GetId());
-//  SetAttribute(XML_ATTR_ENTITY_POSITION, mObject.GetPosition());
-//  return true;
-//}
-//
-//CB_DEFINEXMLREAD(eco::CEntity) {
-//  auto id = L""s;
-//  auto pos = glm::vec2();
-//  if(GetAttribute(XML_ATTR_ENTITY_ID, id) &&
-//     GetAttribute(XML_ATTR_ENTITY_POSITION, pos)) {
-//    mObject.SetId(id);
-//    mObject.SetPosition(pos);
-//    return true;
-//  }
-//  return false;
-//}
-//
-//CB_DEFINEXMLWRITE(eco::CUniverse) {
-//  SetNodeList(mObject.GetEntities(), XML_ELEM_ENTITY);
-//  return true;
-//}
-//
-//CB_DEFINEXMLREAD(eco::CUniverse) {
-//  return GetNodeList(mObject.GetEntities(), XML_ELEM_ENTITY);
-//}
+#include <CBIO/File.h>
+#include <CBXml/Serialize.h>
+#include <CBXml/Document.h>
+
+#include "ECOXmlComponentFactory.h"
+#include "ECOXml.h"
+
+const auto XML_UNIVERSE = L"Universe"s;
+const auto XML_UNIVERSE_MAXJUNCTIONDISTANCE = L"MaxJunctionDistance"s;
+const auto XML_UNIVERSE_ENTITYLIST = L"EntityList"s;
+const auto XML_UNIVERSE_ENTITYTYPE = L"EntityType"s;
+const auto XML_UNIVERSE_FACTORYTEMPLATE = L"FactoryTemplate"s;
+
+const auto XML_ENTITYTYPE_ID = L"Id"s;
+
+const auto XML_ENTITYLIST_TYPEID = L"TypeId"s;
+const auto XML_ENTITYLIST_ENTITY = L"Entity"s;
+
+const auto XML_ENTITY_NAME = L"Name"s;
+const auto XML_ENTITY_POSITION = L"Position"s;
+const auto XML_ENTITY_DOCK = L"Dock"s;
+
+const auto XML_FACTORYTEMPLATE_ID = L"Id"s;
+const auto XML_FACTORYTEMPLATE_NAME = L"Name"s;
+const auto XML_FACTORYTEMPLATE_INPRODUCT = L"In"s;
+const auto XML_FACTORYTEMPLATE_OUTPRODUCT = L"Out"s;
+
+const auto XML_STORAGE_PRODUCT = L"Product"s;
+
+const auto XML_PRODUCT_ID = L"Id"s;
+const auto XML_PRODUCT_VALUE = L"Value"s;
+
+namespace cb {
+  bool fromStr(string const& text, glm::vec2& outValue) {
+    auto list = split(text, L","s);
+    return list.size() >= 2 &&
+      fromStr(list[0], outValue.x) &&
+      fromStr(list[1], outValue.y);
+  }
+}
+
+CB_DEFINEXMLREAD(eco::xml::CProduct) {
+  return
+    GetAttribute(XML_PRODUCT_ID, mObject.mId) &&
+    GetAttribute(XML_PRODUCT_VALUE, mObject.mValue);
+}
+
+CB_DEFINEXMLREAD(eco::xml::CStorage) {
+  return
+    GetNodeList(mObject.mProducts, XML_STORAGE_PRODUCT);
+}
+
+CB_DEFINEXMLREAD(eco::xml::CFactoryTemplate) {
+  return
+    GetAttribute(XML_FACTORYTEMPLATE_ID, mObject.mId) &&
+    GetAttribute(XML_FACTORYTEMPLATE_NAME, mObject.mName) &&
+    GetNodeList(mObject.mInProducts, XML_FACTORYTEMPLATE_INPRODUCT) &&
+    GetNodeList(mObject.mOutProducts, XML_FACTORYTEMPLATE_OUTPRODUCT);
+}
+
+CB_DEFINEXMLREAD(eco::xml::CEntity) {
+  GetAttribute(XML_ENTITY_POSITION, mObject.mPosition);
+  GetAttribute(XML_ENTITY_DOCK, mObject.mDock);
+  return GetAttribute(XML_ENTITY_NAME, mObject.mName);
+}
+
+CB_DEFINEXMLREAD(eco::xml::CEntityList) {
+  return
+    GetAttribute(XML_ENTITYLIST_TYPEID, mObject.mTypeId) &&
+    GetNodeList(mObject.mEntities, XML_ENTITYLIST_ENTITY);
+}
+
+CB_DEFINEXMLREAD(eco::xml::CComponent) {
+  return true;
+}
+
+CB_DEFINEXMLREAD(eco::xml::CEntityType) {
+  if(!GetAttribute(XML_ENTITYTYPE_ID, mObject.mId))
+    return false;
+
+  auto componentFactory = eco::xml::CComponentFactory::GetInstance();
+  for(auto& node : mNode.Nodes) {
+    mObject.mComponents.push_back(componentFactory->Create(node));
+  }
+  return true;
+}
+
+CB_DEFINEXMLREAD(eco::xml::CUniverse) {
+  GetAttribute(XML_UNIVERSE_MAXJUNCTIONDISTANCE, mObject.mMaxJunctionDistance);
+  return
+    GetNodeList(mObject.mFactoryTemplates, XML_UNIVERSE_FACTORYTEMPLATE) &&
+    GetNodeList(mObject.mTypes, XML_UNIVERSE_ENTITYTYPE) &&
+    GetNodeList(mObject.mLists, XML_UNIVERSE_ENTITYLIST);
+}
+
+bool eco::xml::Load(cb::string const & filepath, CUniverse & outUniverse) {
+  auto source = cb::readtextfileutf8(filepath);
+  if(source.empty()) {
+    return false;
+  }
+  auto doc = cb::CXmlDocument(source);
+  if(!doc.IsValid()) {
+    return false;
+  }
+  if(doc.RootNode.GetName() != XML_UNIVERSE) {
+    return false;
+  }
+  return cb::ReadXmlObject(doc.RootNode, outUniverse);
+}

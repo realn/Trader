@@ -3,20 +3,36 @@
 #include <random>
 #include <limits>
 
+#include <CBXml/Serialize.h>
+
 #include "ECOUniverse.h"
 #include "ECOEntity.h"
 #include "ECOTradeRoute.h"
 #include "ECOCompDock.h"
 #include "ECOCompMarket.h"
 #include "ECOCompWarpDrive.h"
+
+#include "ECOXml.h"
+#include "ECOXmlComponentFactory.h"
 #include "ECOCompNavigation.h"
 
 namespace eco {
   static const auto COMP_NAVIGATION_ID = L"Navigation"s;
 
+  namespace xml {
+    template<>
+    void RegisterComponent<comp::CNavigation>() {
+      CComponentFactory::GetInstance()->Register<CComponent>(COMP_NAVIGATION_ID);
+    }
+  }
+
   namespace comp {
     CNavigation::CNavigation(std::shared_ptr<CEntity> parent) 
       : CComponent(parent, COMP_NAVIGATION_ID)
+    {}
+
+    CNavigation::CNavigation(std::shared_ptr<CEntity> parent, xml::CComponent const & component) 
+      : CComponent(parent, COMP_NAVIGATION_ID) 
     {}
 
     CNavigation::~CNavigation() {}

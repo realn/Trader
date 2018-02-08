@@ -16,6 +16,8 @@ namespace eco {
   public:
     CStorage(ValuesT const& initStorate = ValuesT());
 
+    void SetStorage(ValuesT const& values) { mValues = values; }
+
     void AddProduct(cb::string const& id, float const amount);
     void RemProduct(cb::string const& id, float const amount);
 

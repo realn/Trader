@@ -37,15 +37,12 @@ namespace eco {
     return { GetComponentId<_Type>(), GetComponentId<_Types>()... };
   }
 
-  //template<class _Type, class ... _Types>
-  //cb::strvector GetComponentIds(cb::strvector& list = cb::strvector()) {
-  //  list.push_back(GetComponentId<_Type>());
-  //  return GetComponentIds<_Types...>(list);
-  //}
-
-  //cb::strvector GetComponentIds(cb::strvector& list = cb::strvector()) {
-  //  return list;
-  //}
+  namespace xml {
+    template<class _Type>
+    void RegisterComponent() {
+      static_assert(false && "Unsupported by xml component.");
+    }
+  }
 
   template<class _Type>
   struct weak_ptr_less {

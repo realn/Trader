@@ -1,6 +1,12 @@
 #include "stdafx.h"
+
+#include <CBXml/Serialize.h>
+
 #include "ECOEntity.h"
 #include "ECOCompMarket.h"
+
+#include "ECOXml.h"
+#include "ECOXmlComponentFactory.h"
 #include "ECOCompIndustry.h"
 
 namespace eco {
@@ -93,6 +99,16 @@ namespace eco {
     PrintProducts(stream);
   }
 
+  namespace xml {
+    struct CIndustry : public CComponent {
+      cb::strvector mFactories;
+    };
+    template<>
+    void RegisterComponent<comp::CIndustry>() {
+      CComponentFactory::GetInstance()->Register<CIndustry>(COMP_INDUSTRY_ID);
+    }
+  }
+
   namespace comp {
     CIndustry::CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories) 
       : CComponent(parent, COMP_INDUSTRY_ID)
@@ -100,6 +116,17 @@ namespace eco {
       if(!factories.empty()) {
         auto registry = CFactoryTemplateRegistry::GetInstance();
         for(auto& factoryId : factories) {
+          AddFactory(registry->Get(factoryId));
+        }
+      }
+    }
+
+    CIndustry::CIndustry(std::shared_ptr<CEntity> parent, xml::CComponent const & component) 
+      : CComponent(parent, COMP_INDUSTRY_ID) {
+      auto& industry = static_cast<xml::CIndustry const&>(component);
+      if(!industry.mFactories.empty()) {
+        auto registry = CFactoryTemplateRegistry::GetInstance();
+        for(auto& factoryId : industry.mFactories) {
           AddFactory(registry->Get(factoryId));
         }
       }
@@ -137,3 +164,14 @@ namespace eco {
   }
 }
 
+const auto XML_COMPONENT_FACTORIES = L"Factories"s;
+
+CB_DEFINEXMLREAD(eco::xml::CIndustry) {
+  if(!ReadXmlObject<eco::xml::CComponent>(mNode, mObject)) { return false; }
+
+  auto factories = cb::string();
+  if(GetAttribute(XML_COMPONENT_FACTORIES, factories)) {
+    mObject.mFactories = cb::split(factories, L","s, true);
+  }
+  return true;
+}

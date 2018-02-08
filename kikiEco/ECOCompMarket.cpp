@@ -1,10 +1,28 @@
 #include "stdafx.h"
+
+#include <CBXml/Serialize.h>
+
 #include "ECOWallet.h"
 #include "ECOStorage.h"
+
+#include "ECOXml.h"
+#include "ECOXmlComponentFactory.h"
 #include "ECOCompMarket.h"
+
+const auto XML_COMPONENT_STORAGE = L"Storage"s;
 
 namespace eco {
   static auto COMP_MARKET_ID = L"Market"s;
+
+  namespace xml {
+    struct CMarket : public CComponent {
+      CStorage mStorage;
+    };
+    template<>
+    void RegisterComponent<comp::CMarket>() {
+      CComponentFactory::GetInstance()->Register<CMarket>(COMP_MARKET_ID);
+    }
+  }
 
   namespace comp {
     CMarket::CMarket(std::shared_ptr<CEntity> parent,
@@ -12,6 +30,16 @@ namespace eco {
       : CComponent(parent, COMP_MARKET_ID) 
       , mStorage(initStorage)
     {}
+
+    CMarket::CMarket(std::shared_ptr<CEntity> parent, xml::CComponent const & component) 
+      : CComponent(parent, COMP_MARKET_ID) {
+      auto market = static_cast<xml::CMarket const&>(component);
+      auto products = CStorage::ValuesT();
+      for(auto& product : market.mStorage.mProducts) {
+        products[product.mId] = product.mValue;
+      }
+      mStorage.SetStorage(products);
+    }
 
     CMarket::~CMarket() {}
 
@@ -65,3 +93,11 @@ namespace eco {
     return COMP_MARKET_ID;
   }
 }
+
+CB_DEFINEXMLREAD(eco::xml::CMarket) {
+  if(!ReadXmlObject<eco::xml::CComponent>(mNode, mObject)) { return false; }
+
+  GetNode(XML_COMPONENT_STORAGE, mObject.mStorage);
+  return true;
+}
+

@@ -8,6 +8,10 @@
 namespace eco {
   class CWallet;
 
+  namespace xml {
+    struct CComponent;
+  }
+
   namespace comp {
     class CMarket :
       public CComponent {
@@ -18,6 +22,7 @@ namespace eco {
     public:
       CMarket(std::shared_ptr<CEntity> parent, 
               CStorage::ValuesT const& initStorage = CStorage::ValuesT());
+      CMarket(std::shared_ptr<CEntity> parent, xml::CComponent const& component);
       CMarket(CMarket&&) = default;
       virtual ~CMarket();
 
@@ -36,6 +41,10 @@ namespace eco {
 
       void PrintInfo(cb::ostream& stream) const;
     };
+  }
+
+  namespace xml {
+    template<> void RegisterComponent<comp::CMarket>();
   }
 
   template<>

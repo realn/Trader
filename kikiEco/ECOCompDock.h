@@ -8,6 +8,10 @@
 namespace eco {
   class CTradeJunction;
 
+  namespace xml {
+    struct CComponent;
+  }
+
   namespace comp {
     class CDock 
       : public CComponent
@@ -22,6 +26,7 @@ namespace eco {
       
     public:
       CDock(std::shared_ptr<CEntity> parent);
+      CDock(std::shared_ptr<CEntity> parent, xml::CComponent const& component);
       CDock(CDock&&) = default;
       virtual ~CDock();
 
@@ -36,6 +41,10 @@ namespace eco {
 
       void PrintInfo(cb::ostream& stream) const override;
     };
+  }
+
+  namespace xml {
+    template<> void RegisterComponent<comp::CDock>();
   }
 
   template<>

@@ -1,11 +1,30 @@
 #include "stdafx.h"
 
+#include "ECOXml.h"
 #include "ECOComponent.h"
 #include "ECOComponentFactory.h"
 #include "ECOEntity.h"
 #include "ECOEntityFactory.h"
 
 namespace eco {
+  void CEntityComponentConfigSimple::SetComponentToEntity(CEntity & entity) const {
+    auto componentFactory = CComponentFactoryRegistry::GetFactory(mId);
+    if(componentFactory) {
+      componentFactory->SetComponentToEntity(entity);
+    }
+  }
+
+  CEntityComponentConfigXml::CEntityComponentConfigXml(cb::string const & id, std::shared_ptr<xml::CComponent> data)
+    : mId(id), mData(data) {}
+  CEntityComponentConfigXml::~CEntityComponentConfigXml() {}
+
+  void CEntityComponentConfigXml::SetComponentToEntity(CEntity & entity) const {
+    auto componentFactory = CComponentFactoryRegistry::GetFactory(mId);
+    if(componentFactory) {
+      componentFactory->SetComponentToEntity(entity, *mData);
+    }
+  }
+
   std::weak_ptr<CEntityFactoryRegistry> CEntityFactoryRegistry::mInstance;
 
   CEntityFactory::CEntityFactory(cb::string const & typeId)
@@ -13,6 +32,15 @@ namespace eco {
   {}
 
   CEntityFactory::~CEntityFactory() {}
+
+  void CEntityFactory::SetComponentById(cb::string const & id) {
+    mComponents[id] = std::make_unique<CEntityComponentConfigSimple>(id);
+  }
+
+  void CEntityFactory::SetComponentByXml(std::shared_ptr<xml::CComponent> component) {
+    mComponents[component->mId] = 
+      std::make_unique<CEntityComponentConfigXml>(component->mId, component);
+  }
 
   std::shared_ptr<CEntity> CEntityFactory::Create(cb::string const & id) {
     auto entity = std::make_shared<CEntity>(mTypeId, id);
@@ -49,4 +77,5 @@ namespace eco {
     }
     return std::shared_ptr<CEntityFactory>();
   }
+
 }
