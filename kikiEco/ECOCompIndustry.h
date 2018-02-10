@@ -92,6 +92,8 @@ namespace eco {
       CIndustry(CIndustry&&) = default;
       virtual ~CIndustry();
 
+      CProductIdValueList const& GetProduction() const { return mProduction; }
+
       void AddFactory(CFactoryTemplate const& factoryTemplate);
 
       void Update(float const timeDelta) override;

@@ -11,6 +11,15 @@ namespace eco {
     class CGovernor 
       : public CComponent
     {
+    private:
+      struct ProductInfo {
+        float mMin = 0.0f;
+        float mMax = 0.0f;
+      };
+      using MemT = std::map<cb::string, ProductInfo>;
+
+      MemT mMemory;
+
     public:
       CGovernor(std::shared_ptr<CEntity> parent);
       CGovernor(std::shared_ptr<CEntity> parent, xml::CComponent const& component);

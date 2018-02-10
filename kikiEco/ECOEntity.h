@@ -56,6 +56,13 @@ namespace eco {
     bool HasComponent() {
       return HasComponent(GetComponentId<_Type>());
     }
+
+    template<class _Type, class ... _Types>
+    bool HasComponents() {
+      auto list = cb::strvector{ GetComponentId<_Type>(), GetComponentId<_Types>()... };
+      return HasComponents(list);
+    }
+
     template<class _Type>
     _Type& GetComponent() const {
       return dynamic_cast<_Type&>(GetComponent(GetComponentId<_Type>()));
