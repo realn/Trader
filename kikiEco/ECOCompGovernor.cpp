@@ -13,7 +13,7 @@ namespace eco {
 
   constexpr auto GOV_PRICE_MIN = 10.0f;
   constexpr auto GOV_PRICE_MAX = 500.0f;
-  constexpr auto GOV_NEAR_ZERO = 0.001f;
+  constexpr auto GOV_NEAR_ZERO = 0.01f;
 
   namespace comp {
     CGovernor::CGovernor(std::shared_ptr<CEntity> parent)
@@ -45,6 +45,7 @@ namespace eco {
         auto pident = item.second;
         if(glm::abs(pident) <= GOV_NEAR_ZERO) {
           market.ClearProductValue(item.first);
+          continue;
         }
 
         auto amount = storage.GetProductAmount(item.first);

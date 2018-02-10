@@ -273,7 +273,7 @@ namespace trader {
       mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
     }
 
-    mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(28));
+    mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(32));
 
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
