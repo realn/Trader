@@ -32,7 +32,7 @@ namespace eco {
   }
 
   template<>
-  cb::string const& GetComponentId<comp::CGovernor>();
+  core::CFastId const& GetComponentId<comp::CGovernor>();
 
   namespace xml {
     template<> void RegisterComponent<comp::CGovernor>();

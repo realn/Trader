@@ -12,7 +12,7 @@
 const auto XML_COMPONENT_STORAGE = L"Storage"s;
 
 namespace eco {
-  static auto COMP_MARKET_ID = L"Market"s;
+  static auto COMP_MARKET_ID = L"Market"_id;
 
   namespace xml {
     struct CMarket : public CComponent {
@@ -20,7 +20,7 @@ namespace eco {
     };
     template<>
     void RegisterComponent<comp::CMarket>() {
-      CComponentFactory::GetInstance()->Register<CMarket>(COMP_MARKET_ID);
+      CComponentFactory::GetInstance()->Register<CMarket>(COMP_MARKET_ID.GetName());
     }
   }
 
@@ -95,7 +95,7 @@ namespace eco {
   }
 
   template<>
-  cb::string const& GetComponentId<comp::CMarket>() {
+  core::CFastId const& GetComponentId<comp::CMarket>() {
     return COMP_MARKET_ID;
   }
 }

@@ -73,7 +73,7 @@ namespace eco {
 
     template<class _Type, class ... _Args>
     void Register(_Args&&... args) {
-      Register(eco::GetComponentId<_Type>(), std::make_shared<CComponentFactory<_Type, _Args...>>(std::forward<_Args...>(args)...));
+      Register(eco::GetComponentId<_Type>().GetName(), std::make_shared<CComponentFactory<_Type, _Args...>>(std::forward<_Args...>(args)...));
       xml::RegisterComponent<_Type>();
     }
   };

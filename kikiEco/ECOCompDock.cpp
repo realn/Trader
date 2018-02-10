@@ -11,12 +11,12 @@
 #include "ECOCompDock.h"
 
 namespace eco {
-  static auto COMP_DOCK_ID = L"Dock"s;
+  static auto COMP_DOCK_ID = L"Dock"_id;
 
   namespace xml {
     template<>
     void RegisterComponent<comp::CDock>() {
-      CComponentFactory::GetInstance()->Register<CComponent>(COMP_DOCK_ID);
+      CComponentFactory::GetInstance()->Register<CComponent>(COMP_DOCK_ID.GetName());
     }
   }
 
@@ -74,7 +74,7 @@ namespace eco {
   }
 
   template<>
-  cb::string const& GetComponentId<comp::CDock>() {
+  core::CFastId const& GetComponentId<comp::CDock>() {
     return COMP_DOCK_ID;
   }
 }

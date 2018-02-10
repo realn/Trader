@@ -9,7 +9,7 @@
 #include "ECOCompGovernor.h"
 
 namespace eco {
-  static const auto COMP_GOVERNOR_ID = L"Governor"s;
+  static const auto COMP_GOVERNOR_ID = L"Governor"_id;
 
   constexpr auto GOV_PRICE_MIN = 10.0f;
   constexpr auto GOV_PRICE_MAX = 500.0f;
@@ -66,14 +66,14 @@ namespace eco {
   }
 
   template<>
-  cb::string const& GetComponentId<comp::CGovernor>() {
+  core::CFastId const& GetComponentId<comp::CGovernor>() {
     return COMP_GOVERNOR_ID;
   }
 
   namespace xml {
     template<>
     void RegisterComponent<comp::CGovernor>() {
-      CComponentFactory::GetInstance()->Register<CComponent>(COMP_GOVERNOR_ID);
+      CComponentFactory::GetInstance()->Register<CComponent>(COMP_GOVERNOR_ID.GetName());
     }
   }
 }

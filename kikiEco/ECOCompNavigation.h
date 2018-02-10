@@ -48,5 +48,5 @@ namespace eco {
   }
 
   template<>
-  extern cb::string const& GetComponentId<comp::CNavigation>();
+  extern core::CFastId const& GetComponentId<comp::CNavigation>();
 }

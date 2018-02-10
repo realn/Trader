@@ -17,12 +17,12 @@
 #include "ECOCompNavigation.h"
 
 namespace eco {
-  static const auto COMP_NAVIGATION_ID = L"Navigation"s;
+  static const auto COMP_NAVIGATION_ID = L"Navigation"_id;
 
   namespace xml {
     template<>
     void RegisterComponent<comp::CNavigation>() {
-      CComponentFactory::GetInstance()->Register<CComponent>(COMP_NAVIGATION_ID);
+      CComponentFactory::GetInstance()->Register<CComponent>(COMP_NAVIGATION_ID.GetName());
     }
   }
 
@@ -150,7 +150,7 @@ namespace eco {
   }
 
   template<>
-  cb::string const& GetComponentId<comp::CNavigation>() {
+  core::CFastId const& GetComponentId<comp::CNavigation>() {
     return COMP_NAVIGATION_ID;
   }
 }

@@ -10,7 +10,7 @@
 #include "ECOCompIndustry.h"
 
 namespace eco {
-  static const auto COMP_INDUSTRY_ID = L"Industry"s;
+  static const auto COMP_INDUSTRY_ID = L"Industry"_id;
 
   std::weak_ptr<CFactoryTemplateRegistry> CFactoryTemplateRegistry::mInstance;
 
@@ -20,7 +20,7 @@ namespace eco {
     };
     template<>
     void RegisterComponent<comp::CIndustry>() {
-      CComponentFactory::GetInstance()->Register<CIndustry>(COMP_INDUSTRY_ID);
+      CComponentFactory::GetInstance()->Register<CIndustry>(COMP_INDUSTRY_ID.GetName());
     }
   }
 
@@ -173,7 +173,7 @@ namespace eco {
   }
 
   template<>
-  cb::string const& GetComponentId<comp::CIndustry>() {
+  core::CFastId const& GetComponentId<comp::CIndustry>() {
     return COMP_INDUSTRY_ID;
   }
 }

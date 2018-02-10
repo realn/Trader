@@ -53,11 +53,11 @@ namespace eco {
     }
   }
 
-  std::shared_ptr<CEntity> CUniverse::FindEntity(cb::string const & id, cb::string const & requiredComponent) const {
-    return FindEntity(id, cb::strvector{ requiredComponent });
+  std::shared_ptr<CEntity> CUniverse::FindEntity(cb::string const & id, core::CFastId const & requiredComponent) const {
+    return FindEntity(id, core::FastIdsT{ requiredComponent });
   }
 
-  std::shared_ptr<CEntity> CUniverse::FindEntity(cb::string const & id, cb::strvector const & requiredComponents) const {
+  std::shared_ptr<CEntity> CUniverse::FindEntity(cb::string const & id, core::FastIdsT const & requiredComponents) const {
     if(id != L"Random"s) {
       auto pred = [&id, &requiredComponents](EntitiesT::value_type const& item) -> auto {
         return item->GetId() == id && item->HasComponents(requiredComponents);
@@ -77,7 +77,7 @@ namespace eco {
     }
   }
 
-  CUniverse::EntitiesT CUniverse::GetEntities(cb::strvector const & requiredComponents) const {
+  CUniverse::EntitiesT CUniverse::GetEntities(core::FastIdsT const & requiredComponents) const {
     auto result = EntitiesT();
     for(auto& entity : mEntities) {
       if(entity->HasComponents(requiredComponents)) {
@@ -87,7 +87,7 @@ namespace eco {
     return result;
   }
 
-  CUniverse::EntitiesT CUniverse::GetEntities(cb::string const& requiredComponent) const {
+  CUniverse::EntitiesT CUniverse::GetEntities(core::CFastId const& requiredComponent) const {
     auto result = EntitiesT();
     for(auto& entity : mEntities) {
       if(entity->HasComponent(requiredComponent)) {

@@ -10,12 +10,12 @@
 #include "ECOCompWarpDrive.h"
 
 namespace eco {
-  static const auto COMP_WARPDRIVE_ID = L"WarpDrive"s;
+  static const auto COMP_WARPDRIVE_ID = L"WarpDrive"_id;
 
   namespace xml {
     template<>
     void RegisterComponent<comp::CWarpDrive>() {
-      CComponentFactory::GetInstance()->Register<CComponent>(COMP_WARPDRIVE_ID);
+      CComponentFactory::GetInstance()->Register<CComponent>(COMP_WARPDRIVE_ID.GetName());
     }
   }
 
@@ -61,7 +61,7 @@ namespace eco {
   }
 
   template<>
-  cb::string const& GetComponentId<comp::CWarpDrive>() {
+  core::CFastId const& GetComponentId<comp::CWarpDrive>() {
     return COMP_WARPDRIVE_ID;
   }
 }

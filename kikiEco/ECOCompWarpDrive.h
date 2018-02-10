@@ -35,5 +35,5 @@ namespace eco {
   }
 
   template<>
-  extern cb::string const& GetComponentId<comp::CWarpDrive>();
+  extern core::CFastId const& GetComponentId<comp::CWarpDrive>();
 }

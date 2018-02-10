@@ -5,6 +5,8 @@
 #include <CBIO/Defines.h>
 #include <CBStr/Defines.h>
 
+#include <CoreFastId.h>
+
 namespace eco {
 
   class CEntity;
@@ -12,15 +14,15 @@ namespace eco {
   class CComponent {
   private:
     std::weak_ptr<CEntity> mParent;
-    cb::string mId;
+    core::CFastId mId;
 
   public:
-    CComponent(std::shared_ptr<CEntity> parent, cb::string const& id);
+    CComponent(std::shared_ptr<CEntity> parent, core::CFastId const& id);
     CComponent(CComponent&&) = default;
     virtual ~CComponent();
 
     std::shared_ptr<CEntity> GetParent() const;
-    cb::string const& GetId() const { return mId; }
+    core::CFastId const& GetId() const { return mId; }
 
     virtual void Update(const float timeDelta) {}
 
@@ -28,12 +30,12 @@ namespace eco {
   };
 
   template<class _Type>
-  cb::string const& GetComponentId() {
+  core::CFastId const& GetComponentId() {
     static_assert(false && "Not implemented.");
   }
 
   template<class _Type, class ... _Types>
-  cb::strvector GetComponentIds() {
+  core::FastIdsT GetComponentIds() {
     return { GetComponentId<_Type>(), GetComponentId<_Types>()... };
   }
 

@@ -50,5 +50,5 @@ namespace eco {
   }
 
   template<>
-  extern cb::string const& GetComponentId<comp::CMarket>();
+  extern core::CFastId const& GetComponentId<comp::CMarket>();
 }

@@ -21,19 +21,21 @@ namespace eco {
     mComponents[component->GetId()] = std::move(component);
   }
 
-  bool CEntity::HasComponent(cb::string const & id) const {
+  bool CEntity::HasComponent(core::CFastId const & id) const {
     return mComponents.find(id) != mComponents.end();
   }
 
-  bool CEntity::HasComponents(cb::strvector const & ids) const {
-    auto compIds = mComponentIds;
-    auto check = [compIds](const cb::strvector::value_type& item) {
-      return compIds.find(item) != compIds.end();
-    };
-    return std::all_of(ids.begin(), ids.end(), check);
+  bool CEntity::HasComponents(core::FastIdsT const & ids) const {
+    auto itend = mComponentIds.end();
+    for(auto& id : ids) {
+      if(mComponentIds.find(id) == itend) {
+        return false;
+      }
+    }
+    return true;
   }
 
-  CComponent & CEntity::GetComponent(cb::string const & id) const {
+  CComponent & CEntity::GetComponent(core::CFastId const & id) const {
     return *mComponents.at(id);
   }
 

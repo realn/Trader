@@ -13,8 +13,8 @@ namespace eco {
     : public std::enable_shared_from_this<CEntity>
   {
   public:
-    using ComponentsT = std::map<cb::string, std::unique_ptr<CComponent>>;
-    using ComponentIdsT = std::set<cb::string>;
+    using ComponentsT = std::map<core::CFastId, std::unique_ptr<CComponent>>;
+    using ComponentIdsT = std::set<core::CFastId>;
 
   private:
     std::weak_ptr<CUniverse> mUniverse;
@@ -41,9 +41,9 @@ namespace eco {
     std::shared_ptr<CUniverse> GetUniverse() const { return mUniverse.lock(); }
 
     void SetComponent(std::unique_ptr<CComponent> component);
-    bool HasComponent(cb::string const& id) const;
-    bool HasComponents(cb::strvector const& ids) const;
-    CComponent& GetComponent(cb::string const& id) const;
+    bool HasComponent(core::CFastId const& id) const;
+    bool HasComponents(core::FastIdsT const& ids) const;
+    CComponent& GetComponent(core::CFastId const& id) const;
 
     void PrintInfo(cb::ostream& stream, ComponentIdsT const& componentIds = ComponentIdsT()) const;
 
@@ -59,7 +59,7 @@ namespace eco {
 
     template<class _Type, class ... _Types>
     bool HasComponents() {
-      auto list = cb::strvector{ GetComponentId<_Type>(), GetComponentId<_Types>()... };
+      auto list = core::FastIdsT{ GetComponentId<_Type>(), GetComponentId<_Types>()... };
       return HasComponents(list);
     }
 

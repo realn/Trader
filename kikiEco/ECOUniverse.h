@@ -5,12 +5,14 @@
 
 #include <CBStr/Defines.h>
 
+#include <CoreFastId.h>
+
 namespace eco {
   class CEntity;
   class CTradeJunction;
 
-  template<class _Type> cb::string const& GetComponentId();
-  template<class _Type, class ... _Types> cb::strvector GetComponentIds();
+  template<class _Type> core::CFastId const& GetComponentId();
+  template<class _Type, class ... _Types> core::FastIdsT GetComponentIds();
 
   class CUniverse {
   public:
@@ -35,12 +37,12 @@ namespace eco {
     void AddEntity(std::shared_ptr<CEntity> entity);
 
     std::shared_ptr<CEntity> FindEntity(cb::string const& id) const;
-    std::shared_ptr<CEntity> FindEntity(cb::string const& id, cb::string const& requiredComponent) const;
-    std::shared_ptr<CEntity> FindEntity(cb::string const& id, cb::strvector const& requiredComponents) const;
+    std::shared_ptr<CEntity> FindEntity(cb::string const& id, core::CFastId const& requiredComponent) const;
+    std::shared_ptr<CEntity> FindEntity(cb::string const& id, core::FastIdsT const& requiredComponents) const;
 
     EntitiesT const& GetEntities() const { return mEntities; }
-    EntitiesT GetEntities(cb::strvector const& requiredComponents) const;
-    EntitiesT GetEntities(cb::string const& requiredComponent) const;
+    EntitiesT GetEntities(core::FastIdsT const& requiredComponents) const;
+    EntitiesT GetEntities(core::CFastId const& requiredComponent) const;
     JunctionsT const& GetJunctions() const { return mJunctions; }
 
     template<class _Type, class ... _Types>
