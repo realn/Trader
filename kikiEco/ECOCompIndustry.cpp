@@ -70,6 +70,8 @@ namespace eco {
   {}
 
   void CFactory::Update(comp::CMarket & market, float const timeDelta) {
+    mMisses.clear();
+    mProduction.clear();
     for(auto i = 0u; i < mSize; i++) {
       if(GetInputProducts(market, timeDelta)) {
         PutOutputProducts(market, timeDelta);
@@ -79,11 +81,14 @@ namespace eco {
 
   bool CFactory::GetInputProducts(comp::CMarket & market, float const timeDelta) {
     for(auto& item : mInputs) {
-      if(!market.GetStorage().CanRemove(item.first, item.second * timeDelta))
+      if(!market.GetStorage().CanRemove(item.first, item.second * timeDelta)) {
+        mMisses[item.first]++;
         return false;
+      }
     }
     for(auto& item : mInputs) {
       market.RemProduct(item.first, item.second * timeDelta);
+      mProduction[item.first]--;
     }
     return true;
   }
@@ -91,6 +96,7 @@ namespace eco {
   void CFactory::PutOutputProducts(comp::CMarket & market, float const timeDelta) {
     for(auto& item : mOutputs) {
       market.AddProduct(item.first, item.second * timeDelta);
+      mProduction[item.first]++;
     }
   }
 
@@ -140,12 +146,19 @@ namespace eco {
 
     void CIndustry::Update(float const timeDelta) {
       auto parent = GetParent();
-      if(!parent->HasComponent<comp::CMarket>())
+      if(!parent->HasComponent<comp::CMarket>()) {
         return;
+      }
+
+      mProductions.clear();
+      mMisses.clear();
 
       auto& market = parent->GetComponent<comp::CMarket>();
       for(auto& factory : mFactories) {
         factory.Update(market, timeDelta);
+
+        mProductions += factory.GetProduction();
+        mMisses += factory.GetMisses();
       }
     }
 
@@ -154,9 +167,12 @@ namespace eco {
       for(auto& factory : mFactories) {
         factory.PrintInfo(stream);
       }
+      stream << L"  Production:"s;
+      for(auto& item : mProductions.mProducts) {
+        
+      }
     }
   }
-
 
   template<>
   cb::string const& GetComponentId<comp::CIndustry>() {

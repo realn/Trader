@@ -13,7 +13,6 @@ namespace eco {
     struct CUniverse;
   }
 
-
   class CFactoryTemplate {
   public:
     using ProductMulsT = std::map<cb::string, float>;
@@ -55,11 +54,30 @@ namespace eco {
     CFactoryTemplate Get(cb::string const& id) const;
   };
 
+  class CProductTicks {
+  public:
+    using TicksT = std::map<cb::string, int>;
+    TicksT mProducts;
+
+    void clear() { mProducts.clear(); }
+
+    int& operator[](cb::string const& id){ return mProducts[id]; }
+    int operator[](cb::string const& id) const { return mProducts.at(id); }
+
+    void operator+=(CProductTicks const& other) {
+      for(auto& item : other.mProducts) {
+        mProducts[item.first] += item.second;
+      }
+    }
+  };
+
   class CFactory
     : public CFactoryTemplate
   {
   private:
     size_t mSize;
+    CProductTicks mMisses;
+    CProductTicks mProduction;
 
   public:
     CFactory(CFactoryTemplate const& factoryTemplate = CFactoryTemplate(), size_t const size = 1);
@@ -67,10 +85,12 @@ namespace eco {
     void Update(comp::CMarket& market, float const timeDelta);
     void PrintInfo(cb::ostream& stream) const;
 
+    CProductTicks const& GetMisses() const { return mMisses; }
+    CProductTicks const& GetProduction() const { return mProduction; }
+
   private:
     bool GetInputProducts(comp::CMarket& market, float const timeDelta);
     void PutOutputProducts(comp::CMarket& market, float const timeDelta);
-
   };
 
 
@@ -83,6 +103,8 @@ namespace eco {
 
     private:
       FactoriesT mFactories;
+      CProductTicks mMisses;
+      CProductTicks mProductions;
 
     public:
       CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories = cb::strvector());
