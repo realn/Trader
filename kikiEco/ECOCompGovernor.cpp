@@ -44,7 +44,7 @@ namespace eco {
 
         auto pident = item.second;
         if(glm::abs(pident) <= GOV_NEAR_ZERO) {
-          market.SetProductValue(item.first, 0.0f);
+          market.ClearProductValue(item.first);
         }
 
         auto amount = storage.GetProductAmount(item.first);
@@ -55,7 +55,7 @@ namespace eco {
         auto value = (amount - mem.mMin) / (mem.mMax - mem.mMin);
         value = glm::mix(GOV_PRICE_MAX, GOV_PRICE_MIN, value) * glm::abs(pident);
 
-        market.SetProductValue(item.first, value);
+        market.SetProductValue(item.first, pident > 0.0f ? PriceType::SELL : PriceType::BUY, value);
       }
     }
 

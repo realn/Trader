@@ -2,31 +2,36 @@
 #include "ECOPriceList.h"
 
 namespace eco {
-  void CPriceList::SetValue(cb::string const & productId, float const value) {
-    if(value == 0.0f) {
-      mValues.erase(productId);
-    }
-    else if(value < 0.0f) {
-      throw std::exception("Cannot set negative value on product.");
-    }
-    else {
-      mValues[productId] = value;
+  cb::string toStr(PriceType const type) {
+    switch(type) {
+    case PriceType::BUY:  return L"BUY"s;
+    case PriceType::SELL: return L"SELL"s;
+    default:
+      return cb::string();
     }
   }
 
-  float CPriceList::GetValue(cb::string const & productId) const {
-    auto it = mValues.find(productId);
-    if(it == mValues.end()) {
-      return 0.0f;
+  float CPriceList::GetValue(cb::string const & id, PriceType const type) const {
+    auto it = mValues.find(id);
+    if(it != mValues.end() && it->second.GetType() == type) {
+      return it->second.GetValue();
     }
-    return it->second;
+    return 0.0f;
+  }
+
+  void CPriceList::RemovePrice(cb::string const & id) {
+    auto it = mValues.find(id);
+    if(it != mValues.end()) {
+      mValues.erase(it);
+    }
   }
 
   void CPriceList::PrintInfo(cb::ostream & stream) const {
     if(!mValues.empty()) {
       stream << L"  Prices:"s << std::endl;
       for(auto& item : mValues) {
-        stream << L"   "s << item.first << L": " << item.second << L"$"s << std::endl;
+        stream << L"   "s << item.first << L"("s << toStr(item.second.GetType());
+        stream << L"): "s << item.second.GetValue() << L"$"s << std::endl;
       }
     }
   }

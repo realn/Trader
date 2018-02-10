@@ -29,7 +29,9 @@ namespace eco {
       CStorage const& GetStorage() const { return mStorage; }
       CPriceList const& GetPriceList() const { return mPriceList; }
 
-      void SetProductValue(cb::string const& id, float const value);
+      void SetProductValue(cb::string const& id, PriceType const type, float const value);
+      void ClearProductValue(cb::string const& id);
+
       void AddProduct(cb::string const& id, float const amount);
       void RemProduct(cb::string const& id, float const amount);
 

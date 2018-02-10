@@ -43,8 +43,14 @@ namespace eco {
 
     CMarket::~CMarket() {}
 
-    void CMarket::SetProductValue(cb::string const & id, float const value) {
-      mPriceList.SetValue(id, value);
+    void CMarket::SetProductValue(cb::string const & id, PriceType const type, float const value) {
+      auto& price = mPriceList[id];
+      price.SetType(type);
+      price.SetValue(value);
+    }
+
+    void CMarket::ClearProductValue(cb::string const & id) {
+      mPriceList.RemovePrice(id);
     }
 
     void CMarket::AddProduct(cb::string const & id, float const amount) {
@@ -56,7 +62,7 @@ namespace eco {
     }
 
     void CMarket::BuyProduct(cb::string const & id, float const amount, CWallet & buyerWallet, CStorage & buyerStorage) {
-      buyerWallet.Withdraw(mPriceList.GetValue(id) * amount);
+      buyerWallet.Withdraw(mPriceList.GetValue(id, PriceType::SELL) * amount);
       mStorage.RemProduct(id, amount);
       buyerStorage.AddProduct(id, amount);
     }
@@ -64,14 +70,14 @@ namespace eco {
     void CMarket::SellProduct(cb::string const & id, float const amount, CWallet & sellerWaller, CStorage & sellerStorage) {
       sellerStorage.RemProduct(id, amount);
       mStorage.AddProduct(id, amount);
-      sellerWaller.Deposit(mPriceList.GetValue(id) * amount);
+      sellerWaller.Deposit(mPriceList.GetValue(id, PriceType::BUY) * amount);
     }
 
     bool CMarket::CanBuyProduct(cb::string const & id, float const amount, CWallet const& buyerWallet) {
       if(!mPriceList.Contains(id))
         return false;
 
-      return mStorage.CanRemove(id, amount) && buyerWallet.CanWithdraw(amount * mPriceList.GetValue(id));
+      return mStorage.CanRemove(id, amount) && buyerWallet.CanWithdraw(amount * mPriceList.GetValue(id, PriceType::SELL));
     }
 
     bool CMarket::CanSellProduct(cb::string const & id, float const amount, CStorage const& sellerStorage) {
