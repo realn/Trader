@@ -3,8 +3,8 @@
     <Out Id="energy" Value="10.0" />
   </FactoryTemplate>
   <FactoryTemplate Id="bioRecycler" Name="Biological Recycler">
-    <In Id="waste" Value="3.0" />
-    <In Id="energy" Value="3.0" />
+    <In Id="waste" Value="2.0" />
+    <In Id="energy" Value="2.0" />
     <Out Id="biomass" Value="2.0" />
   </FactoryTemplate>
   <FactoryTemplate Id="foodFarm" Name="Food Farm">

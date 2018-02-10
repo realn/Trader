@@ -201,8 +201,8 @@ namespace trader {
 
     mFactoryTemplateRegistry = eco::CFactoryTemplateRegistry::GetInstance();
     for(auto& factoryTemplate : uniData.mFactoryTemplates) {
-      eco::CFactoryTemplate::ProductMulsT in;
-      eco::CFactoryTemplate::ProductMulsT out;
+      eco::CProductIdValueList in;
+      eco::CProductIdValueList out;
       for(auto product : factoryTemplate.mInProducts) { in[product.mId] = product.mValue; }
       for(auto product : factoryTemplate.mOutProducts) { out[product.mId] = product.mValue; }
       mFactoryTemplateRegistry->Register(eco::CFactoryTemplate(factoryTemplate.mId,

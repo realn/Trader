@@ -2,6 +2,7 @@
 
 #include <map>
 
+#include "ECOProduct.h"
 #include "ECOComponent.h"
 
 namespace eco {
@@ -14,18 +15,18 @@ namespace eco {
   }
 
   class CFactoryTemplate {
-  public:
-    using ProductMulsT = std::map<cb::string, float>;
-
   protected:
     cb::string mId;
     cb::string mName;
-    ProductMulsT mInputs;
-    ProductMulsT mOutputs;
+    CProductIdValueList mInputs;
+    CProductIdValueList mOutputs;
 
   public:
     CFactoryTemplate();
-    CFactoryTemplate(cb::string const& id, cb::string const& name, ProductMulsT const& inputs, ProductMulsT const& outputs);
+    CFactoryTemplate(cb::string const& id, 
+                     cb::string const& name, 
+                     CProductIdValueList const& inputs, 
+                     CProductIdValueList const& outputs);
     virtual ~CFactoryTemplate();
 
     cb::string const& GetId() const { return mId; }
@@ -33,8 +34,10 @@ namespace eco {
 
     void PrintProducts(cb::ostream& stream) const;
 
+    CProductIdValueList GetProduction() const;
+
   private:
-    void PrintInfo(cb::string const& name, ProductMulsT const& products, cb::ostream& stream) const;
+    void PrintInfo(cb::string const& name, CProductIdValueList const& products, cb::ostream& stream) const;
   };
 
   class CFactoryTemplateRegistry {
@@ -54,39 +57,17 @@ namespace eco {
     CFactoryTemplate Get(cb::string const& id) const;
   };
 
-  class CProductTicks {
-  public:
-    using TicksT = std::map<cb::string, int>;
-    TicksT mProducts;
-
-    void clear() { mProducts.clear(); }
-
-    int& operator[](cb::string const& id){ return mProducts[id]; }
-    int operator[](cb::string const& id) const { return mProducts.at(id); }
-
-    void operator+=(CProductTicks const& other) {
-      for(auto& item : other.mProducts) {
-        mProducts[item.first] += item.second;
-      }
-    }
-  };
-
   class CFactory
     : public CFactoryTemplate
   {
   private:
     size_t mSize;
-    CProductTicks mMisses;
-    CProductTicks mProduction;
 
   public:
     CFactory(CFactoryTemplate const& factoryTemplate = CFactoryTemplate(), size_t const size = 1);
 
     void Update(comp::CMarket& market, float const timeDelta);
     void PrintInfo(cb::ostream& stream) const;
-
-    CProductTicks const& GetMisses() const { return mMisses; }
-    CProductTicks const& GetProduction() const { return mProduction; }
 
   private:
     bool GetInputProducts(comp::CMarket& market, float const timeDelta);
@@ -103,8 +84,7 @@ namespace eco {
 
     private:
       FactoriesT mFactories;
-      CProductTicks mMisses;
-      CProductTicks mProductions;
+      CProductIdValueList mProduction;
 
     public:
       CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories = cb::strvector());

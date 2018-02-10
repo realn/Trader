@@ -14,12 +14,22 @@ namespace eco {
 
   std::weak_ptr<CFactoryTemplateRegistry> CFactoryTemplateRegistry::mInstance;
 
+  namespace xml {
+    struct CIndustry : public CComponent {
+      cb::strvector mFactories;
+    };
+    template<>
+    void RegisterComponent<comp::CIndustry>() {
+      CComponentFactory::GetInstance()->Register<CIndustry>(COMP_INDUSTRY_ID);
+    }
+  }
+
   CFactoryTemplate::CFactoryTemplate() {}
 
   CFactoryTemplate::CFactoryTemplate(cb::string const& id,
                                      cb::string const& name, 
-                                     ProductMulsT const & inputs, 
-                                     ProductMulsT const & outputs)
+                                     CProductIdValueList const & inputs, 
+                                     CProductIdValueList const & outputs)
     : mId(id), mName(name), mInputs(inputs), mOutputs(outputs) {}
 
   CFactoryTemplate::~CFactoryTemplate() {}
@@ -29,7 +39,14 @@ namespace eco {
     PrintInfo(L"Out"s, mOutputs, stream);
   }
 
-  void CFactoryTemplate::PrintInfo(cb::string const & name, ProductMulsT const& products, cb::ostream & stream) const {
+  CProductIdValueList CFactoryTemplate::GetProduction() const {
+    auto result = CProductIdValueList();
+    result -= mInputs;
+    result += mOutputs;
+    return result;
+  }
+
+  void CFactoryTemplate::PrintInfo(cb::string const & name, CProductIdValueList const& products, cb::ostream & stream) const {
     stream << L"   "s << name << L": "s;
     if(products.empty()) {
       stream << L"[None]"s;
@@ -70,8 +87,6 @@ namespace eco {
   {}
 
   void CFactory::Update(comp::CMarket & market, float const timeDelta) {
-    mMisses.clear();
-    mProduction.clear();
     for(auto i = 0u; i < mSize; i++) {
       if(GetInputProducts(market, timeDelta)) {
         PutOutputProducts(market, timeDelta);
@@ -82,13 +97,11 @@ namespace eco {
   bool CFactory::GetInputProducts(comp::CMarket & market, float const timeDelta) {
     for(auto& item : mInputs) {
       if(!market.GetStorage().CanRemove(item.first, item.second * timeDelta)) {
-        mMisses[item.first]++;
         return false;
       }
     }
     for(auto& item : mInputs) {
       market.RemProduct(item.first, item.second * timeDelta);
-      mProduction[item.first]--;
     }
     return true;
   }
@@ -96,7 +109,6 @@ namespace eco {
   void CFactory::PutOutputProducts(comp::CMarket & market, float const timeDelta) {
     for(auto& item : mOutputs) {
       market.AddProduct(item.first, item.second * timeDelta);
-      mProduction[item.first]++;
     }
   }
 
@@ -105,15 +117,6 @@ namespace eco {
     PrintProducts(stream);
   }
 
-  namespace xml {
-    struct CIndustry : public CComponent {
-      cb::strvector mFactories;
-    };
-    template<>
-    void RegisterComponent<comp::CIndustry>() {
-      CComponentFactory::GetInstance()->Register<CIndustry>(COMP_INDUSTRY_ID);
-    }
-  }
 
   namespace comp {
     CIndustry::CIndustry(std::shared_ptr<CEntity> parent, cb::strvector const& factories) 
@@ -142,6 +145,7 @@ namespace eco {
 
     void CIndustry::AddFactory(CFactoryTemplate const & factoryTemplate) {
       mFactories.push_back(CFactory(factoryTemplate));
+      mProduction += factoryTemplate.GetProduction();
     }
 
     void CIndustry::Update(float const timeDelta) {
@@ -150,15 +154,9 @@ namespace eco {
         return;
       }
 
-      mProductions.clear();
-      mMisses.clear();
-
       auto& market = parent->GetComponent<comp::CMarket>();
       for(auto& factory : mFactories) {
         factory.Update(market, timeDelta);
-
-        mProductions += factory.GetProduction();
-        mMisses += factory.GetMisses();
       }
     }
 
@@ -167,9 +165,9 @@ namespace eco {
       for(auto& factory : mFactories) {
         factory.PrintInfo(stream);
       }
-      stream << L"  Production:"s;
-      for(auto& item : mProductions.mProducts) {
-        
+      stream << L"  Production:"s << std::endl;
+      for(auto& item : mProduction) {
+        stream << L"   "s << item.first << L" : "s << item.second << std::endl;
       }
     }
   }
