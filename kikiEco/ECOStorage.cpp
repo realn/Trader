@@ -17,17 +17,7 @@ namespace eco {
     if(amount < 0.0f) {
       throw std::exception("Cannot remove negative number.");
     }
-    auto it = mValues.find(id);
-    if(it == mValues.end()) {
-      throw std::exception("Product not stored to remove.");
-    }
-    if(it->second < amount) {
-      throw std::exception("Want to remove more than stored.");
-    }
-    it->second -= amount;
-    if(it->second == 0.0f) {
-      mValues.erase(it);
-    }
+    mValues[id] -= amount;
   }
 
   float CStorage::GetProductAmount(ProductId const & id) const {

@@ -27,17 +27,19 @@ namespace eco {
     CGovernor::~CGovernor() {}
 
     void CGovernor::Update(const float timeDelta) {
+      static const auto compListIds = GetComponentIds<comp::CMarket, comp::CIndustry>();
+
       auto parent = GetParent();
-      if(!parent->HasComponents<comp::CMarket, comp::CIndustry>()) {
+      if(!parent->HasComponents(compListIds)) {
         return;
       }
 
       auto& market = parent->GetComponent<comp::CMarket>();
       auto& industry = parent->GetComponent<comp::CIndustry>();
 
-      auto production = industry.GetProduction();
-      auto priceList = market.GetPriceList();
-      auto storage = market.GetStorage();
+      auto& production = industry.GetProduction();
+      auto& priceList = market.GetPriceList();
+      auto& storage = market.GetStorage();
 
       for(auto& item : production) {
         auto& mem = mMemory[item.first];
