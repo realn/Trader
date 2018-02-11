@@ -16,7 +16,7 @@ namespace eco {
         float mMin = 0.0f;
         float mMax = 0.0f;
       };
-      using MemT = std::map<cb::string, ProductInfo>;
+      using MemT = std::map<ProductId, ProductInfo>;
 
       MemT mMemory;
 

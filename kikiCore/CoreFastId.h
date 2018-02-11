@@ -19,8 +19,8 @@ namespace core {
     bool operator==(CFastId const& other) const { return mId == other.mId; }
     bool operator!=(CFastId const& other) const { return mId != other.mId; }
 
-    bool operator<(CFastId const& other) const { return mName < other.mName; }
-    bool operator>(CFastId const& other) const { return mName > other.mName; }
+    bool operator<(CFastId const& other) const { return mId < other.mId; }
+    bool operator>(CFastId const& other) const { return mId > other.mId; }
   };
 
   using FastIdsT = std::vector<CFastId>;

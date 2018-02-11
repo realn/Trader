@@ -4,16 +4,20 @@
 
 #include <CBStr\Defines.h>
 
+#include <CoreFastId.h>
+
 namespace eco {
+  using ProductId = core::CFastId;
+
   class CProduct {
   private:
-    cb::string mId;
+    ProductId mId;
     cb::string mName;
 
   public:
-    CProduct(cb::string const& id, cb::string const& name) : mId(id), mName(name) {}
+    CProduct(ProductId const& id, cb::string const& name) : mId(id), mName(name) {}
 
-    cb::string GetId() const { return mId; }
+    ProductId GetId() const { return mId; }
     cb::string GetName() const { return mName; }
 
     bool operator==(CProduct const& other) const { return mId == other.mId; }
@@ -22,7 +26,7 @@ namespace eco {
 
   class CProductIdValueList {
   public:
-    using ListT = std::map<cb::string, float>;
+    using ListT = std::map<ProductId, float>;
 
   private:
     ListT mList;
@@ -38,8 +42,8 @@ namespace eco {
     size_t size() const { return mList.size(); }
     bool empty() const { return mList.empty(); }
 
-    float& operator[](cb::string const& id) { return mList[id]; }
-    float operator[](cb::string const& id) const { return mList.at(id); }
+    float& operator[](ProductId const& id) { return mList[id]; }
+    float operator[](ProductId const& id) const { return mList.at(id); }
 
     void operator+=(CProductIdValueList const& other) {
       for(auto& item : other.mList) {

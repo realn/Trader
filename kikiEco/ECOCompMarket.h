@@ -29,17 +29,17 @@ namespace eco {
       CStorage const& GetStorage() const { return mStorage; }
       CPriceList const& GetPriceList() const { return mPriceList; }
 
-      void SetProductValue(cb::string const& id, PriceType const type, float const value);
-      void ClearProductValue(cb::string const& id);
+      void SetProductValue(ProductId const& id, PriceType const type, float const value);
+      void ClearProductValue(ProductId const& id);
 
-      void AddProduct(cb::string const& id, float const amount);
-      void RemProduct(cb::string const& id, float const amount);
+      void AddProduct(ProductId const& id, float const amount);
+      void RemProduct(ProductId const& id, float const amount);
 
-      void BuyProduct(cb::string const& id, float const amount, CWallet& buyerWallet, CStorage& buyerStorage);
-      void SellProduct(cb::string const& id, float const amount, CWallet& sellerWaller, CStorage& sellerStorage);
+      void BuyProduct(ProductId const& id, float const amount, CWallet& buyerWallet, CStorage& buyerStorage);
+      void SellProduct(ProductId const& id, float const amount, CWallet& sellerWaller, CStorage& sellerStorage);
 
-      bool CanBuyProduct(cb::string const& id, float const amount, CWallet const& buyerWallet);
-      bool CanSellProduct(cb::string const& id, float const amount, CStorage const& sellerStorage);
+      bool CanBuyProduct(ProductId const& id, float const amount, CWallet const& buyerWallet);
+      bool CanSellProduct(ProductId const& id, float const amount, CStorage const& sellerStorage);
 
       void PrintInfo(cb::ostream& stream) const;
     };

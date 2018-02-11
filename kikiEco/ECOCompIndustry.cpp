@@ -54,7 +54,7 @@ namespace eco {
     else {
       auto result = cb::strvector();
       for(auto& item : products) {
-        result.push_back(cb::format(L"{0}({1})"s, item.first, item.second));
+        result.push_back(cb::format(L"{0}({1})"s, item.first.GetName(), item.second));
       }
       stream << cb::join(result, L", "s);
     }
@@ -167,7 +167,7 @@ namespace eco {
       }
       stream << L"  Production:"s << std::endl;
       for(auto& item : mProduction) {
-        stream << L"   "s << item.first << L" : "s << item.second << std::endl;
+        stream << L"   "s << item.first.GetName() << L" : "s << item.second << std::endl;
       }
     }
   }

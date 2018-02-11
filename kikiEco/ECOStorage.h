@@ -5,10 +5,12 @@
 #include <CBIO\Defines.h>
 #include <CBStr\Defines.h>
 
+#include "ECOProduct.h"
+
 namespace eco {
   class CStorage {
   public:
-    using ValuesT = std::map<cb::string, float>;
+    using ValuesT = std::map<ProductId, float>;
 
   private:
     ValuesT mValues;
@@ -18,12 +20,12 @@ namespace eco {
 
     void SetStorage(ValuesT const& values) { mValues = values; }
 
-    void AddProduct(cb::string const& id, float const amount);
-    void RemProduct(cb::string const& id, float const amount);
+    void AddProduct(ProductId const& id, float const amount);
+    void RemProduct(ProductId const& id, float const amount);
 
-    float GetProductAmount(cb::string const& id) const;
+    float GetProductAmount(ProductId const& id) const;
 
-    bool CanRemove(cb::string const& id, float const amount) const;
+    bool CanRemove(ProductId const& id, float const amount) const;
 
     void PrintInfo(cb::ostream& stream) const;
   };

@@ -5,7 +5,7 @@ namespace eco {
   CStorage::CStorage(ValuesT const& initStorage)
     : mValues(initStorage) {}
 
-  void CStorage::AddProduct(cb::string const & id, float const amount) {
+  void CStorage::AddProduct(ProductId const & id, float const amount) {
     if(amount <= 0.0f) {
       throw std::exception("Cannot add negative or zero number.");
     }
@@ -13,7 +13,7 @@ namespace eco {
     mValues[id] += amount;
   }
 
-  void CStorage::RemProduct(cb::string const & id, float const amount) {
+  void CStorage::RemProduct(ProductId const & id, float const amount) {
     if(amount < 0.0f) {
       throw std::exception("Cannot remove negative number.");
     }
@@ -30,14 +30,14 @@ namespace eco {
     }
   }
 
-  float CStorage::GetProductAmount(cb::string const & id) const {
+  float CStorage::GetProductAmount(ProductId const & id) const {
     auto it = mValues.find(id);
     if(it == mValues.end())
       return 0.0f;
     return it->second;
   }
 
-  bool CStorage::CanRemove(cb::string const & id, float const amount) const {
+  bool CStorage::CanRemove(ProductId const & id, float const amount) const {
     auto it = mValues.find(id);
     if(it == mValues.end()) {
       return false;
@@ -49,7 +49,7 @@ namespace eco {
     if(!mValues.empty()) {
       stream << L"  Storage:" << std::endl;
       for(auto& item : mValues) {
-        stream << L"   "s << item.first << L" x "s << item.second << std::endl;
+        stream << L"   "s << item.first.GetName() << L" x "s << item.second << std::endl;
       }
     }
   }

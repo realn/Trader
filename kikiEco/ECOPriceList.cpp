@@ -11,7 +11,7 @@ namespace eco {
     }
   }
 
-  float CPriceList::GetValue(cb::string const & id, PriceType const type) const {
+  float CPriceList::GetValue(ProductId const & id, PriceType const type) const {
     auto it = mValues.find(id);
     if(it != mValues.end() && it->second.GetType() == type) {
       return it->second.GetValue();
@@ -19,7 +19,7 @@ namespace eco {
     return 0.0f;
   }
 
-  void CPriceList::RemovePrice(cb::string const & id) {
+  void CPriceList::RemovePrice(ProductId const & id) {
     auto it = mValues.find(id);
     if(it != mValues.end()) {
       mValues.erase(it);
@@ -30,7 +30,7 @@ namespace eco {
     if(!mValues.empty()) {
       stream << L"  Prices:"s << std::endl;
       for(auto& item : mValues) {
-        stream << L"   "s << item.first << L"("s << toStr(item.second.GetType());
+        stream << L"   "s << item.first.GetName() << L"("s << toStr(item.second.GetType());
         stream << L"): "s << item.second.GetValue() << L"$"s << std::endl;
       }
     }

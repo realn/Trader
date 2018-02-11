@@ -5,6 +5,8 @@
 #include <CBIO\Defines.h>
 #include <CBStr\Defines.h>
 
+#include "ECOProduct.h"
+
 namespace eco {
   enum class PriceType {
     SELL, BUY
@@ -25,14 +27,14 @@ namespace eco {
 
   class CPriceList {
   public:
-    using ValuesT = std::map<cb::string, CPrice>;
+    using ValuesT = std::map<ProductId, CPrice>;
 
   private:
     ValuesT mValues;
 
   public:
-    CPrice const& operator[](cb::string const& id) const { return mValues.at(id); }
-    CPrice& operator[](cb::string const& id) { return mValues[id]; }
+    CPrice const& operator[](ProductId const& id) const { return mValues.at(id); }
+    CPrice& operator[](ProductId const& id) { return mValues[id]; }
 
     ValuesT::iterator begin() { return mValues.begin(); }
     ValuesT::const_iterator begin() const { return mValues.begin(); }
@@ -45,10 +47,10 @@ namespace eco {
 
     void clear() { mValues.clear(); }
 
-    float GetValue(cb::string const& id, PriceType const type) const;
-    void RemovePrice(cb::string const& id);
+    float GetValue(ProductId const& id, PriceType const type) const;
+    void RemovePrice(ProductId const& id);
 
-    bool Contains(cb::string const& productId) const { return mValues.find(productId) != mValues.end(); }
+    bool Contains(ProductId const& productId) const { return mValues.find(productId) != mValues.end(); }
 
     void PrintInfo(cb::ostream& stream) const;
   };
