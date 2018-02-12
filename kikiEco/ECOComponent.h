@@ -8,6 +8,9 @@
 #include <CoreFastId.h>
 
 namespace eco {
+  namespace xml {
+    struct CComponent;
+  }
 
   class CEntity;
 

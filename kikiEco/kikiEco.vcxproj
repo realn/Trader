@@ -137,6 +137,7 @@
     <ClInclude Include="ECOCompIndustry.h" />
     <ClInclude Include="ECOCompNavigation.h" />
     <ClInclude Include="ECOComponentFactory.h" />
+    <ClInclude Include="ECOCompTrader.h" />
     <ClInclude Include="ECOCompWarpDrive.h" />
     <ClInclude Include="ECOCompDock.h" />
     <ClInclude Include="ECOComponent.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="ECOCompNavigation.cpp" />
     <ClCompile Include="ECOComponent.cpp" />
     <ClCompile Include="ECOComponentFactory.cpp" />
+    <ClCompile Include="ECOCompTrader.cpp" />
     <ClCompile Include="ECOCompWarpDrive.cpp" />
     <ClCompile Include="ECOEntity.cpp" />
     <ClCompile Include="ECOCompMarket.cpp" />
