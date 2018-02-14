@@ -55,7 +55,10 @@ namespace eco {
         mem.mMax = glm::max(mem.mMax, amount);
         mem.mMin = glm::min(mem.mMin, amount);
 
-        auto value = (amount - mem.mMin) / (mem.mMax - mem.mMin);
+        auto value = 0.0f;
+        if(mem.mMax - mem.mMin > 0.0f) {
+          value = (amount - mem.mMin) / (mem.mMax - mem.mMin);
+        }
         value = glm::mix(GOV_PRICE_MAX, GOV_PRICE_MIN, value) * glm::abs(pident);
 
         market.SetProductValue(item.first, pident > 0.0f ? PriceType::SELL : PriceType::BUY, value);

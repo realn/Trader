@@ -13,7 +13,7 @@
 namespace core {
   class CAppConfig {
   public:
-    float UpdateTimeStep = 0.0025f;
+    float UpdateTimeStep = 0.025f;
     cb::u32 UpdateMaxStepsPerFrame = 20;
     cb::u32 EventMaxIters = 20;
     glm::ivec2 WindowPos = {20, 20};

@@ -37,6 +37,17 @@ namespace eco {
 
     CNavigation::~CNavigation() {}
 
+    size_t CNavigation::QueryDistance(std::shared_ptr<CEntity> source, std::shared_ptr<CEntity> target) const {
+      auto jumps = JumpsT();
+      auto links = LinksT();
+
+      auto entities = GetParent()->GetUniverse()->GetEntities(GetComponentId<CDock>());
+
+      FindWays(entities, source, jumps, links);
+
+      return jumps.at(target);
+    }
+
     void CNavigation::SetCurrentDock(std::shared_ptr<CEntity> dock) {
       mCurrentDock = dock;
     }
@@ -45,9 +56,22 @@ namespace eco {
       mCurrentDock.reset();
     }
 
+    std::shared_ptr<CEntity> CNavigation::GetCurrentDock() const {
+      return mCurrentDock.lock();
+    }
+
     void CNavigation::Update(float const timeDelta) {
+      if(mWaitTime < mMaxWaitTime) {
+        mWaitTime += timeDelta;
+        return;
+      }
+
       if(!mCurrentDock.expired()) {
         auto dock = mCurrentDock.lock();
+        if(mTarget.lock() == dock) {
+          mTarget.reset();
+        }
+
         auto parent = GetParent();
         {
           auto it = std::find_if(mWaypoints.begin(), mWaypoints.end(), [dock](WaypointsT::value_type& item)->auto{ return item.lock() == dock; });
@@ -59,8 +83,11 @@ namespace eco {
           mCurrentTarget = mWaypoints.front();
         }
         else {
-          auto newTarget = GetNewTarget(dock);
-          mWaypoints = PlotCourse(dock, newTarget);
+          if(mTarget.expired()) {
+            mWaitTime = 0.0f;
+            return;
+          }
+          mWaypoints = PlotCourse(dock, mTarget.lock());
           mCurrentTarget = mWaypoints.front();
         }
 

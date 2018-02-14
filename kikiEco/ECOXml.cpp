@@ -52,11 +52,13 @@ CB_DEFINEXMLREAD(eco::xml::CStorage) {
 }
 
 CB_DEFINEXMLREAD(eco::xml::CFactoryTemplate) {
-  return
-    GetAttribute(XML_FACTORYTEMPLATE_ID, mObject.mId) &&
-    GetAttribute(XML_FACTORYTEMPLATE_NAME, mObject.mName) &&
-    GetNodeList(mObject.mInProducts, XML_FACTORYTEMPLATE_INPRODUCT) &&
-    GetNodeList(mObject.mOutProducts, XML_FACTORYTEMPLATE_OUTPRODUCT);
+  if(!GetAttribute(XML_FACTORYTEMPLATE_ID, mObject.mId) ||
+     !GetAttribute(XML_FACTORYTEMPLATE_NAME, mObject.mName))
+    return false;
+
+  GetNodeList(mObject.mInProducts, XML_FACTORYTEMPLATE_INPRODUCT);
+  GetNodeList(mObject.mOutProducts, XML_FACTORYTEMPLATE_OUTPRODUCT);
+  return true;
 }
 
 CB_DEFINEXMLREAD(eco::xml::CEntity) {

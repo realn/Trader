@@ -20,6 +20,11 @@ namespace trader {
       return
         gfx::CMesh::CreateTube({ 0.0f, 0.0f }, { 0.2f, 0.2f }, 0.3f, two_pi<float>(), { 8, 1 }, false, { 1.0f, 0.0f, 0.0f, 1.0f });
 
+    case  MeshType::Satelite:
+      return
+        rotate(mat4(1.0f), radians(-90.0f), { 1.0f, 0.0f, 0.0f }) *
+        //gfx::CMesh::CreateTube({0.2f, 0.2f}, {0.2f,0.2f}, 0.4f, two_pi<float>(), {12, 1}, false, {0.0f, 1.0f, 0.0f, 1.0f});
+        gfx::CMesh::CreateSphere(vec3(0.5f), { 16, 8 }, { 0.0f, 0.5f, 1.0f, 1.0f }, false);
 
     default:
       break;

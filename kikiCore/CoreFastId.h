@@ -11,7 +11,7 @@ namespace core {
     size_t mId;
 
   public:
-    CFastId(cb::string const& id);
+    CFastId(cb::string const& id = cb::string());
 
     cb::string const& GetName() const { return mName; }
     size_t const& GetId() const { return mId; }

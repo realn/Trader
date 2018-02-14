@@ -20,15 +20,22 @@ namespace eco {
     private:
       std::weak_ptr<CEntity> mCurrentDock;
       std::weak_ptr<CEntity> mCurrentTarget;
+      std::weak_ptr<CEntity> mTarget;
       WaypointsT mWaypoints;
+      float mMaxWaitTime = 0.5f;
+      float mWaitTime = 0.5f;
 
     public:
       CNavigation(std::shared_ptr<CEntity> parent);
       CNavigation(std::shared_ptr<CEntity> parent, xml::CComponent const& component);
       virtual ~CNavigation();
 
+      void SetTarget(std::shared_ptr<CEntity> target) { mTarget = target; }
+      size_t QueryDistance(std::shared_ptr<CEntity> source, std::shared_ptr<CEntity> target) const;
+
       void SetCurrentDock(std::shared_ptr<CEntity> dock);
       void ClearCurrentDock();
+      std::shared_ptr<CEntity> GetCurrentDock() const;
 
       void Update(float const timeDelta) override;
 

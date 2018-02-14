@@ -2,6 +2,11 @@
   <FactoryTemplate Id="solarArray" Name="Solar Panel Array">
     <Out Id="energy" Value="10.0" />
   </FactoryTemplate>
+  <FactoryTemplate Id="workerDorm" Name="Worker Dorms">
+    <In Id="energy" Value="1.0" />
+    <In Id="food" Value="1.0" />
+    <Out Id="waste" Value="2.0" />
+  </FactoryTemplate>
   <FactoryTemplate Id="bioRecycler" Name="Biological Recycler">
     <In Id="waste" Value="2.0" />
     <In Id="energy" Value="2.0" />
@@ -13,6 +18,16 @@
     <Out Id="food" Value="2.0" />
     <Out Id="waste" Value="2.0" />
   </FactoryTemplate>
+  <EntityType Id="Satelite">
+    <Dock />
+    <Market>
+      <Storage>
+        <Product Id="food" Value="100.0" />
+      </Storage>
+    </Market>
+    <Industry Factories="solarArray,workerDorm" />
+    <Governor />
+  </EntityType>
   <EntityType Id="Planet">
     <Dock />
     <Market>
@@ -20,23 +35,26 @@
         <Product Id="biomass" Value="100.0" />
       </Storage>
     </Market>
-    <Industry Factories="solarArray,bioRecycler,foodFarm" />
+    <Industry Factories="bioRecycler,foodFarm" />
     <Governor />
   </EntityType>
   <EntityType Id="Ship">
     <WarpDrive />
     <Navigation />
+    <Trader />
   </EntityType>
   <EntityList TypeId="Planet">
     <Entity Name="Venus" Position="2.0f,-4.0f" />
-    <Entity Name="Mercury" Position="6.4f,-2.0f" />
     <Entity Name="Mars" Position="4.3f,2.0f" />
     <Entity Name="Uranus" Position="4.3f,2.0f" />
     <Entity Name="Saturn" Position="-5.4f,0.5f" />
     <Entity Name="Jupiter" Position="0.0f,4.0f" />
     <Entity Name="Pluto" Position="-3.8,-5.0f" />
+  </EntityList>
+  <EntityList TypeId="Satelite">
     <Entity Name="Celti" Position="-2.8,-9.0f" />
     <Entity Name="Kasio" Position="-2.8,5.7f" />
+    <Entity Name="Mercury" Position="6.4f,-2.0f" />
   </EntityList>
   <EntityList TypeId="Ship">
     <Entity Name="Enterprise" Dock="Random" />
