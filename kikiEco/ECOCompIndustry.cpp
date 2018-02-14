@@ -156,7 +156,7 @@ namespace eco {
 
       auto& market = parent->GetComponent<comp::CMarket>();
       for(auto& factory : mFactories) {
-        factory.Update(market, timeDelta);
+        factory.Update(market, timeDelta * 0.1f);
       }
     }
 

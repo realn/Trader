@@ -12,7 +12,7 @@ namespace eco {
   static const auto COMP_GOVERNOR_ID = L"Governor"_id;
 
   constexpr auto GOV_PRICE_MIN = 10.0f;
-  constexpr auto GOV_PRICE_MAX = 500.0f;
+  constexpr auto GOV_PRICE_MAX = 1000.0f;
   constexpr auto GOV_NEAR_ZERO = 0.01f;
 
   namespace comp {
@@ -41,6 +41,7 @@ namespace eco {
       auto& priceList = market.GetPriceList();
       auto& storage = market.GetStorage();
 
+      mWaitTime += timeDelta;
       for(auto& item : production) {
         auto& mem = mMemory[item.first];
 
@@ -59,9 +60,28 @@ namespace eco {
         if(mem.mMax - mem.mMin > 0.0f) {
           value = (amount - mem.mMin) / (mem.mMax - mem.mMin);
         }
-        value = glm::mix(GOV_PRICE_MAX, GOV_PRICE_MIN, value) * glm::abs(pident);
+
+        if(mWaitTime > mMaxWaitTime) {
+          if(pident > 0.0f && mem.mMax > 0.0f) {
+            if((mem.mMax - amount) / mem.mMax < 0.1f && mem.mMinValue > GOV_PRICE_MIN) {
+              mem.mMinValue *= 0.9f;
+            }
+          }
+          else if(pident < 0.0f && mem.mMax > 0.0f) {
+            if((amount - mem.mMin) / mem.mMax < 0.1f && mem.mMaxValue < GOV_PRICE_MAX) {
+              mem.mMaxValue *= 1.1f;
+            }
+          }
+        }
+
+        value = glm::pow(value, 0.5f);
+        value = glm::mix(mem.mMaxValue, mem.mMinValue, value);
 
         market.SetProductValue(item.first, pident > 0.0f ? PriceType::SELL : PriceType::BUY, value);
+      }
+
+      if(mWaitTime > mMaxWaitTime) {
+        mWaitTime = 0.0f;
       }
     }
 

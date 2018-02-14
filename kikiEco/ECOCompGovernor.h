@@ -13,12 +13,16 @@ namespace eco {
     {
     private:
       struct ProductInfo {
-        float mMin = 0.0f;
-        float mMax = 0.0f;
+        float mMin = std::numeric_limits<float>::max();
+        float mMax = std::numeric_limits<float>::min();
+        float mMinValue = 100.0f;
+        float mMaxValue = 100.0f;
       };
       using MemT = std::map<ProductId, ProductInfo>;
 
       MemT mMemory;
+      float mWaitTime = 0.0f;
+      float mMaxWaitTime = 5.0f;
 
     public:
       CGovernor(std::shared_ptr<CEntity> parent);

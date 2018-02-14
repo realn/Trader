@@ -1,6 +1,6 @@
 <Universe MaxJunctionDistance="7.0">
   <FactoryTemplate Id="solarArray" Name="Solar Panel Array">
-    <Out Id="energy" Value="10.0" />
+    <Out Id="energy" Value="30.0" />
   </FactoryTemplate>
   <FactoryTemplate Id="workerDorm" Name="Worker Dorms">
     <In Id="energy" Value="1.0" />
@@ -65,5 +65,13 @@
     <Entity Name="Copernicus" Dock="Random" />
     <Entity Name="Gauss" Dock="Random" />
     <Entity Name="Tesla" Dock="Random" />
+    <Entity Name="Veynor" Dock="Random" />
+    <Entity Name="Hipotat" Dock="Random" />
+    <Entity Name="Gesler" Dock="Random" />
+    <Entity Name="Victor" Dock="Random" />
+    <Entity Name="Reconv" Dock="Random" />
+    <Entity Name="Mischief" Dock="Random" />
+    <Entity Name="West" Dock="Random" />
+    <Entity Name="East" Dock="Random" />
   </EntityList>
 </Universe>

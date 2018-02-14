@@ -38,6 +38,11 @@ namespace eco {
     CNavigation::~CNavigation() {}
 
     size_t CNavigation::QueryDistance(std::shared_ptr<CEntity> source, std::shared_ptr<CEntity> target) const {
+      auto it = mMemory.find(source);
+      if(it != mMemory.end()) {
+        return it->second.mJumps.at(target);
+      }
+
       auto jumps = JumpsT();
       auto links = LinksT();
 
@@ -45,6 +50,7 @@ namespace eco {
 
       FindWays(entities, source, jumps, links);
 
+      mMemory[source] = { jumps, links };
       return jumps.at(target);
     }
 
@@ -122,12 +128,19 @@ namespace eco {
     }
 
     CNavigation::WaypointsT CNavigation::PlotCourse(std::shared_ptr<CEntity> source, std::shared_ptr<CEntity> target) {
+      auto it = mMemory.find(source);
+      if(it != mMemory.end()) {
+        return CreateWaypoints(it->second.mLinks, source, target);
+      }
+
       auto jumps = JumpsT();
       auto links = LinksT();
 
       auto entities = GetParent()->GetUniverse()->GetEntities(GetComponentId<CDock>());
 
       FindWays(entities, source, jumps, links);
+
+      mMemory[source] = { jumps, links };
       return CreateWaypoints(links, source, target);
     }
 
@@ -168,7 +181,7 @@ namespace eco {
       auto item = target;
       while(item != source) {
         result.push_back(item);
-        item = links.at(item);
+        item = links.at(item).lock();
       }
       //result.push_back(source);
       return { result.rbegin(), result.rend() };

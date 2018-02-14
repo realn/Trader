@@ -66,7 +66,7 @@ namespace eco {
 
       mTransIt = mTransactions.begin();
       while(mTransIt != mTransactions.end() && 
-            mTransIt->second.mBuy.mValue > mWallet.GetAmount() * 10.0f) {
+            mTransIt->second.mBuy.mValue > mWallet.GetAmount()) {
         mTransIt++;
       }
 
@@ -100,6 +100,12 @@ namespace eco {
       auto value = priceList.GetValue(transData.mId, PriceType::SELL);
       if(value == 0.0f) {
         throw std::exception("SOMETHING WENT WRONG");
+      }
+
+      if((transData.mBuy.mValue - value) / transData.mBuy.mValue < -0.2f) {
+        mState = State::Find;
+        mWaitTime = 0.0f;
+        return;
       }
 
       auto amount = market.GetStorage().GetProductAmount(transData.mId);
@@ -140,7 +146,8 @@ namespace eco {
       auto& priceList = market.GetPriceList();
 
       auto value = priceList.GetValue(transData.mId, PriceType::BUY);
-      if(value == 0.0f) {
+      if(value == 0.0f ||
+         (value - transData.mSell.mValue) / transData.mSell.mValue < -0.2f) {
         UpdateSellTarget();
         nav.SetTarget(transData.mSell.mMarket.lock());
         return;
@@ -181,7 +188,7 @@ namespace eco {
       mTransactions.clear();
 
       auto data = TransactionIdDatasT();
-      auto maxId = CTransactionId{ 0.0f, 0, 0 };
+      auto maxId = CTransactionId{ 1.0f, 0, 0 };
 
       for(auto& priceProduct : mPrices) {
 
@@ -189,6 +196,9 @@ namespace eco {
           for(auto& priceSell : priceProduct.second[PriceType::BUY]) {
 
             auto profit = priceSell.first - priceBuy.first;
+            if(profit == 0.0f)
+              continue;
+
             auto dist = nav.QueryDistance(currentDock, priceBuy.second.lock());
             auto travel = nav.QueryDistance(priceBuy.second.lock(), priceSell.second.lock());
 
@@ -210,10 +220,10 @@ namespace eco {
 
       for(auto& item : data) {
         auto profitVal = item.mId.mProfit / maxId.mProfit;
-        auto distVal = item.mId.mDistBuy / static_cast<float>(maxId.mDistBuy);
-        auto travelVal = item.mId.mDistTravel / static_cast<float>(maxId.mDistTravel);
+        auto distVal = (item.mId.mDistBuy+1) / static_cast<float>(maxId.mDistBuy+1);
+        auto travelVal = (item.mId.mDistTravel+1) / static_cast<float>(maxId.mDistTravel+1);
 
-        float id = -profitVal * 0.4f + distVal * 0.4f + travelVal + 0.2f;
+        float id = -profitVal * 0.3f + distVal * 0.5f + travelVal + 0.4f;
 
         mTransactions[id] = item.mData;
       }
