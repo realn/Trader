@@ -55,6 +55,8 @@ namespace gfx {
                           core::RectFlip const flipPRect = core::RectFlip::None,
                           core::RectFlip const flipTRect = core::RectFlip::None);
     void AddVertex(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
-    void AddVertexFast(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
+    glm::u16 AddVertexFast(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
+    glm::u16 AddVertexFast(CCanvasVertex&& vertex);
+    void AddIndex(glm::u16 const index);
   };
 }

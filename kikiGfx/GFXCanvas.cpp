@@ -83,7 +83,9 @@ namespace gfx {
                       col);
       }
 
-      for(auto& item : idx) { mIndices.push_back(static_cast<cb::u16>(i + item)); }
+      for(auto& item : idx) { 
+        AddIndex(i + item);
+      }
 
       pos += glyph.mAdv * scale;
     }
@@ -113,16 +115,30 @@ namespace gfx {
     auto vert = CCanvasVertex(pos, tex, color);
     auto it = std::find(mVertices.begin(), mVertices.end(), vert);
     if(it != mVertices.end()) {
-      mIndices.push_back(static_cast<cb::u16>(it - mVertices.begin()));
+      AddIndex(static_cast<cb::u16>(it - mVertices.begin()));
     }
     else {
-      auto index = mVertices.size();
-      mVertices.push_back(vert);
-      mIndices.push_back(static_cast<cb::u16>(index));
+      auto index = AddVertexFast(std::move(vert));
+      AddIndex(index);
     }
   }
 
-  void CCanvas::AddVertexFast(glm::vec2 const & pos, glm::vec2 const & tex, glm::vec4 const & color) {
-    mVertices.push_back({ pos, tex, color });
+  glm::u16 CCanvas::AddVertexFast(glm::vec2 const & pos, glm::vec2 const & tex, glm::vec4 const & color) {
+    return AddVertexFast({ pos, tex, color });
+  }
+
+  glm::u16 CCanvas::AddVertexFast(CCanvasVertex && vertex) {
+    if(mVertices.size() + 1 > mVertices.capacity()) {
+      mVertices.reserve(mVertices.capacity() + 200);
+    }
+    mVertices.push_back(vertex);
+    return static_cast<cb::u16>(mVertices.size() - 1);
+  }
+
+  void CCanvas::AddIndex(glm::u16 const index) {
+    if(mIndices.size() + 1 > mIndices.capacity()) {
+      mIndices.reserve(mIndices.capacity() + 200);
+    }
+    mIndices.push_back(index);
   }
 }

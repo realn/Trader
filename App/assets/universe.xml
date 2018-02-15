@@ -8,14 +8,14 @@
     <Out Id="waste" Value="2.0" />
   </FactoryTemplate>
   <FactoryTemplate Id="bioRecycler" Name="Biological Recycler">
-    <In Id="waste" Value="2.0" />
-    <In Id="energy" Value="2.0" />
+    <In Id="waste" Value="6.0" />
+    <In Id="energy" Value="6.0" />
     <Out Id="biomass" Value="2.0" />
   </FactoryTemplate>
   <FactoryTemplate Id="foodFarm" Name="Food Farm">
     <In Id="energy" Value="4.0" />
-    <In Id="biomass" Value="4.0" />
-    <Out Id="food" Value="2.0" />
+    <In Id="biomass" Value="3.0" />
+    <Out Id="food" Value="4.0" />
     <Out Id="waste" Value="2.0" />
   </FactoryTemplate>
   <EntityType Id="Satelite">
@@ -35,7 +35,7 @@
         <Product Id="biomass" Value="100.0" />
       </Storage>
     </Market>
-    <Industry Factories="bioRecycler,foodFarm" />
+    <Industry Factories="bioRecycler,foodFarm,workerDorm" />
     <Governor />
   </EntityType>
   <EntityType Id="Ship">
