@@ -38,7 +38,7 @@ namespace eco {
       void BuyProduct(ProductId const& id, float const amount, CWallet& buyerWallet, CStorage& buyerStorage);
       void SellProduct(ProductId const& id, float const amount, CWallet& sellerWaller, CStorage& sellerStorage);
 
-      bool CanBuyProduct(ProductId const& id, float const amount, CWallet const& buyerWallet);
+      bool CanBuyProduct(ProductId const& id, float const amount, CWallet const& buyerWallet, CStorage const& buyerStorage);
       bool CanSellProduct(ProductId const& id, float const amount, CStorage const& sellerStorage);
 
       void PrintInfo(cb::ostream& stream) const;

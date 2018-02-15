@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include "ECOStorage.h"
 #include "ECOCompDock.h"
 #include "ECOCompMarket.h"
 #include "ECOCompNavigation.h"
@@ -64,10 +65,14 @@ namespace eco {
         return;
       }
 
-      mTransIt = mTransactions.begin();
-      while(mTransIt != mTransactions.end() && 
-            mTransIt->second.mBuy.mValue > mWallet.GetAmount()) {
-        mTransIt++;
+      for(mTransIt = mTransactions.begin(); mTransIt != mTransactions.end(); mTransIt++) {
+        if(mTransIt->second.mBuy.mValue > mWallet.GetAmount()) {
+          continue;
+        }
+        if(mTransIt->second.mSell.mMarket.lock()->GetComponent<CMarket>().GetStorage().GetEmpty() < 0.1f) {
+          continue;
+        }
+        break;
       }
 
       if(mTransIt == mTransactions.end()) {
@@ -113,9 +118,9 @@ namespace eco {
 
       auto buyAmount = 0.0f;
       if(value > 0)
-        buyAmount = std::min(funds / value, amount);
+        buyAmount = std::min({ funds / value, amount, mStorage.GetSpace() });      
 
-      if(buyAmount == 0.0f || !market.CanBuyProduct(transData.mId, buyAmount, mWallet)) {
+      if(buyAmount == 0.0f || !market.CanBuyProduct(transData.mId, buyAmount, mWallet, mStorage)) {
         mState = State::Find;
         mWaitTime = 0.0f;
         return;
@@ -241,6 +246,8 @@ namespace eco {
 
       for(auto& entity : marketEntities) {
         auto& market = entity->GetComponent<comp::CMarket>();
+        if(market.GetStorage().GetEmpty() < 0.1f)
+          continue;
 
         auto& priceList = market.GetPriceList();
         auto price = priceList.GetValue(data.mId, PriceType::BUY);

@@ -88,22 +88,18 @@ namespace eco {
 
   void CFactory::Update(comp::CMarket & market, float const timeDelta) {
     for(auto i = 0u; i < mSize; i++) {
-      if(GetInputProducts(market, timeDelta)) {
+      if(CanGetInputProducts(market, timeDelta) &&
+         CanPutOutputProducts(market, timeDelta)) {
+        GetInputProducts(market, timeDelta);
         PutOutputProducts(market, timeDelta);
       }
     }
   }
 
-  bool CFactory::GetInputProducts(comp::CMarket & market, float const timeDelta) {
-    for(auto& item : mInputs) {
-      if(!market.GetStorage().CanRemove(item.first, item.second * timeDelta)) {
-        return false;
-      }
-    }
+  void CFactory::GetInputProducts(comp::CMarket & market, float const timeDelta) {
     for(auto& item : mInputs) {
       market.RemProduct(item.first, item.second * timeDelta);
     }
-    return true;
   }
 
   void CFactory::PutOutputProducts(comp::CMarket & market, float const timeDelta) {
@@ -115,6 +111,24 @@ namespace eco {
   void CFactory::PrintInfo(cb::ostream & stream) const {
     stream << L"  Factory: " << mName << std::endl;
     PrintProducts(stream);
+  }
+
+  bool CFactory::CanGetInputProducts(comp::CMarket const & market, float const timeDelta) const {
+    for(auto& item : mInputs) {
+      if(!market.GetStorage().CanRemove(item.first, item.second * timeDelta)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool CFactory::CanPutOutputProducts(comp::CMarket const & market, float const timeDelta) const {
+    for(auto& item : mOutputs) {
+      if(!market.GetStorage().CanAdd(item.first, item.second * timeDelta)) {
+        return false;
+      }
+    }
+    return true;
   }
 
 

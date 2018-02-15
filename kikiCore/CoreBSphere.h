@@ -12,6 +12,7 @@ namespace core {
   private:
     glm::vec3 mOrigin;
     float mRadius;
+    glm::vec3 mPos;
 
   public:
     CBSphere(glm::vec3 const& origin = glm::vec3(), float const radius = 0.0f) 
@@ -19,9 +20,11 @@ namespace core {
 
     void SetOrigin(glm::vec3 const& value) { mOrigin = value; }
     void SetRaidus(float const value) { mRadius = value; }
+    void SetPos(glm::vec3 const& value) { mPos = value; }
 
     glm::vec3 GetOrigin() const { return mOrigin; }
     float GetRadius() const { return mRadius; }
+    glm::vec3 GetPos() const { return mPos; }
 
     void AdjustRadius(glm::vec3 const& point);
     void AdjustRadius(float const radius);

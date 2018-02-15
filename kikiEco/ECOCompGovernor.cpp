@@ -63,12 +63,12 @@ namespace eco {
 
         if(mWaitTime > mMaxWaitTime) {
           if(pident > 0.0f && mem.mMax > 0.0f) {
-            if((mem.mMax - amount) / mem.mMax < 0.1f && mem.mMinValue > GOV_PRICE_MIN) {
+            if((mem.mMax - amount) / mem.mMax < 0.1f && mem.mMinValue > GOV_PRICE_MIN / glm::abs(pident)) {
               mem.mMinValue *= 0.9f;
             }
           }
           else if(pident < 0.0f && mem.mMax > 0.0f) {
-            if((amount - mem.mMin) / mem.mMax < 0.1f && mem.mMaxValue < GOV_PRICE_MAX) {
+            if((amount - mem.mMin) / mem.mMax < 0.1f && mem.mMaxValue < GOV_PRICE_MAX * glm::abs(pident)) {
               mem.mMaxValue *= 1.1f;
             }
           }

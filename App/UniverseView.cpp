@@ -139,10 +139,16 @@ namespace trader {
     auto mesh = meshRepo.Get(type);
     auto pos = to3DSpace(entity.GetPosition());
     auto bSphere = core::CBSphere();
+    auto center = glm::vec3();
+    for(auto& vertex : mesh->GetVertices()) {
+      center += vertex.Pos;
+    }
+    center /= mesh->GetVertices().size();
+    bSphere.SetOrigin(center);
     for(auto& vertex : mesh->GetVertices()) {
       bSphere.AdjustRadius(vertex.Pos);
     }
-    bSphere.SetOrigin(pos);
+    bSphere.SetPos(pos);
 
     auto view = CEntityView(std::make_shared<gfx::CMeshView>(*mesh));
     view.SetBSphere(bSphere);
@@ -161,7 +167,7 @@ namespace trader {
       view.SetRotation(glm::angleAxis(ang, glm::vec3(0.0f, -1.0f, 0.0f))
                        * glm::angleAxis(glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
       auto sphere = view.GetBSphere();
-      sphere.SetOrigin(view.GetPosition());
+      sphere.SetPos(view.GetPosition());
       view.SetBSphere(sphere);
     }
     view.SetFrame(mFrame);

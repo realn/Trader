@@ -28,11 +28,11 @@ namespace eco {
     CMarket::CMarket(std::shared_ptr<CEntity> parent,
                      CStorage::ValuesT const& initStorage)
       : CComponent(parent, COMP_MARKET_ID) 
-      , mStorage(initStorage)
+      , mStorage(initStorage, -1.0f)
     {}
 
     CMarket::CMarket(std::shared_ptr<CEntity> parent, xml::CComponent const & component) 
-      : CComponent(parent, COMP_MARKET_ID) {
+      : CMarket(parent) {
       auto market = static_cast<xml::CMarket const&>(component);
       auto products = CStorage::ValuesT();
       for(auto& product : market.mStorage.mProducts) {
@@ -73,18 +73,22 @@ namespace eco {
       sellerWaller.Deposit(mPriceList.GetValue(id, PriceType::BUY) * amount);
     }
 
-    bool CMarket::CanBuyProduct(ProductId const & id, float const amount, CWallet const& buyerWallet) {
+    bool CMarket::CanBuyProduct(ProductId const & id, float const amount, CWallet const& buyerWallet, CStorage const& buyerStorage) {
       if(!mPriceList.Contains(id))
         return false;
 
-      return mStorage.CanRemove(id, amount) && buyerWallet.CanWithdraw(amount * mPriceList.GetValue(id, PriceType::SELL));
+      return 
+        mStorage.CanRemove(id, amount) && 
+        buyerStorage.CanAdd(id, amount) &&
+        buyerWallet.CanWithdraw(amount * mPriceList.GetValue(id, PriceType::SELL));
     }
 
     bool CMarket::CanSellProduct(ProductId const & id, float const amount, CStorage const& sellerStorage) {
       if(!mPriceList.Contains(id))
         return false;
 
-      return sellerStorage.CanRemove(id, amount);
+      return 
+        sellerStorage.CanRemove(id, amount) && mStorage.CanAdd(id, amount);
     }
 
     void CMarket::PrintInfo(cb::ostream & stream) const {
