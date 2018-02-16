@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <list>
 
 #include <CBGL\Fwd.h>
 
@@ -27,7 +28,7 @@ namespace trader {
     using TransformsT = std::vector<RenderData>;
     using MeshTypeTransformsT = std::map<std::shared_ptr<gfx::CMeshView>, TransformsT>;
     using EntitiesMapT = std::map<std::shared_ptr<eco::CEntity>, CEntityView>;
-    using EntitiesT = std::vector<std::shared_ptr<eco::CEntity>>;
+    using EntitiesT = std::list<std::shared_ptr<eco::CEntity>>;
 
   private:
     EntitiesMapT mEntities;

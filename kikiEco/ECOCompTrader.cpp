@@ -24,8 +24,8 @@ namespace eco {
 
   namespace comp {
     CTrader::CTrader(std::shared_ptr<CEntity> parent)
-      : CComponent(parent, COMP_TRADER_ID) {
-      mWallet.Deposit(5000.0f);
+      : CComponent(parent, COMP_TRADER_ID), mStorage(CStorage::ValuesT(), 50.0f) {
+      mWallet.Deposit(1.0f);
     }
 
     CTrader::CTrader(std::shared_ptr<CEntity> parent, xml::CComponent const & component)
@@ -66,9 +66,9 @@ namespace eco {
       }
 
       for(mTransIt = mTransactions.begin(); mTransIt != mTransactions.end(); mTransIt++) {
-        if(mTransIt->second.mBuy.mValue > mWallet.GetAmount()) {
-          continue;
-        }
+        //if(mTransIt->second.mBuy.mValue > mWallet.GetAmount()) {
+        //  continue;
+        //}
         if(mTransIt->second.mSell.mMarket.lock()->GetComponent<CMarket>().GetStorage().GetEmpty() < 0.1f) {
           continue;
         }
@@ -128,7 +128,6 @@ namespace eco {
 
       market.BuyProduct(transData.mId, buyAmount, mWallet, mStorage);
       mState = State::Sell;
-      mWaitTime = 0.0f;
       nav.SetTarget(transData.mSell.mMarket.lock());
     }
 
@@ -163,13 +162,11 @@ namespace eco {
       if(!market.CanSellProduct(transData.mId, amount, mStorage)) {
         UpdateSellTarget();
         nav.SetTarget(transData.mSell.mMarket.lock());
-        mWaitTime = 0.0f;
         return;
       }
 
       market.SellProduct(transData.mId, amount, mWallet, mStorage);
       mState = State::Find;
-      mWaitTime = 0.0f;
     }
 
     void CTrader::UpdatePrices(CUniverse const& uni) {
@@ -228,7 +225,7 @@ namespace eco {
         auto distVal = (item.mId.mDistBuy+1) / static_cast<float>(maxId.mDistBuy+1);
         auto travelVal = (item.mId.mDistTravel+1) / static_cast<float>(maxId.mDistTravel+1);
 
-        float id = -profitVal * 0.3f + distVal * 0.5f + travelVal + 0.4f;
+        float id = -profitVal * 0.4f + distVal * 0.4f + travelVal + 0.2f;
 
         mTransactions[id] = item.mData;
       }

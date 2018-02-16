@@ -8,6 +8,12 @@ namespace eco {
   }
 
   namespace comp {
+
+    constexpr auto GOV_PRICE_MIN = 10.0f;
+    constexpr auto GOV_PRICE_MAX = 100.0f;
+    constexpr auto GOV_PRICE_AVG = (GOV_PRICE_MIN + GOV_PRICE_MAX) / 2.0f;
+    constexpr auto GOV_NEAR_ZERO = 0.01f;
+
     class CGovernor 
       : public CComponent
     {
@@ -15,8 +21,8 @@ namespace eco {
       struct ProductInfo {
         float mMin = std::numeric_limits<float>::max();
         float mMax = std::numeric_limits<float>::min();
-        float mMinValue = 100.0f;
-        float mMaxValue = 100.0f;
+        float mMinValue = GOV_PRICE_AVG;
+        float mMaxValue = GOV_PRICE_AVG;
       };
       using MemT = std::map<ProductId, ProductInfo>;
 

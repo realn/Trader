@@ -14,7 +14,7 @@ namespace eco {
       : public CComponent {
     private:
       std::weak_ptr<CTradeJunction> mJunction;
-      float mPowerPerSecond = 0.5f;
+      float mPowerPerSecond = 2.5f;
 
     public:
       CWarpDrive(std::shared_ptr<CEntity> parent);

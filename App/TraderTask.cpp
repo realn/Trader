@@ -277,9 +277,9 @@ namespace trader {
 
     mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(32));
 
-    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));
+    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
 
     cb::sdl::SetCursorVisible(false);
 

@@ -1,3 +1,5 @@
 <Layer>
-  <Text Id="infoText" />
+  <StackPanel ContentMargin="1.0,1.0,1.0,1.0" BackColor="0.0,0.0,0.0,0.0">
+    <Text Id="infoText" />        
+  </StackPanel>
 </Layer>

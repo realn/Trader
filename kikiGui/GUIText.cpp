@@ -16,6 +16,7 @@ namespace gui {
   void CText::UpdateRender(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
     using namespace glm;
 
+    mSize = spaceSize;
     if(mOldText != mText) {
       mLines.clear();
       auto lineH = ctx.Font.GetLineHeight() * TEXT_SCALE * mTextScale.y * ctx.TextScale.y;

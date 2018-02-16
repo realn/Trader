@@ -18,7 +18,7 @@ namespace eco {
     float mSpace;
 
   public:
-    CStorage(ValuesT const& initStorate = ValuesT(), float const capacity = 500.0f);
+    CStorage(ValuesT const& initStorate = ValuesT(), float const capacity = 50.0f);
 
     void SetStorage(ValuesT const& values) { mValues = values; }
 

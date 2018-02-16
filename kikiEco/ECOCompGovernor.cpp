@@ -11,17 +11,24 @@
 namespace eco {
   static const auto COMP_GOVERNOR_ID = L"Governor"_id;
 
-  constexpr auto GOV_PRICE_MIN = 10.0f;
-  constexpr auto GOV_PRICE_MAX = 1000.0f;
-  constexpr auto GOV_NEAR_ZERO = 0.01f;
-
   namespace comp {
+    constexpr float fast_abs(float const value) {
+      return value >= 0.0f ? value : -value;
+    }
+    constexpr float fast_minmul(float const value, float const mulVal, float const minVal, float const pident = 1.0f) {
+      return (value * mulVal > minVal / fast_abs(pident)) ? value * mulVal : value;
+    }
+    constexpr float fast_maxmul(float const value, float const mulVal, float const maxVal, float const pident = 1.0f) {
+      return (value * mulVal < maxVal * fast_abs(pident)) ? value * mulVal : value;
+    }
+
+
     CGovernor::CGovernor(std::shared_ptr<CEntity> parent)
       : CComponent(parent, COMP_GOVERNOR_ID)
     {}
 
     CGovernor::CGovernor(std::shared_ptr<CEntity> parent, xml::CComponent const & component) 
-      : CComponent(parent, COMP_GOVERNOR_ID)
+      : CGovernor(parent)
     {}
 
     CGovernor::~CGovernor() {}
@@ -61,20 +68,33 @@ namespace eco {
           value = (amount - mem.mMin) / (mem.mMax - mem.mMin);
         }
 
-        if(mWaitTime > mMaxWaitTime) {
-          if(pident > 0.0f && mem.mMax > 0.0f) {
-            if((mem.mMax - amount) / mem.mMax < 0.1f && mem.mMinValue > GOV_PRICE_MIN / glm::abs(pident)) {
-              mem.mMinValue *= 0.9f;
+        if(mWaitTime > mMaxWaitTime && mem.mMax > 0.0f) {
+          float valEmpty = (mem.mMax - amount) / mem.mMax;
+          float valFill = amount / mem.mMax;
+
+          if(pident > 0.0f) {
+            if(valEmpty < 0.1f) {
+              mem.mMinValue = fast_minmul(mem.mMinValue, 0.9f, GOV_PRICE_MIN, pident);
+              mem.mMaxValue = fast_minmul(mem.mMaxValue, 0.95f, mem.mMinValue);
+            }
+            else if(valFill < 0.1f) {
+              mem.mMaxValue = fast_maxmul(mem.mMaxValue, 1.1f, GOV_PRICE_MAX, pident);
+              mem.mMinValue = fast_maxmul(mem.mMinValue, 1.05f, mem.mMaxValue);
             }
           }
-          else if(pident < 0.0f && mem.mMax > 0.0f) {
-            if((amount - mem.mMin) / mem.mMax < 0.1f && mem.mMaxValue < GOV_PRICE_MAX * glm::abs(pident)) {
-              mem.mMaxValue *= 1.1f;
+          else if(pident < 0.0f) {
+            if(valFill < 0.1f) {
+              mem.mMaxValue = fast_maxmul(mem.mMaxValue, 1.1f, GOV_PRICE_MAX, pident);
+              mem.mMinValue = fast_maxmul(mem.mMinValue, 1.05f, mem.mMaxValue);
+            }
+            else if(valEmpty < 0.1f) {
+              mem.mMinValue = fast_minmul(mem.mMinValue, 0.95f, GOV_PRICE_MIN, pident);
+              mem.mMaxValue = fast_minmul(mem.mMaxValue, 0.9f, mem.mMinValue);
             }
           }
         }
 
-        value = glm::pow(value, 0.5f);
+        //value = glm::pow(value, 0.5f);
         value = glm::mix(mem.mMaxValue, mem.mMinValue, value);
 
         market.SetProductValue(item.first, pident > 0.0f ? PriceType::SELL : PriceType::BUY, value);
