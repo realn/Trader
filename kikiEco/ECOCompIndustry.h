@@ -70,7 +70,7 @@ namespace eco {
     void PrintInfo(cb::ostream& stream) const;
 
   private:
-    bool CanGetInputProducts(comp::CMarket const& market, float const timeDelta) const;
+    bool CanGetInputProducts(comp::CMarket const& market, float const timeDelta, float& outMult) const;
     bool CanPutOutputProducts(comp::CMarket const& market, float const timeDelta) const;
 
     void GetInputProducts(comp::CMarket& market, float const timeDelta);

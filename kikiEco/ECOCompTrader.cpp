@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <random>
+
 #include "ECOStorage.h"
 #include "ECOCompDock.h"
 #include "ECOCompMarket.h"
@@ -14,6 +16,9 @@
 
 namespace eco {
   static const auto COMP_TRADER_ID = L"Trader"_id;
+  static const auto MAX_FUNDS = 10000000.0f;
+
+  static std::random_device RAND_DEV;
 
   namespace xml {
     template<>
@@ -24,8 +29,10 @@ namespace eco {
 
   namespace comp {
     CTrader::CTrader(std::shared_ptr<CEntity> parent)
-      : CComponent(parent, COMP_TRADER_ID), mStorage(CStorage::ValuesT(), 50.0f) {
-      mWallet.Deposit(1.0f);
+      : CComponent(parent, COMP_TRADER_ID)
+      , mStorage(CStorage::ValuesT(), 200.0f)
+      , mWallet(1.0f)
+    {
     }
 
     CTrader::CTrader(std::shared_ptr<CEntity> parent, xml::CComponent const & component)
@@ -69,6 +76,9 @@ namespace eco {
         //if(mTransIt->second.mBuy.mValue > mWallet.GetAmount()) {
         //  continue;
         //}
+        if(RAND_DEV() % 10 == 0) {
+          continue;
+        }
         if(mTransIt->second.mSell.mMarket.lock()->GetComponent<CMarket>().GetStorage().GetEmpty() < 0.1f) {
           continue;
         }
@@ -114,15 +124,18 @@ namespace eco {
       }
 
       auto amount = market.GetStorage().GetProductAmount(transData.mId);
-      auto funds = mWallet.GetAmount();
+      if(amount <= 0) {
+        mState = State::Find;
+        return;
+      }
 
+      auto funds = mWallet.GetAmount();
       auto buyAmount = 0.0f;
       if(value > 0)
         buyAmount = std::min({ funds / value, amount, mStorage.GetSpace() });      
 
       if(buyAmount == 0.0f || !market.CanBuyProduct(transData.mId, buyAmount, mWallet, mStorage)) {
         mState = State::Find;
-        mWaitTime = 0.0f;
         return;
       }
 
@@ -167,6 +180,11 @@ namespace eco {
 
       market.SellProduct(transData.mId, amount, mWallet, mStorage);
       mState = State::Find;
+
+      if(mWallet.GetAmount() >= MAX_FUNDS) {
+        // THIS GUY WON!
+        mWallet = CWallet(1.0f);
+      }
     }
 
     void CTrader::UpdatePrices(CUniverse const& uni) {

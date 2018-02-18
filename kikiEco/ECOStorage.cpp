@@ -10,8 +10,8 @@ namespace eco {
   }
 
   void CStorage::AddProduct(ProductId const & id, float const amount) {
-    if(amount <= 0.0f) {
-      throw std::exception("Cannot add negative or zero number.");
+    if(amount < 0.0f) {
+      throw std::exception("Cannot add negative number.");
     }
     // zero value initialization on key miss.
     mValues[id] += amount;
@@ -35,6 +35,29 @@ namespace eco {
     return it->second;
   }
 
+  bool CStorage::CanRemove(ProductId const & id, float const amount, float& outMult) const {
+    auto it = mValues.find(id);
+    if(it == mValues.end()) {
+      return false;
+    }
+    if(it->second <= 0.0f || amount == 0.0f) {
+      return false;
+    }
+    outMult = std::min(it->second / amount, 1.0f);
+    return true;
+  }
+
+  bool CStorage::CanAdd(ProductId const & id, float const amount, float& outMult) const {
+    if(mCapacity <= 0.0f) {
+      outMult = 1.0f;
+      return true;
+    }
+    if(mSpace == 0.0f || amount == 0.0f)
+      return false;
+    outMult = std::min(mSpace / amount, 1.0f);
+    return true;
+  }
+
   bool CStorage::CanRemove(ProductId const & id, float const amount) const {
     auto it = mValues.find(id);
     if(it == mValues.end()) {
@@ -44,9 +67,10 @@ namespace eco {
   }
 
   bool CStorage::CanAdd(ProductId const & id, float const amount) const {
-    if(mCapacity <= 0.0f)
+    if(mCapacity <= 0.0f) {
       return true;
-    return mSpace - amount >= 0.0f;
+    }
+    return mSpace >= amount;
   }
 
   void CStorage::PrintInfo(cb::ostream & stream) const {
@@ -60,7 +84,7 @@ namespace eco {
       }
       stream << L"):" << std::endl;
       for(auto& item : mValues) {
-        if(item.second > 0.0f)
+        //if(item.second > 0.0f)
           stream << L"   "s << item.first.GetName() << L" x "s << item.second << std::endl;
       }
     }

@@ -31,6 +31,8 @@ namespace eco {
     float GetEmpty() const { return mSpace / mCapacity; }
     float GetFill() const { return 1.0f - GetEmpty(); }
 
+    bool CanRemove(ProductId const& id, float const amount, float& outMult) const;
+    bool CanAdd(ProductId const& id, float const amount, float& outMult) const;
     bool CanRemove(ProductId const& id, float const amount) const;
     bool CanAdd(ProductId const& id, float const amount) const;
 

@@ -15,11 +15,11 @@ namespace eco {
     constexpr float fast_abs(float const value) {
       return value >= 0.0f ? value : -value;
     }
-    constexpr float fast_minmul(float const value, float const mulVal, float const minVal, float const pident = 1.0f) {
-      return (value * mulVal > minVal / fast_abs(pident)) ? value * mulVal : value;
+    constexpr float fast_minmul(float const value, float const mulVal, float const minVal, float const timeDelta, float const pident = 1.0f) {
+      return (value * mulVal > minVal / fast_abs(pident)) ? (value + value * (mulVal - 1.0f) * timeDelta) : value;
     }
-    constexpr float fast_maxmul(float const value, float const mulVal, float const maxVal, float const pident = 1.0f) {
-      return (value * mulVal < maxVal * fast_abs(pident)) ? value * mulVal : value;
+    constexpr float fast_maxmul(float const value, float const mulVal, float const maxVal, float const timeDelta, float const pident = 1.0f) {
+      return (value * mulVal < maxVal * fast_abs(pident)) ? (value + value * (mulVal - 1.0f) * timeDelta) : value;
     }
 
 
@@ -68,28 +68,26 @@ namespace eco {
           value = (amount - mem.mMin) / (mem.mMax - mem.mMin);
         }
 
-        if(mWaitTime > mMaxWaitTime && mem.mMax > 0.0f) {
+        if(mem.mMax > 0.0f) {
           float valEmpty = (mem.mMax - amount) / mem.mMax;
           float valFill = amount / mem.mMax;
 
           if(pident > 0.0f) {
-            if(valEmpty < 0.1f) {
-              mem.mMinValue = fast_minmul(mem.mMinValue, 0.9f, GOV_PRICE_MIN, pident);
-              mem.mMaxValue = fast_minmul(mem.mMaxValue, 0.95f, mem.mMinValue);
+            if(valEmpty < 0.4f) {
+              mem.mMaxValue = fast_minmul(mem.mMaxValue, 0.9f, GOV_PRICE_MIN, timeDelta);
+              mem.mMinValue = std::min(mem.mMinValue, mem.mMaxValue);
             }
-            else if(valFill < 0.1f) {
-              mem.mMaxValue = fast_maxmul(mem.mMaxValue, 1.1f, GOV_PRICE_MAX, pident);
-              mem.mMinValue = fast_maxmul(mem.mMinValue, 1.05f, mem.mMaxValue);
+            else if(valFill < 0.4f) {
+              mem.mMaxValue = fast_maxmul(mem.mMaxValue, 1.1f, GOV_PRICE_MAX, timeDelta);
             }
           }
           else if(pident < 0.0f) {
-            if(valFill < 0.1f) {
-              mem.mMaxValue = fast_maxmul(mem.mMaxValue, 1.1f, GOV_PRICE_MAX, pident);
-              mem.mMinValue = fast_maxmul(mem.mMinValue, 1.05f, mem.mMaxValue);
+            if(valFill < 0.4f) {
+              mem.mMinValue = fast_maxmul(mem.mMinValue, 1.1f, GOV_PRICE_MAX, timeDelta);
+              mem.mMaxValue = std::max(mem.mMaxValue, mem.mMinValue);
             }
-            else if(valEmpty < 0.1f) {
-              mem.mMinValue = fast_minmul(mem.mMinValue, 0.95f, GOV_PRICE_MIN, pident);
-              mem.mMaxValue = fast_minmul(mem.mMaxValue, 0.9f, mem.mMinValue);
+            else if(valEmpty < 0.4f) {
+              mem.mMinValue = fast_minmul(mem.mMinValue, 0.90f, GOV_PRICE_MIN, timeDelta);
             }
           }
         }
@@ -100,9 +98,9 @@ namespace eco {
         market.SetProductValue(item.first, pident > 0.0f ? PriceType::SELL : PriceType::BUY, value);
       }
 
-      if(mWaitTime > mMaxWaitTime) {
-        mWaitTime = 0.0f;
-      }
+      //if(mWaitTime > mMaxWaitTime) {
+      //  mWaitTime = 0.0f;
+      //}
     }
 
     void CGovernor::PrintInfo(cb::ostream & stream) const {

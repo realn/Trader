@@ -88,10 +88,11 @@ namespace eco {
 
   void CFactory::Update(comp::CMarket & market, float const timeDelta) {
     for(auto i = 0u; i < mSize; i++) {
-      if(CanGetInputProducts(market, timeDelta) &&
+      float mult = 1.0f;
+      if(CanGetInputProducts(market, timeDelta, mult) &&
          CanPutOutputProducts(market, timeDelta)) {
-        GetInputProducts(market, timeDelta);
-        PutOutputProducts(market, timeDelta);
+        GetInputProducts(market, timeDelta * mult);
+        PutOutputProducts(market, timeDelta * mult);
       }
     }
   }
@@ -113,18 +114,21 @@ namespace eco {
     PrintProducts(stream);
   }
 
-  bool CFactory::CanGetInputProducts(comp::CMarket const & market, float const timeDelta) const {
+  bool CFactory::CanGetInputProducts(comp::CMarket const & market, float const timeDelta, float& outMult) const {
     for(auto& item : mInputs) {
-      if(!market.GetStorage().CanRemove(item.first, item.second * timeDelta)) {
+      float mult = 0.0f;
+      if(!market.GetStorage().CanRemove(item.first, item.second * timeDelta, mult)) {
         return false;
       }
+      outMult = std::min(outMult, mult);
     }
     return true;
   }
 
   bool CFactory::CanPutOutputProducts(comp::CMarket const & market, float const timeDelta) const {
+    float mult = 1.0f;
     for(auto& item : mOutputs) {
-      if(!market.GetStorage().CanAdd(item.first, item.second * timeDelta)) {
+      if(!market.GetStorage().CanAdd(item.first, item.second * timeDelta, mult)) {
         return false;
       }
     }
