@@ -279,6 +279,7 @@ namespace trader {
 
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));
+    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_constbottom.xml"s));
     mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
 
     cb::sdl::SetCursorVisible(false);

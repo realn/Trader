@@ -1,0 +1,5 @@
+<Layer>
+  <StackPanel ContentMargin="1.0,30.0,1.0,30.0" ContentAlign="Right">
+    <Label Text="Program powstal w wyniku realizacji pracy dyplomowej na Wydziale Informatyki Politechniki Bialostockiej" />
+  </StackPanel>
+</Layer>

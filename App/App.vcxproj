@@ -202,6 +202,7 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="assets\gui\atlas_controls.xml" />
+    <Xml Include="assets\gui\layer_constbottom.xml" />
     <Xml Include="assets\gui\layer_consttop.xml" />
     <Xml Include="assets\gui\layer_cursor.xml" />
     <Xml Include="assets\gui\layer_info.xml" />
