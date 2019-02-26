@@ -2,8 +2,8 @@
 
 #include <memory>
 #include <map>
-#include <CBStr/Defines.h>
-#include <CBIO/Path.h>
+#include <CBCore/Defines.h>
+#include <CBCore/Path.h>
 
 namespace core {
   class CAssetRepositoryBase {

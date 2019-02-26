@@ -13,15 +13,15 @@ namespace gui {
     }
   }
 
-  glm::vec2 CWidget::GetAlignedPos(glm::vec2 const & size, glm::vec2 const & spaceSize, Align const align) {
+  glm::vec2 CWidget::GetAlignedPos(glm::vec2 const & size, glm::vec2 const & spaceSize, Aligns const align) {
     auto val = glm::vec2(0.0f);
     auto spaceLeft = spaceSize - size;
 
-    if(isTrueAnd(align, Align::Center)) { val.x = 0.5f; }
-    else if(isTrueAnd(align, Align::Right)) { val.x = 1.0f; }
+    if(align & Align::Center) { val.x = 0.5f; }
+    else if(align & Align::Right) { val.x = 1.0f; }
 
-    if(isTrueAnd(align, Align::Middle)) { val.y = 0.5f; }
-    else if(isTrueAnd(align, Align::Top)) { val.y = 1.0f; }
+    if(align & Align::Middle) { val.y = 0.5f; }
+    else if(align & Align::Top) { val.y = 1.0f; }
 
     return spaceLeft * val;
   }

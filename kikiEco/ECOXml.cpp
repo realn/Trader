@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <CBIO/File.h>
+#include <CBCore/File.h>
 #include <CBXml/Serialize.h>
 #include <CBXml/Document.h>
 

@@ -23,7 +23,7 @@
     <ProjectGuid>{A688FA20-A217-4D01-8BE8-1C3751F424BD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>kikiEco</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

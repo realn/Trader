@@ -6,7 +6,7 @@
 #include "GUIXml.h"
 
 #include <CBXml/Document.h>
-#include <CBIO/File.h>
+#include <CBCore/File.h>
 
 namespace gui {
   CLayer::CLayer(glm::vec4 const& contentMargin, Align const contentAlign)

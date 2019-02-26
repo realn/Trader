@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 #include <glm/vec2.hpp>
 
 namespace gfx {

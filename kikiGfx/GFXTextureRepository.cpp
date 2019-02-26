@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GFXTextureRepository.h"
 
-#include <CBIO/Path.h>
+#include <CBCore/Path.h>
 #include <CBSDL/Surface.h>
 #include <CBGL/Texture.h>
 

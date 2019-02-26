@@ -8,7 +8,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/constants.hpp>
 
-#include <CBStr/StringEx.h>
+#include <CBCore/Defines.h>
+#include <CBCore/StringConvert.h>
+#include <CBCore/StringFunctions.h>
 
 using namespace std::literals;
 

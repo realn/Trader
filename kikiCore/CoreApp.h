@@ -3,7 +3,7 @@
 #include <memory>
 #include <glm/vec2.hpp>
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 #include <CBSDL/Timer.h>
 #include <CBSDL/System.h>
 #include <CBSDL/Fwd.h>

@@ -41,6 +41,10 @@
 #include <GUIAbsolute.h>
 #include <GUIText.h>
 
+#include "gui/imgui.h"
+#include "gui/imgui_impl_sdl.h"
+#include "gui/imgui_impl_opengl3.h"
+
 #include "TraderXml.h"
 #include "UniverseView.h"
 #include "Repositories.h"
@@ -130,7 +134,7 @@ namespace trader {
   }
 
   void CTraderTask::Render() {
-    cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
+    cb::gl::clear(cb::gl::ClearBuffers(cb::gl::ClearBuffer::COLOR) | cb::gl::ClearBuffer::DEPTH);
 
     {
       auto gstate = cb::gl::bindStateEnabled(cb::gl::State::DEPTH_TEST, true);
@@ -253,36 +257,54 @@ namespace trader {
     return true;
   }
 
-  bool CTraderTask::InitGUI() {
-    using namespace glm;
+  bool CTraderTask::InitGUI(core::CAppBase& app) {
 
-    auto texAtlas = gfx::CTextureAtlas::Load(L"assets/gui/atlas_controls.xml"s);
-    mGuiFont = mRepositories->Fonts.Get(L"Instruction"s);
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
 
-    {
-      auto shaderFont = mRepositories->Shaders.Get({
-        L"font_vs"s,
-        L"font_fs"s
-                                                   });
-      shaderFont->SetInLocation(gfx::CCanvasVertex::Inputs);
-      if(!shaderFont->Link()) {
-        return false;
-      }
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsClassic();
 
-      auto textureFont = mRepositories->Textures.Get(mGuiFont->GetTextureFilePath());
-      auto textureBase = mRepositories->Textures.Get(texAtlas.GetTextureFileName());
+    const char* glsl_version = "#version 130";
+    // Setup Platform/Renderer bindings
+    
+    ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+    ImGui_ImplOpenGL3_Init(glsl_version);
 
-      mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
-    }
+    //using namespace glm;
 
-    mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(32));
+    //auto texAtlas = gfx::CTextureAtlas::Load(L"assets/gui/atlas_controls.xml"s);
+    //mGuiFont = mRepositories->Fonts.Get(L"Instruction"s);
 
-    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
-    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));
-    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_constbottom.xml"s));
-    mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
+    //{
+    //  auto shaderFont = mRepositories->Shaders.Get({
+    //    L"font_vs"s,
+    //    L"font_fs"s
+    //                                               });
+    //  shaderFont->SetInLocation(gfx::CCanvasVertex::Inputs);
+    //  if(!shaderFont->Link()) {
+    //    return false;
+    //  }
 
-    cb::sdl::SetCursorVisible(false);
+    //  auto textureFont = mRepositories->Textures.Get(mGuiFont->GetTextureFilePath());
+    //  auto textureBase = mRepositories->Textures.Get(texAtlas.GetTextureFileName());
+
+    //  mScreen = std::make_unique<gui::CScreen>(shaderFont, textureBase, textureFont);
+    //}
+
+    //mLayerStack = std::make_unique<gui::CLayerStack>(texAtlas, mViewport.CreateAspectCorrectSize(32));
+
+    //mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_cursor.xml"s));
+    //mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_consttop.xml"s));
+    //mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_constbottom.xml"s));
+    //mLayerStack->Push(gui::CLayer::LoadPtr(L"assets/gui/layer_info.xml"s));
+
+    //cb::sdl::SetCursorVisible(false);
+
+
 
     return true;
   }

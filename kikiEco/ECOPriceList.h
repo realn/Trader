@@ -2,8 +2,7 @@
 
 #include <map>
 
-#include <CBIO\Defines.h>
-#include <CBStr\Defines.h>
+#include <CBCore\Defines.h>
 
 #include "ECOProduct.h"
 

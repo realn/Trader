@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 
 namespace core {
   class CFastId {

@@ -5,7 +5,7 @@
 
 #include <glm/vec2.hpp>
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 #include <CBXml/Serialize.h>
 
 namespace eco {

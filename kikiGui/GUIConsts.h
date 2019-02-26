@@ -1,6 +1,6 @@
 #pragma once
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 
 namespace gui {
   ENUM_FLAG(Align) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 #include <CBSDL/Fwd.h>
 #include <glm/fwd.hpp>
 

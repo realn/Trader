@@ -1,4 +1,8 @@
 #include "stdafx.h"
+
+#include <CBCore/StringFunctions.h>
+#include <CBCore/Path.h>
+
 #include "CoreAssetRepository.h"
 
 namespace core {

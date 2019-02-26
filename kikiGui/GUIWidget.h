@@ -1,6 +1,6 @@
 #pragma once
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
@@ -40,7 +40,7 @@ namespace gui {
     static cb::string NoId;
 
   protected:
-    static glm::vec2 GetAlignedPos(glm::vec2 const& size, glm::vec2 const& spaceSize, Align const align);
+    static glm::vec2 GetAlignedPos(glm::vec2 const& size, glm::vec2 const& spaceSize, Aligns const align);
     static glm::vec2 GetMarginPos(glm::vec4 const& margin);
     static glm::vec2 GetMarginSize(glm::vec2 const& size, glm::vec4 const& margin);
   };

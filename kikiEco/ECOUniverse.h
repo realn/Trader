@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 
 #include <CoreFastId.h>
 

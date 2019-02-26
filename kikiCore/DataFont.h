@@ -1,7 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <CBStr/StringEx.h>
+#include <CBCore/Defines.h>
+#include <CBCore/StringConvert.h>
 #include <CBXml/Serialize.h>
 #include <CBXml/Document.h>
 

@@ -1,8 +1,10 @@
 #include "stdafx.h"
 
-#include <CBXml\Serialize.h>
-#include <CBXml\Document.h>
-#include <CBIO\File.h>
+#include <CBCore/StringConvert.h>
+#include <CBXml/Serialize.h>
+#include <CBXml/Document.h>
+#include <CBCore/File.h>
+#include <CBCore/StringFunctions.h>
 
 #include "GFXTextureAtlas.h"
 

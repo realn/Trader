@@ -11,9 +11,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <CBStr/StringEx.h>
-#include <CBIO/Defines.h>
-#include <CBLog/Log.h>
+#include <CBCore/Defines.h>
+#include <CBCore/StringFunctions.h>
+#include <CBCore/Log.h>
 #include <CBSDL/Window.h>
 #include <CBSDL/Surface.h>
 #include <CBSDL/Events.h>

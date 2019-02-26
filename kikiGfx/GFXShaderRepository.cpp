@@ -2,8 +2,10 @@
 #include "GFXShaderRepository.h"
 #include "GFXConsts.h"
 
-#include <CBStr/StringEx.h>
-#include <CBIO/File.h>
+#include <CBCore/Defines.h>
+#include <CBCore/StringFunctions.h>
+#include <CBCore/StringConvert.h>
+#include <CBCore/File.h>
 #include <CBGL/Shader.h>
 #include <CBGL/Program.h>
 

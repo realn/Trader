@@ -3,14 +3,16 @@
 #include "CoreAppTask.h"
 #include "CoreInputEvents.h"
 
+#include <CBSDL/Events.h>
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
+#include <CBSDL/Window.h>
 #include <CBGL/System.h>
 
 namespace core {
   CAppBase::CAppBase(CAppConfig const& config)
     : mConfig(config)
-    , mSystem(cb::sdl::System::VIDEO | cb::sdl::System::TIMER | cb::sdl::System::EVENTS) 
+    , mSystem(cb::sdl::Systems(cb::sdl::System::VIDEO) | cb::sdl::System::TIMER | cb::sdl::System::EVENTS) 
   {}
 
   CAppBase::~CAppBase() {}
@@ -51,7 +53,7 @@ namespace core {
     mWindow =
       std::make_unique<cb::sdl::CWindow>(L"Trader Alpha"s,
                                          mConfig.WindowPos, mConfig.WindowSize,
-                                         cb::sdl::WindowFlag::OPENGL | cb::sdl::WindowFlag::POPUP_MENU);
+                                         cb::sdl::WindowFlags(cb::sdl::WindowFlag::OPENGL) | cb::sdl::WindowFlag::POPUP_MENU);
     mWindow->Show();
 
     {

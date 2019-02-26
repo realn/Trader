@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 #include <CBGL/Fwd.h>
 #include <CoreFwd.h>
 

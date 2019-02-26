@@ -2,8 +2,7 @@
 
 #include <memory>
 
-#include <CBIO/Defines.h>
-#include <CBStr/Defines.h>
+#include <CBCore/Defines.h>
 
 #include <CoreFastId.h>
 

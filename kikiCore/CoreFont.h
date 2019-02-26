@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 
-#include <CBStr/StringEx.h>
+#include <CBCore/Defines.h>
 #include <CBGL/Fwd.h>
 #include <glm/vec2.hpp>
 

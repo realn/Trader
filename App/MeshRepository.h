@@ -3,7 +3,7 @@
 #include <memory>
 #include <map>
 
-#include <CBStr\Convert.h>
+#include <CBCore/StringConvert.h>
 
 #include <GFXFwd.h>
 

@@ -132,18 +132,18 @@ namespace cb {
   static string toStr(glm::vec4 const& value) {
     return format(L"{0},{1},{2},{3}"s, value.x, value.y, value.z, value.w);
   }
-  static string toStr(gui::Align const align) {
+  static string toStr(gui::Aligns const align) {
     auto result = cb::strvector();
-    if(isTrueAnd(align, gui::Align::MidCenter)) {
+    if(align & gui::Align::MidCenter) {
       result.push_back(L"MidCenter"s);
     }
     else {
       auto temp = align;
       for(auto& item : alignMultiStrMap) {
-        if(isTrueAnd(temp, item.first)) { result.push_back(item.second); temp &= ~item.first; }
+        if(temp & item.first) { result.push_back(item.second); temp &= ~gui::Aligns(item.first); }
       }
       for(auto& item : alignStrMap) { 
-        if(isTrueAnd(temp, item.first)) { result.push_back(item.second); }
+        if(temp & item.first) { result.push_back(item.second); }
       }
     }
     return join(result, L","s);
@@ -166,23 +166,24 @@ namespace cb {
   }
 
   static bool fromStr(string const& text, gui::Align& outValue) {
-    outValue = gui::Align::None;
+    auto result = gui::Aligns(gui::Align::None);
     auto list = split(text, L","s);
     if(std::find(list.begin(), list.end(), L"MidCenter"s) != list.end()) {
-      outValue |= gui::Align::MidCenter;
+      result |= gui::Align::MidCenter;
     }
     else {
       for(auto& item : list) {
         auto it = alignMultiStrMapRev.find(item);
         if(it != alignMultiStrMapRev.end()) {
-          outValue |= it->second;
+          result |= it->second;
         }
       }
       for(auto& item : list) {
         auto it = alignStrMapRev.find(item);
-        if(it != alignStrMapRev.end()) { outValue |= it->second; }
+        if(it != alignStrMapRev.end()) { result |= it->second; }
       }
     }
+    outValue = result;
     return true;
   }
 }

@@ -80,7 +80,7 @@ namespace trader {
   private:
     bool InitUniverse();
     bool InitGrid();
-    bool InitGUI();
+    bool InitGUI(core::CAppBase& app);
 
     void RenderGrid(glm::mat4 const& transform) const;
     void RenderUniverse(glm::mat4 const transform) const;

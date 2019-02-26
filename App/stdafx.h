@@ -1,6 +1,7 @@
 #pragma once
 
 #define GLM_ENABLE_EXPERIMENTAL
+#define IMGUI_IMPL_OPENGL_LOADER_GLEW
 
 #include <memory>
 #include <string>
@@ -12,9 +13,9 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/constants.hpp>
 
-#include <CBStr/StringEx.h>
+#include <CBCore/Defines.h>
+#include <CBCore/Path.h>
 #include <CBSDL/Fwd.h>
-#include <CBIO/Path.h>
 #include <CBGL/Fwd.h>
 
 using namespace std::literals;

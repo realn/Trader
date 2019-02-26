@@ -2,7 +2,7 @@
 #include "CoreFont.h"
 #include "DataFont.h"
 
-#include <CBIO/File.h>
+#include <CBCore/File.h>
 
 namespace core {
   CFont::CFont(cb::string const& textureFilePath) : mTextureFilePath(textureFilePath) {}

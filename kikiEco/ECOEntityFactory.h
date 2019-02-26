@@ -2,7 +2,7 @@
 
 #include <tuple>
 
-#include <CBStr\Defines.h>
+#include <CBCore\Defines.h>
 
 #include "ECODefines.h"
 #include "ECOComponent.h"
